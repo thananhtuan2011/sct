@@ -1,0 +1,72 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="userData">
+                <ng-container *ngIf="userData.groupName">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!userData.groupName">THÊM MỚI</ng-container>
+                NHÓM NGƯỜI DÙNG
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="userData">
+            <!--begin::Content-->
+            <div id="kt_account_settings_profile_details" class="collapse show">
+                <!--begin::Form-->
+                <form id="kt_account_profile_details_form" [formGroup]="formGroup" class="form">
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label required fw-semibold fs-6">Tên nhóm</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-10">
+                            <!--begin::Row-->
+                            <div class="row">
+                                <!--begin::Col-->
+                                <div class="col-lg-12 fv-row">
+                                    <input [class.is-invalid]="isControlInvalid('TenNhom')" [class.is-valid]="isControlValid('TenNhom')" formControlName="TenNhom" type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Tên nhóm" />
+                                    <div class="invalid-feedback" *ngIf="controlHasError('required', 'TenNhom')">Bắt buộc</div>
+                                    <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'TenNhom')">Tên ít nhất 3 ký tự</div>
+                                    <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'TenNhom')">Tên tối đa 50 ký tự</div>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Row-->
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label required fw-semibold fs-6">Độ ưu tiên</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-10 fv-row">
+                            <input [class.is-invalid]="isControlInvalid('DoUuTien')" [class.is-valid]="isControlValid('DoUuTien')" formControlName="DoUuTien" type="text" class="form-control form-control-lg form-control-solid" placeholder="Độ ưu tiên" />
+                            <div class="invalid-feedback" *ngIf="controlHasError('required', 'DoUuTien')">Bắt buộc</div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'DoUuTien')">Vui lòng nhập số</div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Content-->
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="userData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

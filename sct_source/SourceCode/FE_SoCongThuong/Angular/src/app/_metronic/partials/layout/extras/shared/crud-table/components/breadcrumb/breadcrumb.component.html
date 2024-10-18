@@ -1,0 +1,28 @@
+<ng-container *ngIf="title$ | async as title">
+    <ng-container *ngIf="bc$ | async as _bc">
+        <ng-container>
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0">
+                <li class="breadcrumb-item">
+                    <a class="text-muted text-hover-primary" [routerLink]="'/'">
+              Dashboard
+            </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                </li>
+                <li *ngFor="let bc of _bc" class="breadcrumb-item" [ngClass]="!bc.isSeparator && bc.isActive ? 'text-dark' : ''" [ngClass]="!bc.isSeparator && !bc.isActive ? 'text-muted' : ''">
+                    <ng-container *ngIf="!bc.isSeparator">
+                        <a class="text-muted">
+                    {{ bc.title }}
+                    </a>
+                    </ng-container>
+                    <ng-container *ngIf="bc.isSeparator">
+                        <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                    </ng-container>
+                </li>
+                <li class="breadcrumb-item text-dark">{{ title }}</li>
+
+            </ul>
+        </ng-container>
+    </ng-container>
+</ng-container>

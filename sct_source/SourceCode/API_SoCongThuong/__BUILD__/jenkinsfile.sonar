@@ -1,0 +1,32 @@
+pipeline {
+    environment {
+        SONAR_CRED = "sonarqube-9.9"
+        SONAR_TOKEN = 'sqp_5443f1f4e4ca229a2df395d1bf2ba6e2e25580cd'
+        SCANHOME = tool 'sonarScanner.Msbuild'
+        DOTNET_ROOT = tool 'dotnet-sdk-6.0' // name of the .NET Core SDK in Jenkins Global Tool Configuration
+        PATH = "${env.DOTNET_ROOT}:${env.PATH}"
+        DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+    }
+    agent any
+    stages {
+        stage('Clone repository') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
+        }
+        stage('Scan') {
+            steps {
+                withSonarQubeEnv(installationName: 'sonarqube-9.9') {
+                    dir("SourceCode/API_SoCongThuong"){
+                        sh "dotnet ${SCANHOME}/SonarScanner.MSBuild.dll begin /k:\"sct-api\""
+                        sh "dotnet build"
+                        sh "dotnet ${SCANHOME}/SonarScanner.MSBuild.dll end"
+                    }
+                    
+                }
+            }
+        }
+    }
+}

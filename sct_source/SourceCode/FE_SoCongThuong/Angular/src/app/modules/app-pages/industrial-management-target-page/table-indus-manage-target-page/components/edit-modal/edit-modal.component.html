@@ -1,0 +1,166 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="id">
+                CHỈNH SỬA
+            </ng-container>
+            <ng-container *ngIf="!id">
+                THÊM MỚI
+            </ng-container>
+            <ng-container>
+                CHỈ TIÊU
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <div [className]="isDefaultValue('ParentTargetId') ? '' : 'form-group row mb-6'">
+                            <label class="form-label required fw-semibold fs-6">
+                                Danh mục báo cáo
+                            </label>
+                            <app-select-custom [width]="'100%'" [data]="QLCNTargetData" [options]="options" formControlName="ParentTargetId">
+                            </app-select-custom>
+                            <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('ParentTargetId')">
+                                Bắt buộc
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6" *ngIf="showGroup">
+                    <div class="col-lg-12">
+                        <div [className]="isDefaultValue('GroupTargetId') ? '' : 'form-group row mb-6'">
+                            <label class="form-label required fw-semibold fs-6">
+                                Nhóm chỉ tiêu
+                            </label>
+                            <app-select-custom [width]="'100%'" [data]="groupTargetData" [options]="options" formControlName="GroupTargetId">
+                            </app-select-custom>
+                            <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('GroupTargetId')">
+                                Bắt buộc
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div formArrayName="target">
+                    <div *ngFor="let group of target().controls; let i = index" [formGroupName]="i">
+                        <div class="form-group row mt-4">
+                            <div class="col-lg-6" style="margin: auto 0 !important;">
+                                <label style="margin: auto 0 !important;" class="form-label text-primary">
+                                    Chỉ tiêu {{i + 1}}:
+                                </label>
+                                <button type="button" mat-icon-button style="vertical-align: -webkit-baseline-middle;
+                                " data-bs-toggle="tooltip" data-bs-placement="left" title="Thêm mới chỉ tiêu phụ thuộc (nếu có)" (click)="addChild(i)" style="margin-bottom: 10px">
+                                    <mat-icon color="primary">
+                                        add_circle
+                                    </mat-icon>
+                                </button>
+                            </div>
+                            <div class="col-lg-6 pe-0" *ngIf="!id">
+                                <button type="button" mat-icon-button (click)="delTarget(i)" style="vertical-align: -webkit-baseline-middle;
+                                                float: right;">
+                                    <mat-icon color="warn">
+                                        delete
+                                    </mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label required fw-semibold fs-6">
+                                    Tên chỉ tiêu
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Hãy nhập tên chỉ tiêu" autocomplete="off" formControlName="Name" />
+                                <div class="invalid-feedback d-block" *ngIf="arrayControlHasError('required', 'Name', i)">Bắt buộc</div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label required fw-semibold fs-6">
+                                    Đơn vị
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Hãy nhập đơn vị" autocomplete="off" formControlName="Unit" />
+                                <div class="invalid-feedback d-block" *ngIf="arrayControlHasError('required', 'Unit', i)">Bắt buộc</div>
+                            </div>
+                        </div>
+                        <div formArrayName="getChild">
+                            <div *ngFor="let child of getChild(i).controls; let j = index" [formGroupName]="j">
+                                <div class="form-group row">
+                                    <div class="col-lg-1"></div>
+                                    <div class=col-lg-11>
+                                        <div class="form-group row mt-4">
+                                            <div class="col-lg-6" style="margin: auto 0 !important;">
+                                                <label style="margin: auto 0 !important;" class="form-label text-primary">
+                                                    Chỉ tiêu phụ {{j + 1}}:
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-6 pe-0">
+                                                <button type="button" mat-icon-button (click)="delChild(i,j)" style="vertical-align: -webkit-baseline-middle;
+                                                                float: right;">
+                                                    <mat-icon color="warn">
+                                                        delete
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-6">
+                                            <div class="col-lg-12">
+                                                <label class="form-label required fw-semibold fs-6">
+                                                    Tên chỉ tiêu
+                                                </label>
+                                                <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Hãy nhập tên chỉ tiêu" autocomplete="off" formControlName="Name" />
+                                                <div class="invalid-feedback d-block" *ngIf="arrayChildControlHasError('required', 'Name', i, j)">Bắt buộc</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-6">
+                                            <div class="col-lg-12">
+                                                <label class="form-label required fw-semibold fs-6">
+                                                    Đơn vị
+                                                </label>
+                                                <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Hãy nhập đơn vị" autocomplete="off" formControlName="Unit" />
+                                                <div class="invalid-feedback d-block" *ngIf="arrayChildControlHasError('required', 'Unit',i , j)">Bắt buộc</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="separator border-gray-200 mt-6"></div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-12" *ngIf="!id">
+                    <div class="form-group row">
+                        <div class="col-lg-12 pe-0">
+                            <button type="button" mat-icon-button (click)="addTarget()" style="vertical-align: -webkit-baseline-middle;
+                                        float: right;" data-bs-toggle="tooltip" data-bs-placement="left" title="Thêm mới chỉ tiêu">
+                                <mat-icon color="primary">
+                                    add_circle
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+            Thoát
+        </button>
+        <ng-container>
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">
+                Xác nhận
+            </button>
+        </ng-container>
+    </div>
+</div>

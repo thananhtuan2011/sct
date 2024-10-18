@@ -1,0 +1,215 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="tradeFairOrganizationCertificationData">
+                <ng-container *ngIf="tradeFairOrganizationCertificationData.id !== '' && !type">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="tradeFairOrganizationCertificationData.id === '' && !type">THÊM MỚI</ng-container>
+                <ng-container *ngIf="tradeFairOrganizationCertificationData.id !== '' && type">CHI TIẾT</ng-container>
+                TỔ CHỨC HỘI CHỢ TRIỂN LÃM THƯƠNG MẠI
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="tradeFairOrganizationCertificationData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Tên hội chợ / triển lãm thương mại</label>
+                        <input placeholder="Hãy nhập tên hội chợ / triển lãm thương mại" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" [class.is-invalid]="isControlInvalid('TradeFairName')" [class.is-valid]="isControlValid('TradeFairName')"
+                            formControlName="TradeFairName" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'TradeFairName')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Địa điểm tổ chức</label>
+                        <input placeholder="Hãy nhập địa điểm tổ chức" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" [class.is-invalid]="isControlInvalid('Address')" [class.is-valid]="isControlValid('Address')" formControlName="Address"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Address')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">Quy mô</label>
+                        <input placeholder="Hãy nhập quy mô" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Scale" />
+                    </div>
+                </div>
+
+                <!-- Thời gian tổ chức -->
+                <div *ngIf="type">
+                    <div class="form-group row">
+                        <div class="column left">
+                            <label class="form-label fw-semibold fs-6" [class.required]="!type">Thời gian tổ chức</label>
+                        </div>
+                        <div class="column middle">
+                            <label class="form-label fw-semibold fs-6" [class.required]="!type">Thời gian kết thúc</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-2" *ngFor="let element of list_times; let i = index">
+                        <!-- <label class="form-label">Thời gian tổ chức</label> -->
+                        <!-- <label class="form-label text-primary mb-6">{{"Lần " + (i + 1)}}</label>
+                        -->
+                        <div class="col-lg-6">
+                            <input readonly="readonly" type="text" class="form-control form-control-lg form-control-solid" value="{{element.StartTime | date: 'dd/MM/yyyy HH:mm'}}" autocomplete="off" />
+                        </div>
+                        <div class="col-lg-6">
+                            <input readonly="readonly" type="text" class="form-control form-control-lg form-control-solid" value="{{element.EndTime | date: 'dd/MM/yyyy HH:mm'}}" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="!type">
+                    <div class="form-group row">
+                        <div class="column left">
+                            <label class="form-label fw-semibold fs-6" [class.required]="!type">Thời gian tổ chức</label>
+                        </div>
+                        <div class="column middle">
+                            <label class="form-label fw-semibold fs-6" [class.required]="!type">Thời gian kết thúc</label>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2" *ngFor="let element of list_times; let i = index">
+                        <!-- <label class="form-label">Thời gian tổ chức</label> -->
+                        <!-- <label class="form-label text-primary mb-6">{{"Lần " + (i + 1)}}</label>
+                        -->
+                        <div class="column left">
+                            <input readonly="readonly" type="text" class="form-control form-control-lg form-control-solid" value="{{element.StartTime | date: 'dd/MM/yyyy HH:mm'}}" autocomplete="off" />
+                        </div>
+                        <div class="column middle">
+                            <input readonly="readonly" type="text" class="form-control form-control-lg form-control-solid" value="{{element.EndTime | date: 'dd/MM/yyyy HH:mm'}}" autocomplete="off" />
+                        </div>
+                        <div class="column right">
+                            <button type="button" mat-icon-button="mat-icon-button" (click)="del_time(i)" style="vertical-align: -webkit-baseline-middle;">
+                                <mat-icon color="warn">
+                                    delete
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <h4 class="form-label text-primary mb-6">Bước
+                    {{!ProcessStepData.length ? 1 : ProcessStepData.length + 1}}</h4> -->
+                <div *ngIf="!type" class="form-group row mb-6">
+                    <div class="column left">
+                        <app-date-time-picker [MaxDate]="MaxDate" formControlName="StartTime">
+                        </app-date-time-picker>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'StartTime')">Bắt buộc</div>
+                    </div>
+                    <div class="column middle">
+                        <app-date-time-picker [MinDate]="MinDate" formControlName="EndTime">
+                        </app-date-time-picker>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'EndTime')">Bắt buộc</div>
+                    </div>
+                    <div class="column right">
+                        <button type="button" mat-icon-button="mat-icon-button" (click)="add_time(formGroup.controls.StartTime.value, formGroup.controls.EndTime.value)" style="vertical-align: -webkit-baseline-middle;">
+                            <mat-icon color="primary">
+                                add_circle
+                            </mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <!--  -->
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Số văn bản</label>
+                        <input placeholder="Hãy nhập số văn bản" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" [class.is-invalid]="isControlInvalid('TextNumber')" [class.is-valid]="isControlValid('TextNumber')" formControlName="TextNumber"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'TextNumber')">Bắt buộc</div>
+                    </div>
+                </div>
+            </form>
+            <div class="row mb-6">
+                <div class="col-lg-12">
+                    <label class="form-label">Đính kèm văn bản xác nhận</label>
+                    <div *ngIf="!type" class="container" appDnd="appDnd" (fileDropped)="onFileDropped($event)" style="display: inline;">
+                        <input type="file" #fileDropRef id="fileDropRef" multiple="multiple" accept="application/pdf" (change)="fileBrowseHandler($event)" />
+                        <label style="display: inline;" for="fileDropRef">
+                            Chọn file
+                        </label>
+                    </div>
+
+                    <div class="files-list">
+                        <div class="single-file" *ngFor="let file of files; let i = index">
+                            <div class="file-icon">
+                                <!-- <svg
+                                    version="1.1"
+                                    id="Capa_1"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    x="0px"
+                                    y="0px"
+                                    viewBox="0 0 58 58"
+                                    style="enable-background:new 0 0 58 58;"
+                                    xml:space="preserve">
+                                    <polygon style="fill:#EDEADA;" points="51.5,14 37.5,0 6.5,0 6.5,58 51.5,58 "/>
+                                    <g>
+                                        <path
+                                            style="fill:#CEC9AE;"
+                                            d="M16.5,23h25c0.552,0,1-0.447,1-1s-0.448-1-1-1h-25c-0.552,0-1,0.447-1,1S15.948,23,16.5,23z"/>
+                                        <path
+                                            style="fill:#CEC9AE;"
+                                            d="M16.5,15h10c0.552,0,1-0.447,1-1s-0.448-1-1-1h-10c-0.552,0-1,0.447-1,1S15.948,15,16.5,15z"/>
+                                        <path
+                                            style="fill:#CEC9AE;"
+                                            d="M41.5,29h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,29,41.5,29z"/>
+                                        <path
+                                            style="fill:#CEC9AE;"
+                                            d="M41.5,37h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,37,41.5,37z"/>
+                                        <path
+                                            style="fill:#CEC9AE;"
+                                            d="M41.5,45h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,45,41.5,45z"/>
+                                    </g>
+                                    <polygon style="fill:#CEC9AE;" points="37.5,0 37.5,14 51.5,14 "/>
+                                </svg> -->
+                                <img class="icon" src="../../../../../../../assets/media/svg/icons/pdf-svgrepo-com.svg">
+                            </div>
+                            <div class="info">
+                                <h4 class="name" *ngIf="file?.name">
+                                    {{ file?.name }}
+                                </h4>
+                                <a class="name" *ngIf="file?.linkFile" href="{{file.linkFile}}">
+                                    {{ file?.linkFile.split('/')[file?.linkFile.split('/').length-1] }}
+                                </a>
+                                <p class="size" *ngIf="file?.size">
+                                    {{ formatBytes(file?.size, 0) }}
+                                </p>
+                                <p class="size" *ngIf="!file?.size">
+                                    {{ "File đã Upload" }}
+                                </p>
+                                <!-- <app-progress [progress]="file?.progress"></app-progress> -->
+                            </div>
+
+                            <div *ngIf="!type" class="delete" (click)="deleteFile(i)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18">
+                                    <path
+                                        fill="#B1B1B1"
+                                        fill-rule="nonzero"
+                                        d="M1 16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v10zm3.17-7.83a.996.996 0 0 1 1.41 0L7 9.59l1.42-1.42a.996.996 0 1 1 1.41 1.41L8.41 11l1.42 1.42a.996.996 0 1 1-1.41 1.41L7 12.41l-1.42 1.42a.996.996 0 1 1-1.41-1.41L5.59 11 4.17 9.58a.996.996 0 0 1 0-1.41zM10.5 1L9.79.29C9.61.11 9.35 0 9.09 0H4.91c-.26 0-.52.11-.7.29L3.5 1H1c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1h-2.5z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="!type" type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <button *ngIf="type" type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="tradeFairOrganizationCertificationData && !type">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">
+                Xác nhận</button>
+        </ng-container>
+        <!-- {{test()}} -->
+    </div>
+</div>

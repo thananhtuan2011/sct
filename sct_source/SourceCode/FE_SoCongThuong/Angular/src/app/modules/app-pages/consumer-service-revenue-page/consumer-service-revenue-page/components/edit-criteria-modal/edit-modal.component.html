@@ -1,0 +1,80 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4">
+        Thêm mới tổng mức bán lẻ hàng hóa theo năm báo cáo
+        <br>
+        <label class="form-label fw-semibold">Đơn vị tính: Tỷ đồng</label>
+    </div>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="show">
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row mb-6">
+          <div class="col-lg-12">
+            <label class="form-label required fw-semibold fs-6">Chỉ tiêu</label>
+            <div class="mb-6">
+              <app-select-custom [width]="'100%'" [placeholder]="'Chọn chỉ tiêu'" [data]="dataCategory" [options]="options"
+                formControlName="criteria">
+              </app-select-custom>
+            </div>
+            <div class="invalid-feedback d-block pt-2" *ngIf="isDefaultValue('criteria')">Bắt buộc</div>
+          </div>
+        </div>
+
+        <div class="form-group row mb-6">
+          <div class="col-lg-12">
+            <label class="form-label fw-semibold fs-6">Thực hiện tháng trước</label>
+            <input 
+              (keypress)="prenventInputNonNumber($event)"
+              type="text" 
+              class="form-control form-control-lg form-control-solid" 
+              name="performLastmonth"
+              placeholder="Thực hiện tháng trước" 
+              autocomplete="off" 
+              formControlName="performLastmonth"/>
+          </div>
+        </div>
+
+        <div class="form-group row mb-6">
+          <div class="col-lg-12">
+            <label class="form-label fw-semibold fs-6">Ước tính tháng báo cáo</label>
+            <input 
+              (keypress)="prenventInputNonNumber($event)"
+              type="text" 
+              class="form-control form-control-lg form-control-solid" 
+              name="estimateReportingMonth"
+              placeholder="Ước tính tháng báo cáo" 
+              autocomplete="off" 
+              formControlName="estimateReportingMonth" />
+          </div>
+        </div>
+
+        <div class="form-group row mb-6">
+          <div class="col-lg-12">
+            <label class="form-label fw-semibold fs-6">Cộng dồn từ đầu năm đến cuối tháng báo cáo</label>
+            <input 
+              (keypress)="prenventInputNonNumber($event)"
+              type="text" 
+              class="form-control form-control-lg form-control-solid" 
+              name="cumulativeToReportingMonth"
+              placeholder="Cộng dồn từ đầu năm đến cuối tháng báo cáo" 
+              autocomplete="off" 
+              formControlName="cumulativeToReportingMonth" />
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+    <ng-container *ngIf="editData">
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="check_formGroup()">Xác nhận</button>
+    </ng-container>
+  </div>
+</div>

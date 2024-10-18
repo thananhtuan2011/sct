@@ -1,0 +1,153 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="editData">
+                <ng-container *ngIf="id && !type">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id && !type">THÊM MỚI</ng-container>
+                TIÊU CHÍ NÔNG THÔN MỚI, NÔNG THÔN MỚI NÂNG CAO
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right"
+                [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Huyện
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom
+                                [width]="'100%'" [data]="districtData"
+                                [options]="options"
+                                formControlName="DistrictId">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('DistrictId')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Xã
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom
+                                [width]="'100%'" [data]="communeDataFilter"
+                                [options]="options"
+                                formControlName="CommuneId">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('CommuneId')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Danh hiệu
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom
+                                [width]="'100%'" [data]="titleData"
+                                [options]="options"
+                                formControlName="Title">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('Title')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-5">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Tiêu chí số 4
+                        </label>
+                    </div>
+                    <div class="col-lg-7 d-flex justify-content-end">
+                        <mat-radio-group formControlName="Target4"
+                            color="primary">
+                            <mat-radio-button class="me-12" [value]="true">Đạt</mat-radio-button>
+                            <mat-radio-button [value]="false">Chưa đạt</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-5">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Tiêu chí số 7
+                        </label>
+                    </div>
+                    <div class="col-lg-7 d-flex justify-content-end">
+                        <mat-radio-group
+                            formControlName="Target7"
+                            color="primary">
+                            <mat-radio-button class="me-12" [value]="true">Đạt</mat-radio-button>
+                            <mat-radio-button [value]="false">Chưa đạt</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-5">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Tiêu chí số 17.08
+                        </label>
+                    </div>
+                    <div class="col-lg-7 d-flex justify-content-end">
+                        <mat-radio-group
+                            formControlName="Target1708"
+                            color="primary">
+                            <mat-radio-button class="me-12" [value]="true">Đạt</mat-radio-button>
+                            <mat-radio-button [value]="false">Chưa đạt</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">
+                            Ghi chú
+                        </label>
+                        <textarea
+                            class="form-control form-control-lg form-control-solid"
+                            formControlName="Note">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2"
+            (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="editData && !type">
+            <button type="submit" class="btn btn-primary btn-elevate"
+                (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

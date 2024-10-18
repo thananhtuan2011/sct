@@ -1,0 +1,58 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="tradepromotionprojectData">
+                <ng-container *ngIf="tradepromotionprojectData.tradePromotionProjectCode !==''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="tradepromotionprojectData.tradePromotionProjectCode === ''">THÊM MỚI</ng-container>
+                ĐỀ ÁN XÚC TIẾN THƯƠNG MẠI
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="tradepromotionprojectData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Mã đề án xúc tiến thương mại</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="TradePromotionProjectCode" 
+                        placeholder="Hãy nhập mã đề án xúc tiến thương mại" autocomplete="off" 
+                        [class.is-invalid]="isControlInvalid('TradePromotionProjectCode')" 
+                        [class.is-valid]="isControlValid('TradePromotionProjectCode')" 
+                        formControlName="TradePromotionProjectCode" />
+                        <!-- <div class="valid-feedback" *ngIf="isControlValid('Name')"> name was entered correct</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'TradePromotionProjectCode')">Bắt buộc</div>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'TradePromotionProjectCode')">Mã loại hình xúc tiến thương mại ít nhất 6 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'TradePromotionProjectCode')">Mã loại hình xúc tiến thương mại tối đa 6 ký tự</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'TradePromotionProjectCode')">Mã loại hình xúc tiến thương mại không được có dấu và khoảng trắng</div>
+                    </div>
+                </div>               
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên đề án xúc tiến thương mại</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="TradePromotionProjectName" 
+                        placeholder="Hãy nhập tên đề án xúc tiến thương mại" autocomplete="off" 
+                        [class.is-invalid]="isControlInvalid('TradePromotionProjectName')" 
+                        [class.is-valid]="isControlValid('TradePromotionProjectName')" 
+                        formControlName="TradePromotionProjectName" />
+                        <!-- <div class="valid-feedback" *ngIf="isControlValid('Name')"> name was entered correct</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'TradePromotionProjectName')">Bắt buộc</div>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'TradePromotionProjectName')">Tên loại hình xúc tiến thương mại ít nhất 3 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'TradePromotionProjectName')">Tên loại hình xúc tiến thương mại tối đa 100 ký tự</div> -->
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="tradepromotionprojectData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="typeofmarketData">
+                <ng-container *ngIf="typeofmarketData.typeOfMarketCode !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="typeofmarketData.typeOfMarketCode === ''">THÊM MỚI</ng-container>
+                LOẠI HÌNH CHỢ
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="typeofmarketData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Mã loại hình chợ</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="TypeOfMarketCode" 
+                        placeholder="Hãy nhập mã loại hình chợ" autocomplete="off" [class.is-invalid]="isControlInvalid('TypeOfMarketCode')" 
+                        [class.is-valid]="isControlValid('TypeOfMarketCode')" formControlName="TypeOfMarketCode" />
+                        <!-- <div class="valid-feedback" *ngIf="isControlValid('Name')"> name was entered correct</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'TypeOfMarketCode')">Bắt buộc</div>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'TypeOfMarketCode')">Mã loại hình chợ ít nhất 6 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'TypeOfMarketCode')">Mã loại hình chợ tối đa 6 ký tự</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'TypeOfMarketCode')">Mã loại hình chợ không được có dấu và khoảng trắng</div>
+                    </div>
+                </div>               
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên loại hình chợ</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="TypeOfMarketName" 
+                        placeholder="Hãy nhập tên loại hình chợ" autocomplete="off" [class.is-invalid]="isControlInvalid('TypeOfMarketName')" 
+                        [class.is-valid]="isControlValid('TypeOfMarketName')" formControlName="TypeOfMarketName" />
+                        <!-- <div class="valid-feedback" *ngIf="isControlValid('Name')"> name was entered correct</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'TypeOfMarketName')">Bắt buộc</div>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'TypeOfMarketName')">Tên loại hình chợ ít nhất 3 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'TypeOfMarketName')">Tên loại hình chợ tối đa 100 ký tự</div> -->
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="typeofmarketData">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

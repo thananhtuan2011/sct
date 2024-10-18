@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{GetTitle()}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="dismiss()"></button>
+</div>
+<form class="form w-100" [formGroup]="Form">
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xl-12">
+
+            </div>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Name</mat-label>
+                <input type="text" matInput formControlName="Name" placeholder="Vui lòng nhập">
+                <mat-error>
+                    Name <strong>bắt buộc</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+    </div>
+</form>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-hover-rise" (click)="onSubmit()">Xác nhận</button>
+    <button type="button" class="btn btn-light btn-hover-rise" (click)="dismiss()">Thoát</button>
+</div>

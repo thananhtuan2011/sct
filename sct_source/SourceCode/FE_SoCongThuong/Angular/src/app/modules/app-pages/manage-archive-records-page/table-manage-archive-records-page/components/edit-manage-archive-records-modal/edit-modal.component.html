@@ -1,0 +1,120 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container>
+                <ng-container *ngIf="id && !view">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id && !view">THÊM MỚI</ng-container>
+                HỒ SƠ LƯU TRỮ
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label name="RecordsGroup" class="form-label fw-semibold fs-6" [class.required]="!view">Nhóm hồ sơ</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'" [data]="profileGroup" [options]="options" formControlName="RecordsGroup">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-6" *ngIf="isDefaultValue('RecordsGroup')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!view">Số và kí hiệu hồ sơ</label>
+                        <input placeholder="Hãy nhập số và kí hiệu hồ sơ" type="text" class="form-control form-control-lg form-control-solid" name="CodeFile" autocomplete="off" [class.is-invalid]="isControlInvalid('CodeFile')" [class.is-valid]="isControlValid('CodeFile')" formControlName="CodeFile"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'CodeFile')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!view">Tiêu đề hồ sơ</label>
+                        <input placeholder="Hãy nhập tiêu đề hồ sơ" type="text" class="form-control form-control-lg form-control-solid" name="Title" autocomplete="off" [class.is-invalid]="isControlInvalid('Title')" [class.is-valid]="isControlValid('Title')" formControlName="Title"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Title')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!view">Thời gian tiếp nhận</label>
+                        <app-date-picker-custom formControlName="ReceptionTime" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'ReceptionTime')">Bắt buộc
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!view">Thời gian bảo quản (năm)</label>
+                        <input type="number" min="0" class="form-control form-control-lg form-control-solid" name="StorageTime" autocomplete="off" [class.is-invalid]="isControlInvalid('StorageTime')" [class.is-valid]="isControlValid('StorageTime')" formControlName="StorageTime"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'StorageTime')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!view">Địa điểm</label>
+                        <input placeholder="Hãy nhập địa điểm" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" [class.is-invalid]="isControlInvalid('Location')" [class.is-valid]="isControlValid('Location')" formControlName="Location" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Location')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!view">Lưu trữ hồ sơ giấy tại</label>
+                        <input type="text" placeholder="Hãy nhập nơi lưu trữ hồ sơ giấy" class="form-control form-control-lg form-control-solid" autocomplete="off" [class.is-invalid]="isControlInvalid('StoreDocumentsAt')" [class.is-valid]="isControlValid('StoreDocumentsAt')"
+                            formControlName="StoreDocumentsAt" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'StoreDocumentsAt')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!view">Lưu trữ file mềm tại</label>
+                        <input placeholder="Hãy nhập nơi lưu trữ file mềm" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" [class.is-invalid]="isControlInvalid('StoreFilesAt')" [class.is-valid]="isControlValid('StoreFilesAt')" formControlName="StoreFilesAt"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'StoreFilesAt')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <div class="d-flex justify-content-between">
+                            <label class="form-label fw-semibold fs-6" [class.required]="!view">Đơn vị/Người lập hồ sơ</label>
+                            <button *ngIf="!view" type="button" mat-icon-button style="margin-top: -12px;" (click)="addCreator()">
+                                <mat-icon color="primary">add_circle</mat-icon>
+                            </button>
+                        </div>
+                        <ng-container>
+                            <input placeholder="Hãy nhập đơn vị / người lập hồ sơ" [hidden]="view" type="text" class="form-control form-control-lg form-control-solid" name="CreatorX" autocomplete="off" formControlName="CreatorX" />
+                            <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'CreatorX')">Bắt buộc</div>
+                        </ng-container>
+                    </div>
+                    <ng-container *ngFor="let item of dataCreator; let i = index">
+                        <div *ngIf="!view" class="col-lg-12 d-flex justify-content-between mb-2 mt-2">
+                            <input type="text" value="{{item}}" (change)="changeCreator($event, i)" class="form-control form-control-lg form-control-solid" />
+                            <button type="button" mat-icon-button color="warn" (click)="deleteCreator(item)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                        <div *ngIf="view" class="col-lg-12 d-flex justify-content-between mb-2 mt-2">
+                            <input readonly type="text" value="{{item}}" class="form-control form-control-lg form-control-solid" />
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                        <input placeholder="Ghi chú" type="text" class="form-control form-control-lg form-control-solid" name="Note" autocomplete="off" formControlName="Note" />
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="!view">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

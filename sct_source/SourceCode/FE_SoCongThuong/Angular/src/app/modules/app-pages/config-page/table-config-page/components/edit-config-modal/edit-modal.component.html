@@ -1,0 +1,87 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="show">
+                CẤU HÌNH
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <!-- Step new -->
+                <div class="form-group row">
+                    <Label class="form-label fw-semibold fs-6" style="margin: 0 auto !important;">
+                        <a style="text-transform: uppercase;">{{title}}</a>
+                    </Label>
+                    <div class="separator border-gray-200 mt-6"></div>
+                    <div formArrayName="ListConfig">
+                        <div *ngFor="let group of GetConfig.controls; let i = index" [formGroupName]="i">
+                            <div class="form-group row mt-4">
+                                <div class="col-lg-6" style="margin: auto 0 !important;">
+                                    <label style="margin: auto 0 !important;" class="form-label text-primary">
+                                        Cấu hình {{setStepValue(i)}}:
+                                    </label>
+                                </div>
+                                <div class="col-lg-6 pe-0">
+                                    <button type="button" mat-icon-button (click)="delConfig(i)" style="vertical-align: -webkit-baseline-middle;
+                                                    float: right;">
+                                        <mat-icon color="warn">
+                                            delete
+                                        </mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-6">
+                                <div class="col-lg-3">
+                                    <label class="form-label required fw-semibold fs-6">Mã cấu hình</label>
+                                    <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="CategoryCode" />
+                                    <div class="invalid-feedback d-block" *ngIf="arrayControlHasError('required', 'CategoryCode', i)">Bắt buộc</div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <label class="form-label required fw-semibold fs-6">Tên cấu hình</label>
+                                    <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="CategoryName" />
+                                    <div class="invalid-feedback d-block" *ngIf="arrayControlHasError('required', 'CategoryName', i)">Bắt buộc</div>
+                                </div>
+                                <div class="col-lg-1 ps-0">
+                                    <label class="form-label fw-semibold fs-6" style="display: flex; justify-content: flex-end;">Hiển thị</label>
+                                    <div class="col-lg-12">
+                                        <mat-checkbox style="display: flex; justify-content: flex-end; margin-top: 20px;" color="primary" formControlName="IsAction">
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="separator border-gray-200 mt-6"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group row">
+                            <div class="col-lg-12 pe-0">
+                                <button type="button" mat-icon-button (click)="addConfig()" style="vertical-align: -webkit-baseline-middle;
+                                            float: right;">
+                                    <mat-icon color="primary">
+                                        add_circle
+                                    </mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light bg-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="show">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">
+                Xác nhận
+            </button>
+        </ng-container>
+    </div>
+</div>

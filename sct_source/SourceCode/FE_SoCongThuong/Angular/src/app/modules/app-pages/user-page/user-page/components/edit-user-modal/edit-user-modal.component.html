@@ -1,0 +1,251 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="userData">
+                <ng-container *ngIf="userData.userId !== default_value">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="userData.userId === default_value">THÊM MỚI</ng-container>
+                NGƯỜI DÙNG
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="userData">
+            <!--begin::Content-->
+            <div id="kt_account_settings_profile_details" class="collapse show">
+                <!--begin::Form-->
+                <form id="kt_account_profile_details_form" [formGroup]="formGroup" class="form">
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label required fw-semibold fs-6">Họ và tên</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-10">
+                            <!--begin::Row-->
+                            <div class="row">
+                                <!--begin::Col-->
+                                <div class="col-lg-12 fv-row">
+                                    <input [class.is-invalid]="isControlInvalid('HoVaTen')" [class.is-valid]="isControlValid('HoVaTen')" formControlName="HoVaTen" type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Họ và tên" />
+                                    <div class="invalid-feedback" *ngIf="controlHasError('required', 'HoVaTen')">
+                                        Bắt buộc
+                                    </div>
+                                    <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'HoVaTen')">
+                                        Tên ít nhất 3 ký tự
+                                    </div>
+                                    <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'HoVaTen')">
+                                        Tên tối đa 50 ký tự
+                                    </div>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Row-->
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label required fw-semibold fs-6">Tên đăng nhập</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-10 fv-row">
+                            <input [class.is-invalid]="isControlInvalid('TenDangNhap')" [class.is-valid]="isControlValid('TenDangNhap')" formControlName="TenDangNhap" type="text" class="form-control form-control-lg form-control-solid" placeholder="Tên đăng nhập" />
+                            <div class="invalid-feedback" *ngIf="controlHasError('required', 'TenDangNhap')">
+                                Bắt buộc
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'TenDangNhap')">
+                                Tên đăng nhập ít nhất 3 ký tự</div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'TenDangNhap')">
+                                Tên đăng nhập tối đa 50 ký tự</div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">
+                            <span class="required">Mật khẩu</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-4 fv-row">
+                            <input [readonly]="userData.userId !== default_value" [class.is-invalid]="isControlInvalid('MatKhau')" [class.is-valid]="isControlValid('MatKhau')" formControlName="MatKhau" type="password" autocomplete="off" class="form-control form-control-lg form-control-solid"
+                                placeholder="Mật khẩu" />
+                            <div class="invalid-feedback" *ngIf="controlHasError('required', 'MatKhau')">
+                                Bắt buộc
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'MatKhau')">
+                                Mật khẩu ít nhất 8 ký tự
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('invalidPassword', 'MatKhau')">Hãy nhập mật khẩu mạnh hơn (ít nhất 8 ký tự gồm: ký tự hoa, thường, đặc biệt và số)</div>
+                        </div>
+                        <!--end::Col-->
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">
+                            <span class="required">Nhập lại mật khẩu</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-4 fv-row">
+                            <input [readonly]="userData.userId !== default_value" [class.is-invalid]="isControlInvalid('NhapLaiMatKhau')" [class.is-valid]="isControlValid('NhapLaiMatKhau')" formControlName="NhapLaiMatKhau" type="password" class="form-control form-control-lg form-control-solid"
+                                autocomplete="off" placeholder="Nhập lại mật khẩu" />
+                            <div class="invalid-feedback" *ngIf="controlHasError('required', 'NhapLaiMatKhau')">
+                                Bắt buộc
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'NhapLaiMatKhau')">
+                                Mật khẩu nhập lại ít nhất 8 ký tự
+                            </div>
+                            <ng-container *ngIf="formGroup.controls['NhapLaiMatKhau'].errors && formGroup.controls['NhapLaiMatKhau'].errors.ConfirmPassword">
+                                <div class="invalid-feedback">Mật khẩu nhập lại không khớp</div>
+                            </ng-container>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">
+                            <span class="required">Chức vụ</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-4 fv-row">
+                            <app-select-custom formControlName="ChucVu" [width]="'100%'" [placeholder]="'Chức vụ'" [data]="positonData" [options]="options"></app-select-custom>
+                            <div style="padding-top: 15px;" class="invalid-feedback d-block" *ngIf="controlHasErrorSelect('ChucVu')">
+                                Bắt buộc
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">
+                            <span class="required">Đơn vị</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-4 fv-row">
+                            <app-select-custom formControlName="DonVi" [width]="'100%'" [placeholder]="'Đơn vị'" [data]="departmemtData" [options]="options"></app-select-custom>
+                            <div style="padding-top: 15px;" class="invalid-feedback d-block" *ngIf="controlHasErrorSelect('DonVi')">
+                                Bắt buộc
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">
+                            <span class="required">Nhóm người dùng</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-10 fv-row">
+                            <app-select-custom formControlName="NhomNguoiDung" [width]="'100%'" [placeholder]="'Nhóm người dùng'" [data]="groupUserData" [options]="options"></app-select-custom>
+                            <div style="padding-top: 15px;" class="invalid-feedback d-block" *ngIf="controlHasErrorSelect('NhomNguoiDung')">
+                                Bắt buộc
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label required fw-semibold fs-6">Số điện thoại</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-10 fv-row">
+                            <input [class.is-invalid]="isControlInvalid('SoDienThoai')" [class.is-valid]="isControlValid('SoDienThoai')" formControlName="SoDienThoai" type="text" class="form-control form-control-lg form-control-solid" placeholder="Số điện thoại" />
+                            <div class="invalid-feedback" *ngIf="controlHasError('required', 'SoDienThoai')">
+                                Bắt buộc
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'SoDienThoai')">
+                                Vui lòng nhập số</div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'SoDienThoai')">
+                                Số điện thoại ít nhất 10 ký tự</div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">Email</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-10 fv-row">
+                            <input [class.is-invalid]="isControlInvalid('Email')" [class.is-valid]="isControlValid('Email')" formControlName="Email" type="text" class="form-control form-control-lg form-control-solid" placeholder="Email" />
+                            <div class="invalid-feedback" *ngIf="controlHasError('email', 'Email')">Sai định dạng</div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'Email')">
+                                Email ít nhất 10 ký tự
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">CCCD/CMND</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-10 fv-row">
+                            <input [class.is-invalid]="isControlInvalid('CCCD')" [class.is-valid]="isControlValid('CCCD')" formControlName="CCCD" type="text" class="form-control form-control-lg form-control-solid" placeholder="CCCD/CMND" />
+                            <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'CCCD')">
+                                Vui lòng nhập số
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'CCCD')">
+                                CCCD/CMND ít nhất 9 số
+                            </div>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-2 col-form-label required fw-semibold fs-6">Cấp</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <mat-radio-group class="col-lg-4" id="check-box" formControlName="Cap">
+                            <mat-radio-button class="col-lg-6" [value]="0" (change)="selectProvinceLevel()">Tỉnh</mat-radio-button>
+                            <mat-radio-button class="col-lg-6" [value]="1">Huyện</mat-radio-button>
+                            <!-- <mat-radio-button class="col-lg-4" value=3>Xã</mat-radio-button> -->
+                        </mat-radio-group>
+
+                        <label class="col-lg-2 col-form-label required fw-semibold fs-6" *ngIf="showDistrict()">Chọn huyện</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-4 fv-row" *ngIf="showDistrict()">
+                            <app-select-custom formControlName="Huyen" [width]="'100%'" [placeholder]="'Chọn huyện'" [data]="districtData" [options]="options"></app-select-custom>
+                        </div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Huyen')">
+                            Bắt buộc
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Content-->
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="userData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác
+                nhận</button>
+        </ng-container>
+    </div>
+</div>

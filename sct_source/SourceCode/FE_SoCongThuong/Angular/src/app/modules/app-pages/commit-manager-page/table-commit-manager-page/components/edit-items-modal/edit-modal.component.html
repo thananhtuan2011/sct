@@ -1,0 +1,45 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container>
+                THÊM MẶT HÀNG
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6 ">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Loại hình</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'" [data]="typeData" [options]="options" formControlName="LoaiHinh">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2" *ngIf="isDefaultValue('LoaiHinh')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6 required">Tên mặt hàng</label>
+                        <input ngbAutofocus type="text" placeholder="Hãy nhập tên mặt hàng" class="form-control form-control-lg form-control-solid" name="TenMatHang" autocomplete="off" formControlName="TenMatHang" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'TenMatHang')">Bắt buộc
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="check_formGroup()">Xác
+                nhận</button>
+        </ng-container>
+    </div>
+</div>

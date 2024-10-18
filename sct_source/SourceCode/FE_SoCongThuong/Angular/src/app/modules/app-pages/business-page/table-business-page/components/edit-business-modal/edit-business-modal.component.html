@@ -1,0 +1,611 @@
+<div class="modal-content bg-light">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="businessData">
+                <ng-container *ngIf="businessData.businessCode !== '' && !type">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="businessData.businessCode === '' && !type">THÊM MỚI</ng-container>
+                <ng-container *ngIf="businessData.businessCode !== '' && type">THÔNG TIN</ng-container>
+                DOANH NGHIỆP
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="show">
+            <!-- Begin -->
+            <div id="kt_business_edit_detail" class="collapse show">
+                <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                    <div class="form-group row mb-6">
+                        <div class="col-lg-8">
+                            <div class="card" style="height: 100%;">
+                                <div class="card-header" ngbAutofocus
+                                    style="padding-left: 1.5rem; padding-top: 1.5rem;">
+                                    <h4 class="text-primary">THÔNG TIN DOANH NGHIỆP</h4>
+                                </div>
+                                <div class="card-body border-0">
+                                    <div class="form-group row">
+                                        <div class="column left" style="width: 50%;">
+                                            <!-- Mã số doanh nghiệp -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label fw-semibold fs-6"
+                                                        [class.required]="!type">Mã số doanh nghiệp</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập mã số doanh nghiệp'}}"
+                                                        autocomplete="off" formControlName="BusinessCode"
+                                                        [class.is-invalid]="isControlInvalid('BusinessCode')"
+                                                        [class.is-valid]="isControlValid('BusinessCode')" />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="controlHasError('required', 'BusinessCode')">
+                                                        Bắt buộc
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Tên giao dịch -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label fw-semibold fs-6"
+                                                        [class.required]="!type">Tên giao dịch</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập tên giao dịch của doanh nghiệp'}}"
+                                                        autocomplete="off"
+                                                        [class.is-invalid]="isControlInvalid('TenGiaoDich')"
+                                                        [class.is-valid]="isControlValid('TenGiaoDich')"
+                                                        formControlName="TenGiaoDich" />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="controlHasError('required', 'TenGiaoDich')">
+                                                        Bắt buộc
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Tên doanh nghiệp (Tiếng Anh) -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Tên doanh nghiệp (Tiếng Anh)</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập tên doanh nghiệp'}}"
+                                                        autocomplete="off" formControlName="BusinessNameEn" />
+                                                </div>
+                                            </div>
+                                            <!-- Huyện -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label fw-semibold fs-6"
+                                                        [class.required]="!type">Tên huyện</label>
+                                                    <div class="mb-6">
+                                                        <app-select-custom [width]="'100%'" [data]="districtData"
+                                                            [options]="options" formControlName="DistrictId"
+                                                            (valueChanged)="loadCommuneByDistrict($event)">
+                                                        </app-select-custom>
+                                                    </div>
+                                                    <div class="invalid-feedback d-block pt-2"
+                                                        *ngIf="isDefaultValue('DistrictId')">
+                                                        Bắt buộc
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Địa chỉ trụ sở -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Địa chỉ trụ sở</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập địa chỉ trụ sở'}}"
+                                                        autocomplete="off" formControlName="DiaChiTruSo" />
+                                                </div>
+                                            </div>
+                                            <!-- Logo Here -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12 mb-6">
+                                                    <!-- [class.required]="!type" -->
+                                                    <label class="form-label fw-semibold fs-6">
+                                                        Logo
+                                                    </label>
+                                                    <div class="custom-dropzone" [multiple]="false" ngx-dropzone
+                                                        [accept]="'image/*'" (change)="onSelectImage($event)"
+                                                        [disabled]="type ? true : false">
+                                                        <ngx-dropzone-label>
+                                                            <div class="container">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 63 64">
+                                                                    <g fill="#3B454F" fill-rule="nonzero">
+                                                                        <path
+                                                                            d="M42.656 15.135a1.953 1.953 0 0 1-1.391-.578L31.5 4.795l-9.765 9.762a1.97 1.97 0 1 1-2.785-2.785L30.106.616a1.97 1.97 0 0 1 2.785 0l11.157 11.156a1.97 1.97 0 0 1-1.392 3.363z" />
+                                                                        <path
+                                                                            d="M31.5 36.791a1.97 1.97 0 0 1-1.969-1.969V2.01a1.97 1.97 0 0 1 3.938 0v32.812a1.97 1.97 0 0 1-1.969 1.969z" />
+                                                                        <path
+                                                                            d="M55.781 63.041H7.22A7.225 7.225 0 0 1 0 55.822V41.385a4.599 4.599 0 0 1 4.594-4.594h7.234a4.567 4.567 0 0 1 4.402 3.276l2.814 9.382a.658.658 0 0 0 .628.467h23.656a.658.658 0 0 0 .628-.467l2.814-9.385a4.572 4.572 0 0 1 4.402-3.273h7.234A4.599 4.599 0 0 1 63 41.385v14.437a7.225 7.225 0 0 1-7.219 7.219zM4.594 40.729a.656.656 0 0 0-.657.656v14.437a3.286 3.286 0 0 0 3.282 3.282H55.78a3.286 3.286 0 0 0 3.282-3.282V41.385a.656.656 0 0 0-.657-.656h-7.234a.65.65 0 0 0-.628.467L47.73 50.58a4.628 4.628 0 0 1-4.402 3.274H19.672a4.567 4.567 0 0 1-4.402-3.276l-2.814-9.382a.65.65 0 0 0-.628-.467H4.594z" />
+                                                                    </g>
+                                                                </svg>
+                                                                <h5 class="mt-2">Kéo thả ở đây</h5>
+                                                                <h5 class="mb-2">hoặc</h5>
+                                                                <h4 style="display: inline;">Chọn file</h4>
+                                                                <!-- <h2>{{type ? 'Chỉnh sửa lại' : 'Thêm Logo'}}</h2> -->
+                                                            </div>
+                                                        </ngx-dropzone-label>
+                                                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview"
+                                                            *ngFor="let f of file_images; let i = index;" [file]="f"
+                                                            [removable]="type ? false : true"
+                                                            (removed)="onRemoveImage(f, i)">
+                                                            <!-- <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label> -->
+                                                        </ngx-dropzone-image-preview>
+                                                    </div>
+                                                    <!-- <div class="invalid-feedback d-block"
+                                                        *ngIf="file_images.length < 1 && TouchImage">
+                                                        Bắt buộc
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column middle" style="width: 50%;">
+                                            <!-- Mã số thuế -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Mã số thuế</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập mã số thuế'}}"
+                                                        autocomplete="off" formControlName="MaSoThue" />
+                                                </div>
+                                            </div>
+                                            <!-- Tên doanh nghiệp (Tiếng Việt) -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label fw-semibold fs-6"
+                                                        [class.required]="!type">Tên doanh nghiệp (Tiếng Việt)</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập tên doanh nghiệp'}}"
+                                                        autocomplete="off"
+                                                        [class.is-invalid]="isControlInvalid('BusinessNameVi')"
+                                                        [class.is-valid]="isControlValid('BusinessNameVi')"
+                                                        formControlName="BusinessNameVi" />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="controlHasError('required', 'BusinessNameVi')">
+                                                        Bắt buộc
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Loại hình doanh nghiệp -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label fw-semibold fs-6"
+                                                        [class.required]="!type">Loại hình doanh nghiệp</label>
+                                                    <div class="mb-6">
+                                                        <app-select-custom [width]="'100%'" [data]="typeofbusinessData"
+                                                            [options]="options" formControlName="LoaiHinhDoanhNghiep">
+                                                        </app-select-custom>
+                                                    </div>
+                                                    <div class="invalid-feedback d-block pt-2"
+                                                        *ngIf="isDefaultValue('LoaiHinhDoanhNghiep')">
+                                                        Bắt buộc
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Tên Xã -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label fw-semibold fs-6"
+                                                        [class.required]="!type">Tên xã</label>
+                                                    <div class="mb-6">
+                                                        <app-select-custom [width]="'100%'"
+                                                            [data]="communeByDistrictData" [options]="options"
+                                                            formControlName="CommuneId">
+                                                        </app-select-custom>
+                                                    </div>
+                                                    <div class="invalid-feedback d-block pt-2"
+                                                        *ngIf="isDefaultValue('CommuneId')">
+                                                        Bắt buộc
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Loại ngành nghề -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12 mb-6">
+                                                    <label class="form-label">Loại ngành nghề</label>
+                                                    <app-select-custom [width]="'100%'" [data]="typeofprofessionData"
+                                                        [options]="options" formControlName="LoaiNganhNghe">
+                                                    </app-select-custom>
+                                                </div>
+                                            </div>
+                                            <!-- Ngày bắt đầu hoạt động -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Ngày bắt đầu hoạt động</label>
+                                                    <!-- <div class="input-group input-group-solid">
+                                                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="{{type ? null : 'DD/MM/YYYY'}}" ngbDatepicker #d1="ngbDatepicker" formControlName="NgayHoatDong" />
+                                                        <div class="input-group-append" (click)="type ? null : d1.toggle()">
+                                                            <span class="input-group-text">
+                                                                <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div> -->
+                                                    <app-date-picker-custom formControlName="NgayHoatDong">
+                                                    </app-date-picker-custom>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label fw-semibold fs-6">
+                                                        Giấy phép hoạt động
+                                                    </label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập giấy phép hoạt động'}}"
+                                                        autocomplete="off" formControlName="GiayPhepSanXuat"
+                                                        [class.is-invalid]="isControlInvalid('GiayPhepSanXuat')"
+                                                        [class.is-valid]="isControlValid('GiayPhepSanXuat')" />
+                                                    <!-- <div class="invalid-feedback"
+                                                        *ngIf="controlHasError('required', 'GiayPhepSanXuat')">
+                                                        Bắt buộc
+                                                    </div> [class.required]="!type" -->
+                                                </div>
+                                            </div>
+                                            <!-- Ngày cấp phép -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Ngày cấp phép</label>
+                                                    <!-- <div class="input-group input-group-solid">
+                                                        <input type="text" class="form-control form-control-lg form-control-solid" 
+                                                        autocomplete="off" placeholder="{{type ? null : 'DD/MM/YYYY'}}" 
+                                                        ngbDatepicker #d="ngbDatepicker" formControlName="NgayCapPhep" />
+                                                        <div class="input-group-append" (click)="type ? null : d.toggle()">
+                                                            <span class="input-group-text">
+                                                                <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div> -->
+                                                    <app-date-picker-custom formControlName="NgayCapPhep">
+                                                    </app-date-picker-custom>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card" style="height: 100%;">
+                                <div class="card-header" style="padding-left: 1.5rem; padding-top: 1.5rem;">
+                                    <h4 class="text-primary">THÔNG TIN LIÊN LẠC</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <!-- Người đại diện pháp luật -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Người đại diện pháp luật</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập tên người đại diện'}}"
+                                                        autocomplete="off" formControlName="NguoiDaiDien" />
+                                                </div>
+                                            </div>
+                                            <!-- Số điện thoại -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Số điện thoại</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        (keypress)="prenventInputNonNumber($event)"
+                                                        placeholder="{{type ? null : 'Hãy nhập số điện thoại'}}"
+                                                        autocomplete="off" formControlName="SoDienThoai" />
+                                                    <!-- <div class="invalid-feedback d-block"
+                                                        *ngIf="controlHasError('pattern', 'SoDienThoai')">
+                                                        Số điện thoại chỉ được nhập số và không có khoảng trắng
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                            <!-- Ngày sinh -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Ngày sinh người đại diện pháp luật</label>
+                                                    <app-date-picker-custom formControlName="NgaySinh"
+                                                        [MinDate]="minDate" [MaxDate]="maxDate">
+                                                    </app-date-picker-custom>
+                                                </div>
+                                            </div>
+                                            <!-- CMND / CCCD -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">CMND / CCCD</label>
+                                                    <input type="text" (keypress)="prenventInputNonNumber($event)"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập CMND / CCCD'}}"
+                                                        autocomplete="off" formControlName="CCCD" />
+                                                    <div class="invalid-feedback d-block"
+                                                        *ngIf="controlHasError('minlength', 'CCCD')">
+                                                        CMND / CCCD ít nhất 9 số
+                                                    </div>
+                                                    <div class="invalid-feedback d-block"
+                                                        *ngIf="controlHasError('maxlength', 'CCCD')">
+                                                        CMND / CCCD nhiều nhất 12 số
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Ngày cấp CMND / CCCD -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Ngày cấp CMND / CCCD</label>
+                                                    <app-date-picker-custom formControlName="NgayCapCCCD"
+                                                        [MinDate]="minDate" [MaxDate]="maxDate">
+                                                    </app-date-picker-custom>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Nơi cấp CMND / CCCD</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập nơi cấp'}}"
+                                                        autocomplete="off" formControlName="NoiCapCCCD" />
+                                                </div>
+                                            </div>
+                                            <!-- Giám đốc -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Giám đốc</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập tên giám đốc'}}"
+                                                        autocomplete="off" formControlName="GiamDoc" />
+                                                </div>
+                                            </div>
+                                            <!-- Email -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Email</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập email'}}"
+                                                        autocomplete="off" formControlName="Email" />
+                                                </div>
+                                            </div>
+                                            <!-- Địa chỉ -->
+                                            <div class="form-group row mb-6">
+                                                <div class="col-lg-12">
+                                                    <label class="form-label">Địa chỉ</label>
+                                                    <input type="text"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="{{type ? null : 'Hãy nhập địa chỉ người liên lạc'}}"
+                                                        autocomplete="off" formControlName="DiaChi" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-6">
+                        <div class="card">
+                            <div class="card-header" style="padding-left: 1.5rem; padding-top: 1.5rem;">
+                                <h4 class="text-primary">NGÀNH NGHỀ</h4>
+                            </div>
+                            <div class="card-body" *ngIf="!type">
+                                <div class="form-group row">
+                                    <div class="col-lg-12 mb-4">
+                                        <app-select-custom [width]="'100%'" [data]="industryData" [options]="options"
+                                            formControlName="Selected">
+                                        </app-select-custom>
+                                    </div>
+                                </div>
+                                <div class="selected-table row mb-6">
+                                    <table class="m-6" mat-table [dataSource]="dataSource">
+                                        <!-- Checkbox Column -->
+                                        <ng-container matColumnDef="select">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <mat-checkbox *ngIf="statusDataSource"
+                                                    (change)="$event ? masterToggle() : null"
+                                                    [checked]="selection.hasValue() && isAllSelected()"
+                                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                                </mat-checkbox>
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <mat-checkbox *ngIf="statusDataSource"
+                                                    (click)="$event.stopPropagation()"
+                                                    (change)="$event ? selection.toggle(element) : null"
+                                                    [checked]="selection.isSelected(element)">
+                                                </mat-checkbox>
+                                            </td>
+                                        </ng-container>
+                                        <!-- Column -->
+                                        <ng-container matColumnDef="number">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <a class="text-gray-900 fw-semibold fs-6 me-2"
+                                                    style="margin: 0 auto;">STT</a>
+                                            </th>
+                                            <td mat-cell *matCellDef="let i = index;">
+                                                <a class="fw-semibold text-gray-600">{{i + 1}}</a>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="code">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <a class="text-gray-900 fw-semibold fs-6 me-2"
+                                                    style="margin: 0 auto;">Mã ngành nghề</a>
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <a class="fw-semibold text-gray-600">{{element.code}}</a>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="name">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <a class="text-gray-900 fw-semibold fs-6 me-2"
+                                                    style="margin: 0 auto;">Tên ngành nghề</a>
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <a class="fw-semibold text-gray-600">{{element.name}}</a>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <button *ngIf="statusDataSource" type="button" mat-icon-button
+                                                    (click)="removeSelectedRows()">
+                                                    <mat-icon color="warm">
+                                                        delete_forever
+                                                    </mat-icon>
+                                                </button>
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <button *ngIf="statusDataSource" type="button" mat-icon-button
+                                                    (click)="removeIndustry(element)">
+                                                    <mat-icon color="warm">
+                                                        delete
+                                                    </mat-icon>
+                                                </button>
+                                            </td>
+                                        </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                            (click)="selection.toggle(row)">
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-body" *ngIf="type">
+                                <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable"
+                                    id="kt_business_table" *ngIf="type">
+                                    <thead>
+                                        <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                                            <th class="min-w-75px text-center">STT</th>
+                                            <th class="min-w-175px">Mã ngành nghề</th>
+                                            <th class="min-w-175px">Tên ngành nghề</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="fw-semibold text-gray-600">
+                                        <tr *ngFor="let item of industryDataSelect; let i = index;">
+                                            <td class="text-center">
+                                                {{i+1}}
+                                            </td>
+                                            <td>
+                                                {{item.code}}
+                                            </td>
+                                            <td>
+                                                {{item.name}}
+                                            </td>
+                                            <td class="separator separator-dashed my-3"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ngành nghề -->
+                    <!-- <div class="row mb-6">
+                        <div class="col-lg-12 text-left">
+                            <h2 class="text-primary">Ngành nghề</h2>
+                        </div>
+                    </div> -->
+                    <!-- Ô Search -->
+                    <!-- <div class="col-lg-12 input-group input-group-solid mt-4"> 
+                        <input
+                            class="form-control form-control-lg form-control-solid" 
+                            placeholder=" -- Chọn ngành nghề -- " 
+                            autocomplete="off"
+                            formControlName="Search"
+                            />
+                    </div> -->
+                    <!-- Dropdown ngành nghề -->
+                    <!-- <div class="form-group row">
+                        <div class="col-lg-12 mb-4">
+                            <app-select-custom [width]="'100%'" [data]="industryData" [options]="options"
+                                formControlName="Selected">
+                            </app-select-custom>
+                        </div>
+                    </div> -->
+
+                    <!-- Scroll list ngành nghề -->
+                    <!-- <div class="row mb-6">
+                            <div class="col-lg-12">
+                                <mat-list class="content">
+                                    <mat-list-item style="display: block;" *ngFor="let item of industryData | filter: formGroup.controls['Search'].value">
+                                        <h5 class="col-lg-10"> {{item.code}} - {{item.name}}</h5>
+                                        <button type="button" class="col-lg-2" mat-icon-button (click)="selectIndustry(item)">
+                                            <mat-icon color="primary">
+                                                add_circle
+                                            </mat-icon>
+                                        </button>
+                                        <mat-divider></mat-divider>
+                                    </mat-list-item>
+                                </mat-list>
+                            </div>
+                        </div> -->
+
+                    <!-- <div class="selected-table row mb-6">
+                        <table class="m-6" mat-table [dataSource]="dataSource"> -->
+                    <!-- Checkbox Column -->
+                    <!-- <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(element) : null"
+                                        [checked]="selection.isSelected(element)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container> -->
+                    <!-- Column -->
+                    <!-- <ng-container matColumnDef="code">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <h4 style="margin: 0 auto;">Mã ngành nghề</h4>
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <h5>{{element.code}}</h5>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <h4 style="margin: 0 auto;">Tên ngành nghề</h4>
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <h5>{{element.name}}</h5>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <button type="button" mat-icon-button (click)="removeSelectedRows()">
+                                        <mat-icon color="warm">
+                                            delete_forever
+                                        </mat-icon>
+                                    </button>
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button type="button" mat-icon-button (click)="removeIndustry(element)">
+                                        <mat-icon color="warm">
+                                            delete
+                                        </mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                (click)="selection.toggle(row)">
+                            </tr>
+                        </table>
+                    </div> -->
+                </form>
+            </div>
+            <!-- End -->
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light bg-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="businessData">
+            <button *ngIf="!type" type="submit" class="btn btn-primary btn-elevate" (click)="check_formGroup()">
+                Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

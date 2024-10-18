@@ -1,0 +1,21 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="id">CHỈNH SỬA</ng-container>
+            <ng-container *ngIf="!id">THÊM MỚI</ng-container>
+            CHỈ TIÊU SẢN XUẤT KINH DOANH XUẤT KHẨU CHỦ YẾU
+        </div>
+    </div>
+    <mat-tab-group (selectedTabChange)="TabChange($event)" mat-align-tabs="center">
+        <mat-tab label="Sản xuất" *ngIf="showTab0">
+            <ng-template matTabContent>
+                <app-edit-production-business-modal [id]="id"></app-edit-production-business-modal>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Xuất/nhập khẩu" *ngIf="showTab1">
+            <ng-template matTabContent>
+                <app-edit-import-export-business-modal [id]="id"></app-edit-import-export-business-modal>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

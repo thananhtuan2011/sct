@@ -1,0 +1,79 @@
+<!--begin::Main-->
+<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        <!--begin::Toolbar-->
+        <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+            <!--begin::Toolbar container-->
+            <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                <!--begin::Page title-->
+                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+
+                    <ng-container>
+                        <!--begin::Title-->
+                        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                            Xem trước</h1>
+                        <!--end::Title-->
+                    </ng-container>
+
+                </div>
+                <!--end::Page title-->
+            </div>
+            <!--end::Toolbar container-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container" style="width: 100%;">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card body-->
+                    <div class="card-body pt-0" style="overflow: auto;">
+                        <!--begin::Table-->
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable " id="kt_typeofenergy_table">
+                            <!--begin::Table head-->
+                            <thead>
+                                <!--begin::Table row-->
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th *ngFor="let col of DuLieu.columns" class="min-w-65px">{{ col }}
+                                    </th>
+                                    <th class="min-w-65px text-center">Hành động
+                                    </th>
+                                </tr>
+                                <!--end::Table row-->
+                            </thead>
+                            <!--end::Table head-->
+                            <!--begin::Table body-->
+                            <tbody class="fw-semibold text-gray-600">
+                                <tr *ngFor="let row of DuLieu.rows ; let j = index;" [class.row-error]="checkRow(j)">
+                                    <td *ngFor="let col of DuLieu.columns; let i = index;">
+                                        <span [innerHTML]="checkVal(row[i], j) | sanitizeHtml"></span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="menu-link px-3" data-kt-country-table-filter="delete_row" (click)="deleteRow(j)">Xóa</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <!--end::Table body-->
+                        </table>
+                        <!--end::Table-->
+
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Content container-->
+        </div>
+        <!--end::Content-->
+    </div>
+    <!--end::Content wrapper-->
+
+</div>
+<!--end:::Main-->
+<div class="modal-footer">
+    <ng-container>
+        <button type="submit" class="btn btn-primary btn-elevate" (click)="import()" [disabled]="disableButton">Import dữ liệu</button>
+    </ng-container>
+</div>

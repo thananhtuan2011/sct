@@ -1,0 +1,240 @@
+<style>
+     :host>>>.mat-list-base .mat-list-item .mat-list-text,
+    .mat-list-base .mat-list-option .mat-list-text {
+        flex-direction: row !important;
+    }
+</style>
+<!--begin::Main-->
+<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        <!--begin::Toolbar-->
+        <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+            <!--begin::Toolbar container-->
+            <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                <!--begin::Page title-->
+                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                    <ng-container>
+                        <!--begin::Title-->
+                        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                            Danh mục import</h1>
+                        <!--end::Title-->
+                        <!--begin::Breadcrumb-->
+                        <app-breadcrumb [BreadcrumbType]="1"></app-breadcrumb>
+                        <!--end::Breadcrumb-->
+                    </ng-container>
+                </div>
+                <!--end::Page title-->
+            </div>
+            <!--end::Toolbar container-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-xxl">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card body-->
+                    <div class="card-body pt-0 pb-0">
+                        <div class="row" *ngIf="isShow">
+                            <ng-container>
+                                <div class="d-flex align-items-center justify-content-center mx-3" style="padding-top: 100px">
+                                    <span class="spinner-border spinner-border-lg align-middle mx-4"></span>
+                                    <span class="mr-2 text-gray-700 loading">Loading...</span>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="row" *ngIf="!isShow">
+                            <div class="col-6">
+                                <div class="row">
+                                    <h4 class="text-center py-3 pt-6">Chọn file cần import và danh mục import</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6" style="text-align: center">
+                                        <!--begin::Import-->
+                                        <button (click)="triggerClick()" type="button" class="btn btn-success me-3">
+                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr078.svg-->
+                                            <span class="svg-icon svg-icon-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                    height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24" />
+                                                        <rect fill="currentColor" opacity="0.3"
+                                                            transform="translate(12.000000, 7.000000) rotate(-180.000000) translate(-12.000000, -7.000000) "
+                                                            x="11" y="1" width="2" height="12" rx="1" />
+                                                        <path
+                                                            d="M17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L18,6 C20.209139,6 22,7.790861 22,10 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,9.99305689 C2,7.7839179 3.790861,5.99305689 6,5.99305689 L7.00000482,5.99305689 C7.55228957,5.99305689 8.00000482,6.44077214 8.00000482,6.99305689 C8.00000482,7.54534164 7.55228957,7.99305689 7.00000482,7.99305689 L6,7.99305689 C4.8954305,7.99305689 4,8.88848739 4,9.99305689 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,10 C20,8.8954305 19.1045695,8 18,8 L17,8 Z"
+                                                            fill="currentColor" fill-rule="nonzero" opacity="0.3" />
+                                                        <path
+                                                            d="M14.2928932,10.2928932 C14.6834175,9.90236893 15.3165825,9.90236893 15.7071068,10.2928932 C16.0976311,10.6834175 16.0976311,11.3165825 15.7071068,11.7071068 L12.7071068,14.7071068 C12.3165825,15.0976311 11.6834175,15.0976311 11.2928932,14.7071068 L8.29289322,11.7071068 C7.90236893,11.3165825 7.90236893,10.6834175 8.29289322,10.2928932 C8.68341751,9.90236893 9.31658249,9.90236893 9.70710678,10.2928932 L12,12.5857864 L14.2928932,10.2928932 Z"
+                                                            fill="currentColor" fill-rule="nonzero" />
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->
+                                            Import</button>
+                                        <input style="display: none;" accept=".xlsx, .xls, .csv" (change)="fileBrowseHandler($event)" #fileUpload type="file" />
+                                        <!--end::Import-->
+                                        <div style="height: 30px;">
+                                            <div *ngFor="let file of file_documents; let i = index">
+                                                <a style="float: left;margin-top: 5px;overflow: hidden;text-overflow: ellipsis;-webkit-line-clamp: 1;display: -webkit-box;
+                                                -webkit-box-orient: vertical; width: 150px;" class="name" *ngIf="file?.name">
+                                                    {{ file?.name }}
+                                                </a>
+                                                <mat-icon style="float: right;" color="warn" (click)="deleteFile(i)">delete_forever</mat-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="filterGroup" class="col-5">
+                                        <app-select-custom formControlName="danhmuc" (valueChanged)="change_value($event, 'danhmuc')" [width]="'100%'" [placeholder]="'Danh Mục'" [data]="DataDanhMuc" [options]="options"></app-select-custom>
+                                    </div>
+                                    <div class="col-1">
+                                        <button (click)="exportFile()" type="button" mat-icon-button="mat-icon-button" style="background: transparent;
+                                            border-radius: 50%;
+                                            border: none;
+                                            margin-top: 10px;">
+                                            <mat-icon color="primary">
+                                                cloud_download
+                                            </mat-icon>
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <div style="border: 1px solid gray; max-height: 500px; min-height: 500px;overflow-x: auto;">
+                                            <ng-container *ngIf="isLoading">
+                                                <div class="d-flex align-items-center mx-3" style="padding-top: 230px">
+                                                    <span class="spinner-border spinner-border-sm align-middle mx-4"></span>
+                                                    <div class="mr-2 text-muted">Đang xử lý file...</div>
+                                                </div>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="!isLoading">
+                                                <mat-selection-list #shoes [multiple]="false">
+                                                    <mat-list-option (click)="clickCol(col)" *ngFor="let col of lstCols" [value]="col.idCol">
+                                                        <h4>{{col.nameCol}}</h4>
+                                                    </mat-list-option>
+                                                </mat-selection-list>
+                                            </ng-container>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div style="border: 1px solid gray; max-height: 500px; min-height: 500px;overflow-x: auto;">
+                                            <ng-container *ngIf="isLoadingDanhMuc">
+                                                <div class="d-flex align-items-center mx-3" style="padding-top: 230px">
+                                                    <span class="spinner-border spinner-border-sm align-middle mx-4"></span>
+                                                    <div class="mr-2 text-muted">Đang tải dữ liệu...</div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-container *ngIf="!isLoadingDanhMuc">
+                                                <mat-selection-list #shoes [multiple]="false">
+                                                    <mat-list-option (click)="clickColMap(col)" *ngFor="let col of listDanhMuc" [value]="col.id">
+                                                        <h4>{{col.name}}</h4>
+                                                    </mat-list-option>
+                                                </mat-selection-list>
+                                            </ng-container>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <h4 class="text-center py-3 pt-6">Liên kết các trường dữ liệu với danh mục</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12" style="height: 44px;"></div>
+                                    <div class="col-12">
+                                        <div style="border: 1px solid gray; max-height: 500px; min-height: 500px;overflow-x: auto;margin-top: 30px;">
+                                            <mat-selection-list #shoes [multiple]="false">
+                                                <mat-list-option (contextmenu)="onRightClick($event, col)" (click)="selectedCol(shoes)" *ngFor="let col of data_Map" [value]="col.idCol">
+                                                    <h4 style="width: 50%;overflow: hidden;text-overflow: ellipsis;-webkit-line-clamp: 1;display: -webkit-box;
+                                                    -webkit-box-orient: vertical;">{{col.nameCol}}</h4>
+                                                    <h4 style="width: 50%;margin-left: 45px;overflow: hidden;text-overflow: ellipsis;-webkit-line-clamp: 1;display: -webkit-box;
+                                                    -webkit-box-orient: vertical;">{{col.nameMap}}</h4>
+                                                </mat-list-option>
+                                            </mat-selection-list>
+                                        </div>
+                                        <div style="border-right: 1px solid gray; width: 1px;
+                                        position: absolute;
+                                        left: 74%;
+                                        height: 499px;
+                                        top: 129px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-4">
+                                <div class="row">
+                                    <h4 class="text-center py-3">Liên kết với các bảng tham chiếu</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12" style="height: 44px;"></div>
+                                    <div class="col-12">
+                                        <div style="border: 1px solid gray; max-height: 500px; min-height: 500px;overflow-x: auto;margin-top: 30px;">
+                                            <mat-list style="padding-top: 0px !important;" role="list" *ngFor="let col of data_Map">
+                                                <mat-list-item *ngIf="col.required" style="height: 55px !important;">
+                                                    <div style="width: 155px;padding-top: 15px;">
+                                                        <h4 style="text-overflow: ellipsis;-webkit-line-clamp: 1;display: -webkit-box;
+                                            -webkit-box-orient: vertical;margin: 0; padding: 0; font-weight: normal; font-size: inherit;">{{col.nameMap}}</h4>
+                                                    </div>
+                                                    <div style="width: 155px;margin-left: 45px">
+                                                        <app-select-custom [width]="'100%'" [placeholder]="'Danh Mục'" (valueChanged)="change_valueRe($event, col)" [data]="DataDanhMuc" [options]="options"></app-select-custom>
+                                                    </div>
+                                                </mat-list-item>
+                                            </mat-list>
+                                        </div>
+                                        <div style="border-right: 1px solid gray; width: 1px;
+                                      position: absolute;
+                                      left: 82%;
+                                      height: 499px;
+                                      top: 120px;"></div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                        </div>
+                        <!--end::Card body-->
+
+                        <!--begin::Card header-->
+                        <div class="card-header border-0">
+                            <!--begin::Card title-->
+                            <div class="card-title">
+
+                            </div>
+                            <!--begin::Card title-->
+                            <!--begin::Card toolbar-->
+                            <div class="card-toolbar">
+                                <!--begin::Toolbar-->
+                                <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
+                                    <button type="submit" class="btn btn-primary btn-elevate" (click)="view()">Xác
+                                        nhận</button>
+                                </div>
+
+                                <!--end::Toolbar-->
+                            </div>
+                            <!--end::Card toolbar-->
+                        </div>
+                        <!--end::Card header-->
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Content container-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Content wrapper-->
+
+    </div>
+    <!--end:::Main-->
+    <!-- an hidden div is created to set the position of appearance of the menu-->
+    <div style="visibility: hidden; position: fixed;" [style.left]="menuTopLeftPosition.x" [style.top]="menuTopLeftPosition.y" [matMenuTriggerFor]="rightMenu"></div>
+
+    <!-- standard material menu -->
+    <mat-menu #rightMenu="matMenu">
+        <ng-template matMenuContent let-item="item">
+            <button mat-menu-item (click)="removeCol(item)">Xóa</button>
+            <button mat-menu-item (click)="removeColMap(item)">Xóa trường liên kết</button>
+        </ng-template>
+    </mat-menu>

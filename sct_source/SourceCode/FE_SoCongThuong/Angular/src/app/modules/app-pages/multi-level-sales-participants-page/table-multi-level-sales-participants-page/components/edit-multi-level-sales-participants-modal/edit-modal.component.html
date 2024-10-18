@@ -1,0 +1,198 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="multiLevelSalesParticipantsData">
+                <ng-container *ngIf="multiLevelSalesParticipantsData.id !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="multiLevelSalesParticipantsData.id === ''">THÊM MỚI</ng-container>
+                NGƯỜI THAM GIA BÁN HÀNG ĐA CẤP
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="multiLevelSalesParticipantsData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Mã số</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                        autocomplete="off" 
+                        placeholder="Hãy nhập mã số"
+                        [class.is-invalid]="isControlInvalid('MultiLevelSalesParticipantsCode')" 
+                        [class.is-valid]="isControlValid('MultiLevelSalesParticipantsCode')" 
+                        formControlName="MultiLevelSalesParticipantsCode" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'MultiLevelSalesParticipantsCode')">
+                            Bắt buộc
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Tên đơn vị</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                        autocomplete="off" 
+                        placeholder="Hãy nhập tên đơn vị"
+                        [class.is-invalid]="isControlInvalid('ParticipantsName')" 
+                        [class.is-valid]="isControlValid('ParticipantsName')" 
+                        formControlName="ParticipantsName" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'ParticipantsName')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>               
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Ngày sinh</label>
+                        <!-- <div class="input-group input-group-solid">
+                            <input type="text" class="form-control form-control-lg form-control-solid"
+                                autocomplete="off" placeholder="DD/MM/YYYY" ngbDatepicker #d="ngbDatepicker"
+                                formControlName="Birthday" 
+                                [minDate]="mindate"
+                                [maxDate]="maxdate"
+                                />
+                            <div class="input-group-append" (click)="d.toggle()">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                </span>
+                            </div>
+                        </div> -->
+                        <app-date-picker-custom formControlName="Birthday" [Placeholder]="'DD/MM/YYYY'" [MinDate]="mindate" [MaxDate]="maxdate" ></app-date-picker-custom>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Birthday')">
+                            Bắt buộc
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Điện thoại</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                        autocomplete="off" 
+                        placeholder="Hãy nhập số điện thoại"
+                        (keypress)="prenventInputNonNumber($event)"
+                        [class.is-invalid]="isControlInvalid('PhoneNumber')" 
+                        [class.is-valid]="isControlValid('PhoneNumber')" 
+                        formControlName="PhoneNumber" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'PhoneNumber')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">CMND / CCCD</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                        autocomplete="off" placeholder="Hãy nhập CMND / CCCD"
+                        (keypress)="prenventInputNonNumber($event)"
+                        [class.is-invalid]="isControlInvalid('IdentityCardNumber')" 
+                        [class.is-valid]="isControlValid('IdentityCardNumber')" 
+                        formControlName="IdentityCardNumber" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'IdentityCardNumber')">
+                            Bắt buộc
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Ngày cấp</label>
+                        <!-- <div class="input-group input-group-solid">
+                            <input type="text" class="form-control form-control-lg form-control-solid"
+                                autocomplete="off" placeholder="DD/MM/YYYY" ngbDatepicker #d1="ngbDatepicker"
+                                formControlName="DateOfIssuance" 
+                                [minDate]="mindate"
+                                [maxDate]="maxdate" />
+                            <div class="input-group-append" (click)="d1.toggle()">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                </span>
+                            </div>
+                        </div> -->
+                        <app-date-picker-custom formControlName="DateOfIssuance" [Placeholder]="'DD/MM/YYYY'" [MinDate]="mindate" [MaxDate]="maxdate" ></app-date-picker-custom>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'DateOfIssuance')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Nơi cấp</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                        autocomplete="off" placeholder="Hãy nhập nơi cấp"
+                        [class.is-invalid]="isControlInvalid('PlaceOfIssue')" 
+                        [class.is-valid]="isControlValid('PlaceOfIssue')" 
+                        formControlName="PlaceOfIssue" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'PlaceOfIssue')">
+                            Bắt buộc
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Giới tính</label>
+                        <app-select-custom [width]="'100%'" [data]="GenderData" [options]="options"
+                            formControlName="Gender">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block"
+                        *ngIf="isDefaultValue('Gender')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Ngày tham gia</label>
+                        <!-- <div class="input-group input-group-solid">
+                            <input type="text" class="form-control form-control-lg form-control-solid"
+                                autocomplete="off" placeholder="DD/MM/YYYY" ngbDatepicker #d2="ngbDatepicker"
+                                formControlName="JoinDate" 
+                                [minDate]="mindate"
+                                [maxDate]="maxdate"/>
+                            <div class="input-group-append" (click)="d2.toggle()">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                </span>
+                            </div>
+                        </div> -->
+                        <app-date-picker-custom formControlName="JoinDate" [Placeholder]="'DD/MM/YYYY'" [MinDate]="mindate" [MaxDate]="maxdate" ></app-date-picker-custom>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'JoinDate')">
+                            Bắt buộc
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Tỉnh</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                        autocomplete="off" placeholder="Hãy nhập tỉnh"
+                        [class.is-invalid]="isControlInvalid('Province')" 
+                        [class.is-valid]="isControlValid('Province')" 
+                        formControlName="Province" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Province')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Địa chỉ cư trú</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                        autocomplete="off" placeholder="Hãy nhập địa chỉ cư trú"
+                        [class.is-invalid]="isControlInvalid('Address')" 
+                        [class.is-valid]="isControlValid('Address')" 
+                        formControlName="Address" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Address')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="multiLevelSalesParticipantsData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

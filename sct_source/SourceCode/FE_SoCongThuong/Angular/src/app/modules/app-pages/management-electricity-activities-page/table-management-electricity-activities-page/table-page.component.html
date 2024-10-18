@@ -1,0 +1,31 @@
+<!--begin::Main-->
+<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+    <div class="d-flex flex-column flex-column-fluid">
+        <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+            <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                    <ng-container>
+                        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                            Thông tin quản lý về hoạt động điện lực
+                        </h1>
+                        <app-breadcrumb></app-breadcrumb>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <div id="kt_app_content_container" class="app-container container-xxl">
+                <div class="card">
+                    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" [selectedIndex]="selectedIndex">
+                        <mat-tab label="Tài liệu thông tin">
+                            <app-table-month-report-page></app-table-month-report-page>
+                        </mat-tab>
+                        <mat-tab label="Dự án hoạt động điện lực">
+                            <app-table-management-electricity-activities-page></app-table-management-electricity-activities-page>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

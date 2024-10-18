@@ -1,0 +1,294 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="petroleumBusinessData">
+                <ng-container *ngIf="petroleumBusinessData.id!== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="petroleumBusinessData.id === ''">THÊM MỚI</ng-container>
+                ĐƠN VỊ KINH DOANH XĂNG DẦU
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="petroleumBusinessData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div [className]="'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Tên doanh nghiệp</label>
+                        <app-select-custom [width]="'100%'" [data]="typeofbusinessData" [options]="options" formControlName="petroleumBusinessName">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('petroleumBusinessName')">Bắt buộc
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row mt-6">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6">Giấy đăng ký kinh doanh</label>
+                        <input type="text" readonly class="form-control form-control-lg form-control-solid" name="GiayDangKyKinhDoanh" placeholder="Hãy nhập giấy đăng ký kinh doanh" autocomplete="off" formControlName="GiayDangKyKinhDoanh" />
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6">Ngày cấp phép</label>
+                        <app-date-picker-custom [Disable]="true" formControlName="NgayCap">
+                        </app-date-picker-custom>
+                    </div>
+                </div>
+
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-3">
+                        <label class="form-label fw-semibold fs-6 mt-3">Hệ thống các cửa hàng</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <button type="button" mat-icon-button (click)="addStore()">
+                            <mat-icon type="button" color="primary">add_circle</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label required">Tên cửa hàng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="TenCuaHang" formControlName="TenCuaHang" placeholder="Tên cửa hàng" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'TenCuaHang')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label required">Người đại diện</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="NguoiDaiDien" autocomplete="off" formControlName="NguoiDaiDien" placeholder="Người đại diện" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'NguoiDaiDien')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label required">Số điện thoại</label>
+                        <!-- <input type="text" class="form-control form-control-lg form-control-solid" name="PhoneNumber"
+               autocomplete="off" (keypress)="prenventInputNonNumber($event)"
+             formControlName="PhoneNumber" /> -->
+                        <input [class.is-invalid]="isControlInvalid('SoDienThoai')" [class.is-valid]="isControlValid('SoDienThoai')" formControlName="SoDienThoai" type="text" class="form-control form-control-lg form-control-solid" placeholder="Số điện thoại" (keypress)="prenventInputNonNumber($event)"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'SoDienThoai')">
+                            Bắt buộc
+                        </div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'SoDienThoai')">
+                            Vui lòng nhập số</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('minLength', 'SoDienThoai')">
+                            Số ít nhất 10 ký tự</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label required fw-semibold fs-6">Huyện</label>
+                        <app-select-custom [width]="'100%'" [data]="districtData" [options]="options" formControlName="Huyen" (valueChanged)="changedistrict($event)">
+                        </app-select-custom>
+                        <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isDefaultValue('Huyen')">Hãy chọn huyện</div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label required fw-semibold fs-6">Xã</label>
+                        <app-select-custom [width]="'100%'" [options]="options" [data]="communeDataFilter" formControlName="Xa">
+                        </app-select-custom>
+                        <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isDefaultValue('Xa')">Hãy chọn xã</div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="col-lg-12">
+                            <label class="form-label">Địa chỉ </label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" name="DiaChi" autocomplete="off" formControlName="DiaChi" placeholder="Địa chỉ" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-3">
+                        <label class="form-label fw-semibold fs-6 required">Loại giấy xác nhận</label>
+                        <app-select-custom [width]="'100%'" [options]="options" [data]="certificateTypeData" formControlName="LoaiGiayXacNhan"></app-select-custom>
+                        <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isDefaultValue('LoaiGiayXacNhan')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="form-label">Số giấy xác nhận</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Giấy phép kinh doanh" name="GiayPhepKinhDoanh" formControlName="GiayPhepKinhDoanh" />
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label class="form-label fw-semibold fs-6">Ngày cấp phép</label>
+                        <app-date-picker-custom formControlName="NgayCapPhep">
+                        </app-date-picker-custom>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="form-label fw-semibold fs-6">Ngày hết hạn</label>
+                        <div class="input-group input-group-solid">
+                            <app-date-picker-custom formControlName="NgayHetHan">
+                            </app-date-picker-custom>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+
+                    <div class="col-lg-4">
+                        <label class="form-label">Thời hạn hiệu lực của giấy 1 năm</label>
+                        <app-date-picker-custom formControlName="ThoiHan1Nam">
+                        </app-date-picker-custom>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label">Thời hạn hiệu lực của giấy 5 năm</label>
+                        <app-date-picker-custom formControlName="ThoiHan5Nam">
+                        </app-date-picker-custom>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label required">Người quản lý</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="NguoiQuanLy" formControlName="NguoiQuanLy" placeholder="Người quản lý" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'NguoiQuanLy')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6 required">Hình thức sở hữu</label>
+                        <app-select-custom [width]="'100%'" [options]="options" [data]="formalityData" formControlName="HinhThuc"></app-select-custom>
+                        <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isDefaultValue('HinhThuc')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Tên đơn vị cung cấp xăng dầu</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="DonViCungCap" autocomplete="off" placeholder="Tên đơn vị cung cấp xăng dầu" formControlName="DonViCungCap" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Địa chỉ đơn vị cấp xăng dầu</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="DiaChiDonViCungCap" autocomplete="off" placeholder="Địa chỉ đơn vị cung cấp xăng dầu" formControlName="DiaChiDonViCungCap" />
+                    </div>
+
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Người liên hệ (đơn vị cấp xăng dầu)</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="NguoiLienHeDonViCungCap" autocomplete="off" placeholder="Người liên hệ đơn vị cung cấp xăng dầu" formControlName="NguoiLienHeDonViCungCap" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">SĐT đơn vị cung cấp xăng dầu</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="SoDienThoaiDonViCungCap" autocomplete="off" placeholder="SĐT đơn vị cung cấp xăng dầu" formControlName="SoDienThoaiDonViCungCap" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Hình thức HĐ mua bán xăng dầu</label>
+                        <app-select-custom [width]="'100%'" [options]="options" [data]="contractFormData" formControlName="HinhThucHopDong"></app-select-custom>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label">Số cột bơm E5</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Số cột bơm E5" name="SoCotBomE5" formControlName="SoCotBomE5" />
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label">Số cột bơm A95</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Số cột bơm A95" name="SoCotBomA95" formControlName="SoCotBomA95" />
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label">Số cột bơm Dầu</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Số cột bơm Dầu" name="SoCotBomOil" formControlName="SoCotBomOil" />
+
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label">Số bể chứa</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Số bể chứa" name="SoBeChua" formControlName="SoBeChua" />
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label">Tổng dung tích(lít)</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Tổng dung tích" name="TongDungTich" formControlName="TongDungTich" />
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label">Thời gian bán hàng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Thời gian bán hàng" name="ThoiGianBanHang" formControlName="ThoiGianBanHang" />
+
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label">Diện tích xây dựng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Diện tích xây dựng" name="DienTichXayDung" formControlName="DienTichXayDung" />
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Ngày cấp phép xây dựng</label>
+                        <app-date-picker-custom formControlName="NgayCapPhepXayDung">
+                        </app-date-picker-custom>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label">Tuyến đường/sông phục vụ</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="TuyenPhucVu" formControlName="TuyenPhucVu" placeholder="Tuyến đường/sông phục vụ" />
+
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                        <textarea type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Ghi chú" formControlName="GhiChu" rows="2">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable " id="kt_petroleum_business_table">
+                        <thead>
+                            <tr class="text-start fw-bold fs-7 text-uppercase gs-0">
+                                <th class="min-w-30px text-center" style="vertical-align: middle;">STT</th>
+                                <th class="min-w-155px" style="vertical-align: middle;">Tên cửa hàng</th>
+                                <th class="min-w-155px" style="vertical-align: middle;">Người đại diện</th>
+                                <th class="min-w-155px" style="vertical-align: middle;">Người quản lý</th>
+                                <th class="min-w-155px" style="vertical-align: middle;">SĐT</th>
+                                <th *ngIf="!type" class="text-end min-w-70px" style="vertical-align: middle;">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fw-semibold text-gray-600">
+                            <tr *ngFor="let item of dataSource let i = index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td>
+                                    {{item.tenCuaHang}}
+                                </td>
+
+                                <td>
+                                    {{item.nguoiDaiDien}}
+                                </td>
+
+                                <td>
+                                    {{item.nguoiQuanLy}}
+                                </td>
+                                <td>
+                                    {{item.soDienThoai}}
+                                </td>
+                                <td *ngIf="!type" class="text-end">
+                                    <button type="button" mat-icon-button color="warn" (click)="delStore(item)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="petroleumBusinessData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

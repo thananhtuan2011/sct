@@ -1,0 +1,144 @@
+<section class="vh-100 gradient-custom" *ngIf="show">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-light text-white"
+          style="border-radius: 1rem; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+          <div class="card-body p-5 text-center">
+            <div class="mb-md-5 mt-md-4 ms-12 me-12">
+              <h2 class="fw-bold mb-2 text-uppercase">SỐ HÓA SỞ CÔNG THƯƠNG<br>BẾN TRE</h2>
+              <img alt="Logo" src="./assets/media/logos/logo-sct.png" class="h-100px" />
+              <h3 class="fw-bold mb-2 text-uppercase mt-2">Đăng nhập</h3>
+              <!-- <div class="text-info mt-6" *ngIf="!hasError">
+                Sử dụng tài khoản 
+                <strong>{{ defaultAuth.email }}</strong> 
+                và mật khẩu 
+                <strong>{{ defaultAuth.password}}</strong> 
+                để tiếp tục
+              </div> -->
+              <ng-container *ngIf="hasError">
+                <div class="mb-lg-6 mt-lg-6 alert alert-danger">
+                  <div class="alert-text font-weight-bold">
+                    Đăng nhập thất bại.<br>{{notification}}
+                  </div>
+                </div>
+              </ng-container>
+
+              <form class="form w-100 mt-6" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+                (ngSubmit)="submit()">
+                <!-- Tài khoản -->
+                <div class="fv-row mb-4">
+                  <label class="form-label fs-6 fw-bolder text-dark">Tài khoản</label>
+                  <input class="form-control bg-transparent" type="email" name="email" formControlName="email"
+                    autocomplete="off"
+                    [ngClass]="{'is-invalid': loginForm.controls['email'].invalid, 'is-valid': loginForm.controls['email'].valid}" />
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Hãy nhập tài khoản.',
+                      control: loginForm.controls['email']
+                    }">
+                  </ng-container>
+                  <!-- <ng-container 
+                    [ngTemplateOutlet]="formError" 
+                    [ngTemplateOutletContext]="{
+                      validation: 'email',
+                      message: 'Email is invalid',
+                      control: loginForm.controls['email']
+                    }"></ng-container>
+                  <ng-container 
+                    [ngTemplateOutlet]="formError" [
+                    ngTemplateOutletContext]="{
+                      validation: 'minLength',
+                      message: 'Tài khoản ít nhất 3 ký tự',
+                      control: loginForm.controls['email']
+                    }"></ng-container>
+                  <ng-container 
+                    [ngTemplateOutlet]="formError" 
+                    [ngTemplateOutletContext]="{
+                      validation: 'maxLength',
+                      message: 'Email should have maximum 360 symbols',
+                      control: loginForm.controls['email']
+                    }"></ng-container> -->
+                </div>
+
+                <!-- Mật khẩu -->
+                <div class="fv-row mb-3">
+                  <label class="form-label fw-bolder text-dark fs-6 mb-1">Mật khẩu</label>
+                  <input class="form-control bg-transparent" type="password" name="password" autocomplete="off"
+                    formControlName="password"
+                    [ngClass]="{'is-invalid': loginForm.controls['password'].invalid, 'is-valid': loginForm.controls['password'].valid}"
+                    (keyup.enter)="submit()" />
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Hãy nhập mật khẩu',
+                      control: loginForm.controls['password']
+                    }">
+                  </ng-container>
+                  <!-- <ng-container 
+                    [ngTemplateOutlet]="formError" 
+                    [ngTemplateOutletContext]="{
+                      validation: 'minlength',
+                      message: 'Mật khẩu ít nhất 8 ký tự',
+                      control: loginForm.controls['password']
+                    }">
+                  </ng-container>
+                  <ng-container 
+                    [ngTemplateOutlet]="formError" 
+                    [ngTemplateOutletContext]="{
+                      validation: 'maxLength',
+                      message: 'Password should have maximum 100 symbols',
+                      control: loginForm.controls['password']
+                    }">
+                  </ng-container> -->
+                </div>
+              </form>
+
+              <div class="fv-row mb-6 mt-6" [hidden]="HiddenCaptcha">
+                <label class="form-label fw-bolder text-dark fs-6 mb-1">Xác minh</label>
+                <re-captcha id="recaptcha" name="recaptcha" #recaptcha="ngModel" [(ngModel)]="token" required
+                  [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"
+                  style="display: flex; justify-content: center;">
+                </re-captcha>
+                <div *ngIf="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)" class="invalid-feedback">
+                  <div *ngIf="recaptcha.errors?.['required']">Hãy xác minh trước khi đăng nhập</div>
+                </div>
+              </div>
+
+              <p class="small mb-5 pb-lg-2 text-end">
+                <a class="text-dark">
+                  Quên mật khẩu?
+                </a>
+              </p>
+
+              <div class="d-grid mb-10">
+                <button type="button" id="kt_sign_in_submit" class="btn btn-primary"
+                  [disabled]="loginForm.invalid || (recaptcha.errors?.['required'] && !HiddenCaptcha)"
+                  (click)="submit()">
+                  <ng-container *ngIf="isLoading$ | async">
+                    <span class="indicator-progress" [style.display]="'block'">
+                      Vui lòng chờ...
+                      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="(isLoading$ | async) === false">
+                    <span class="indicator-label">Tiếp tục</span>
+                  </ng-container>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control?.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <span role="alert" class="alert-danger alert-text font-weight-bold">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>

@@ -1,0 +1,27 @@
+<form class="form form-label-right" [formGroup]="form">
+    <div class="form-group">
+        <div class="input-group input-group-solid" [style.width]="Width ? Width : null">
+            <input ngbDatepicker type="text" class="form-control form-control-lg form-control-solid" name="dp" 
+                [style.height]="Height ? Height : null"
+                #d="ngbDatepicker" placeholder="{{Placeholder}}" 
+                [minDate]="MinDate" 
+                [maxDate]="MaxDate"
+                [autocomplete]="AutoComplete" 
+                formControlName="date">
+                <!--(click)="d.toggle()" (focus)="onTouch()" (keydown)="onKeyDown($event)" (paste)="onPaste($event)"  -->
+            <div class="input-group-append" (click)="Disable ? null : d.toggle()">
+                <span class="input-group-text" [style.height]="Height ? Height : null">
+                    <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="form.controls['date'].invalid && form.controls['date'].touched">
+        <div class="invalid-feedback d-block"
+            *ngIf="form.controls['date']?.errors?.pattern">Ngày phải ở dạng DD/MM/YYYY</div>
+        <div class="invalid-feedback d-block"
+            *ngIf="form.controls['date']?.errors?.maxLength">Ngày không hợp lệ</div>
+        <!-- <div class="invalid-feedback d-block"
+            *ngIf="form.controls['date']?.errors?.date">Ngày không hợp lệ</div> -->
+    </div>
+</form>

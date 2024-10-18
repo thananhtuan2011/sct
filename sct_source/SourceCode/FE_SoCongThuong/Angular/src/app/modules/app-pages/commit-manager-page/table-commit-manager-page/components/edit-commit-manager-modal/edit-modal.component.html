@@ -1,0 +1,259 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="type !== 'view'">
+                <ng-container *ngIf="id !== undefined">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="id === undefined">THÊM MỚI</ng-container>
+                CAM KẾT
+            </ng-container>
+            <ng-container *ngIf="type === 'view'">
+                THÔNG TIN CAM KẾT
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right"
+                [formGroup]="formGroup">
+                <div class="form-group row mb-6 ">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Mã hồ sơ</label>
+                        <input placeholder="Hãy nhập mã hồ sơ" type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            name="MaHoSo" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('MaHoSo')"
+                            [class.is-valid]="isControlValid('MaHoSo')"
+                            formControlName="MaHoSo" />
+                        <div class="invalid-feedback d-block"
+                            *ngIf="controlHasError('required', 'MaHoSo')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6 ">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Tên TTHC</label>
+                        <input type="text"
+                            placeholder="Hãy nhập tên thủ tục hành chính"
+                            class="form-control form-control-lg form-control-solid"
+                            name="TenThuTuc" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('TenThuTuc')"
+                            [class.is-valid]="isControlValid('TenThuTuc')"
+                            formControlName="TenThuTuc" />
+                        <div class="invalid-feedback d-block"
+                            *ngIf="controlHasError('required', 'TenThuTuc')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">
+                            Tên cá nhân, tổ chức
+                        </label>
+                        <input type="text"
+                            placeholder="Hãy nhập tên cá nhân, tổ chức"
+                            class="form-control form-control-lg form-control-solid"
+                            name="TenToChuc" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('TenToChuc')"
+                            [class.is-valid]="isControlValid('TenToChuc')"
+                            formControlName="TenToChuc" />
+                        <div class="invalid-feedback d-block"
+                            *ngIf="controlHasError('required', 'TenToChuc')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Cơ sở / DN </label>
+                        <input type="text" placeholder="Hãy nhập cơ sở / DN"
+                            class="form-control form-control-lg form-control-solid"
+                            name="CoSo" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('CoSo')"
+                            [class.is-valid]="isControlValid('CoSo')"
+                            formControlName="CoSo" />
+                        <div class="invalid-feedback d-block"
+                            *ngIf="controlHasError('required', 'CoSo')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Huyện</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'"
+                                [data]="districtData" [options]="options"
+                                formControlName="Huyen">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('Huyen')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Địa chỉ</label>
+                        <input type="text" placeholder="Hãy nhập địa chỉ"
+                            [class.is-invalid]="isControlInvalid('DiaChi')"
+                            [class.is-valid]="isControlValid('DiaChi')"
+                            class="form-control form-control-lg form-control-solid"
+                            name="DiaChi" autocomplete="off"
+                            formControlName="DiaChi" />
+                        <div class="invalid-feedback d-block"
+                            *ngIf="controlHasError('required', 'DiaChi')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <!-- <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Số điện thoại</label>
+                        <input type="text" placeholder="Hãy nhập số điện thoại"
+                            class="form-control form-control-lg form-control-solid"
+                            name="SoDienThoai" autocomplete="off"
+                            formControlName="SoDienThoai" />
+                    </div> -->
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">
+                            Số điện thoại
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập số điện thoại"
+                            autocomplete="off"
+                            (keypress)="prenventInputNonNumber($event)"
+                            [class.is-invalid]="isControlInvalid('SoDienThoai')"
+                            [class.is-valid]="isControlValid('SoDienThoai')"
+                            formControlName="SoDienThoai" />
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('pattern', 'SoDienThoai')">
+                            Số điện thoại sai định dạng
+                        </div>
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('minlength', 'SoDienThoai')">
+                            Số điện thoại ít nhất 10 số
+                        </div>
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('maxlength', 'SoDienThoai')">
+                            Số điện thoại nhiều nhất 11 số
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6 ">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Ngày nhận hồ sơ</label>
+                        <app-date-picker-custom formControlName="NgayNhanHoSo"
+                            [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                        <div class="invalid-feedback d-block"
+                            *ngIf="controlHasError('required', 'NgayNhanHoSo')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                    <div class="col-lg-6 ">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Ngày cam kết</label>
+                        <app-date-picker-custom formControlName="NgayCamKet"
+                            [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                        <div class="invalid-feedback d-block"
+                            *ngIf="controlHasError('required', 'NgayCamKet')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Người làm cam kết</label>
+                        <input type="text"
+                            placeholder="Hãy nhập người làm cam kết"
+                            class="form-control form-control-lg form-control-solid"
+                            name="NguoiLamCamKet" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('NguoiLamCamKet')"
+                            [class.is-valid]="isControlValid('NguoiLamCamKet')"
+                            formControlName="NguoiLamCamKet" />
+                        <div class="invalid-feedback d-block"
+                            *ngIf="controlHasError('required', 'NguoiLamCamKet')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                        <textarea type="text" placeholder="Ghi chú" row="2"
+                            class="form-control form-control-lg form-control-solid"
+                            name="GhiChu" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('GhiChu')"
+                            [class.is-valid]="isControlValid('GhiChu')"
+                            formControlName="GhiChu">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+        <div class="card-toolbar">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 style="color: #009ef7">MẶT HÀNG</h4>
+                </div>
+                <div *ngIf="!type">
+                    <button type="button" class="btn btn-primary me-3"
+                        data-bs-toggle="modal" (click)="openModal()">
+                        Thêm mới
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable ">
+            <thead>
+                <tr
+                    class="text-center text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                    <th class="min-w-75px">STT</th>
+                    <th class="min-w-75px">Tên mặt hàng</th>
+                    <th class="min-w-75px">Loại</th>
+                    <th *ngIf="!type" class="min-w-75px">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center"
+                    *ngFor="let item of listItems; let i = index">
+                    <td>{{i +1 }}</td>
+                    <td>{{item.tenMatHang}}</td>
+                    <td>{{item.tenLoaiHinh}}</td>
+                    <td *ngIf="!type">
+                        <button type="button" mat-icon-button color="warn"
+                            (click)="deleteItem(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2"
+            (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="type !== 'view'">
+            <button type="submit" class="btn btn-primary btn-elevate"
+                (click)="check_formGroup()">Xác
+                nhận</button>
+        </ng-container>
+    </div>
+</div>

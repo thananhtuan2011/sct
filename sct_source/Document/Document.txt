@@ -1,0 +1,15 @@
+metronic html 
+https://preview.keenthemes.com/html/metronic/docs/base/tables
+Metronic angular
+https://preview.keenthemes.com/metronic8/angular/docs/create-a-page
+Angular
+https://material.angular.io/components/table/overview
+Icon
+https://fontawesome.com/icons/affiliatetheme?style=brands&s=solid&f=brands
+Alerts
+https://sweetalert2.github.io/
+Form chuẩn danh sách
+https://preview.keenthemes.com/metronic8/demo1/apps/ecommerce/customers/listing.html
+Modal 
+https://ng-bootstrap.github.io/#/components/modal/api
+----------------------------------------------------------

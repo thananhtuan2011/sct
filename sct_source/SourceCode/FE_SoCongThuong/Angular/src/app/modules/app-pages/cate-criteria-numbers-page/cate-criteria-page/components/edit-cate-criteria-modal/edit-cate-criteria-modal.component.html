@@ -1,0 +1,292 @@
+<div class="modal-content bg-light">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="cateretailData">
+                <ng-container *ngIf="id && !view">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id && !view">THÊM MỚI</ng-container>
+                PHIẾU BÁO CÁO
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <!-- Card 1 -->
+                <div class="card mb-6">
+                    <div class="card-header pt-8">
+                        <h3 class="text-primary" ngbAutofocus>Thông tin báo cáo</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label required fw-semibold fs-6">Tên phiếu</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="cateCriteriaNumberSevenCode" placeholder="Tên phiếu" autocomplete="off"
+                                    formControlName="cateCriteriaNumberSevenCode" />
+                                <div class="invalid-feedback d-block"
+                                    *ngIf="controlHasError('required', 'cateCriteriaNumberSevenCode')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-6">
+                                <label class="form-label">Ngày tạo</label>
+                                <!-- <div class="input-group input-group-solid">
+                                    <input readonly type="text" class="form-control form-control-lg form-control-solid"
+                                        autocomplete="off" placeholder="DD/MM/YYYY" ngbDatepicker #d="ngbDatepicker"
+                                        formControlName="NgayTao" />
+                                    <div class="input-group-append" (click)="d.toggle()">
+                                        <span class="input-group-text">
+                                            <i class="text-dark-50 bi bi-calendar-check fs-2x"></i>
+                                        </span>
+                                    </div>
+                                </div> -->
+                                <app-date-picker-custom formControlName="NgayTao" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">Tháng báo cáo</label>
+                                <!-- <div class="input-group input-group-solid">
+                                    <input type="month" class="form-control form-control-lg form-control-solid"
+                                        autocomplete="off" placeholder="MM/YYYY" formControlName="ReportMonth" />
+                                </div> -->
+                                <app-month-year-picker-custom ComponentId="ReportMonth" formControlName="ReportMonth" Placeholder="MM/YYYY"></app-month-year-picker-custom>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-6 mb-6">
+                                <label class="form-label fw-semibold fs-6">Người tạo</label>
+                                <app-select-custom [width]="'100%'" [placeholder]="'Chọn người tạo'" [data]="dataUser"
+                                    [options]="options" formControlName="CreateName">
+                                </app-select-custom>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">Ngày duyệt</label>
+                                <!-- <div class="input-group input-group-solid">
+                                    <input readonly type="text" class="form-control form-control-lg form-control-solid"
+                                        autocomplete="off" placeholder="DD/MM/YYYY" ngbDatepicker #d1="ngbDatepicker"
+                                        formControlName="NgayDuyet" />
+                                    <div class="input-group-append" (click)="d1.toggle()">
+                                        <span class="input-group-text">
+                                            <i class="text-dark-50 bi bi-calendar-check fs-2x"></i>
+                                        </span>
+                                    </div>
+                                </div> -->
+                                <app-date-picker-custom formControlName="NgayDuyet" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-6 mb-6">
+                                <label class="form-label fw-semibold fs-6">Người duyệt</label>
+                                <app-select-custom [width]="'100%'" [placeholder]="'Chọn người duyệt'" [data]="dataUser"
+                                    [options]="options" formControlName="ConfirmName">
+                                </app-select-custom>
+                            </div>
+                            <div class="col-lg-6 mb-6">
+                                <label class="form-label fw-semibold fs-6">Người kiểm tra</label>
+                                <app-select-custom [width]="'100%'" [placeholder]="'Chọn người kiểm tra'"
+                                    [data]="dataUser" [options]="options" formControlName="CheckName">
+                                </app-select-custom>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tổng mức bán lẻ hàng hóa theo năm báo cáo -->
+                <div class="card mb-6">
+                    <div class="card-header p-8" style="align-content: space-around;">
+                        <h3 class="text-primary" style="margin: auto 0;">
+                            Báo cáo thực hiện tiêu chí cơ sở hạ tầng thương mại nông thôn
+                        </h3>
+                        <button *ngIf="!view" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            style="height: 60% !important;" data-bs-target="#kt_modal_add_typeofenergy"
+                            (click)="createCate()">
+                            Thêm mới báo cáo
+                        </button>
+                    </div>
+                    <div class="card-body pt-0" style="min-height: 200px; overflow-y: hidden;">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
+                            <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                                <th class="min-w-55px text-center" style="vertical-align: middle;">STT</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Tên huyện/ Thị xã</th>
+                                <th class="min-w-155px text-center" style="vertical-align: middle;">Số xã trong<br>huyện/Thị xã</th>
+                                <th class="min-w-155px text-center" style="vertical-align: middle;">Số xã đạt chuẩn<br>tiêu chí số 7 (Lũy kế) đến kỳ báo cáo</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Số xã có chợ<br>trong quy hoạch</th>
+                                <th class="min-w-55px text-center" style="vertical-align: middle;"></th>
+                            </tr>
+                            <tr class="text-gray-900 fs-6" *ngFor="let item of dataSourceDetail; let i= index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.districtName}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.numberOfWard}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.numberOfQualifyingWard}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.numberOfWardWithMarket}}
+                                </td>
+                                <td class="text-center">
+                                    <button *ngIf="!view" type="button" mat-icon-button (click)="(delDetail1(item))">
+                                        <mat-icon color="warn">
+                                            delete
+                                        </mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Báo cáo thực hiện 6 tháng/năm cùng kỳ năm năm trước-->
+                <div class="card mb-6">
+                    <div class="card-header p-8" style="align-content: space-around;">
+                        <h3 class="text-primary" style="margin: auto 0;">Báo cáo thực hiện 6 tháng/năm cùng kỳ năm năm
+                            trước</h3>
+                    </div>
+                    <div class="card-body pt-0" style="min-height: 200px; overflow-y: hidden;">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
+                            <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                                <th class="min-w-55px text-center" style="vertical-align: middle;">STT</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Tên huyện/ Thị xã</th>
+                                <th class="min-w-155px text-center" style="vertical-align: middle;">Số xã đạt tiêu chí<br>cơ sở hạ tầng thương mại nông thôn</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Số xã có chợ<br>đạt chuẩn nông thôn mới</th>
+                                <th class="min-w-55px text-center" style="vertical-align: middle;"></th>
+                            </tr>
+                            <tr class="text-gray-900 fs-6" *ngFor="let item of dataSourceDetail; let i= index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.districtName}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.numberOfWardCommercialInfrastructure}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.numberOfWardNewCountryside}}
+                                </td>
+                                <td class="text-center">
+                                    <button *ngIf="!view" type="button" mat-icon-button
+                                        (click)="(delDetail1(item))">
+                                        <mat-icon color="warn">
+                                            delete
+                                        </mat-icon>
+                                    </button>
+                                </td>
+                                <td class="separator separator-dashed my-3"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Báo cáo thực hiện trong năm báo cáo-->
+                <div class="card mb-6">
+                    <div class="card-header p-8" style="align-content: space-around;">
+                        <span>
+                            <h3 class="text-primary" style="margin: auto 0;">Báo cáo thực hiện trong năm báo cáo</h3>
+                            <div class="form-group row">
+                                <label class="form-label fw-semibold fs-6" style="margin: auto 0;">Kế hoạch 6 tháng / năm</label>
+                            </div>
+                        </span>
+                    </div>
+                    <!--begin::Card body-->
+                    <div class="card-body pt-0" style="min-height: 200px; overflow-y: hidden;">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
+                            <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                                <th class="min-w-55px text-center">STT</th>
+                                <th class="min-w-175px text-center">Tên huyện/ Thị xã</th>
+                                <th class="min-w-155px text-center">Số xã đạt tiêu chí cơ sở<br>hạ tầng thương mại nông thôn</th>
+                                <th class="min-w-175px text-center">Số xã có chợ<br>đạt chuẩn nông thôn mới</th>
+                                <th class="min-w-55px text-center"></th>
+                            </tr>
+                            <tr class="text-gray-900 fs-6" *ngFor="let item of dataSourceDetail; let i= index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.districtName}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.numberOfWardCommercialInfrastructurePlan}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.numberOfWardNewCountrysidePlan}}
+                                </td>
+                                <td class="text-center">
+                                    <button *ngIf="!view" type="button" mat-icon-button
+                                        (click)="(delDetail1(item))">
+                                        <mat-icon color="warn">
+                                            delete
+                                        </mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Báo cáo thực hiện trong năm báo cáo-->
+                <div class="card">
+                    <div class="card-header p-8" style="align-content: space-around;">
+                        <span>
+                            <h3 class="text-primary" style="margin: auto 0;">Báo cáo thực hiện trong năm báo cáo</h3>
+                            <div class="form-group row">
+                                <label class="form-label fw-semibold fs-6" style="margin: auto 0;">Ước thực hiện 6
+                                    tháng/năm</label>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="card-body border-0 pt-0">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
+                            <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                                <th class="min-w-55px text-center">STT</th>
+                                <th class="min-w-175px text-center">Tên huyện/ Thị xã</th>
+                                <th class="min-w-155px text-center">Số xã đạt tiêu chí cơ sở hạ tầng thương mại nông thôn</th>
+                                <th class="min-w-175px text-center">Số xã có chợ đạt chuẩn nông thôn mới</th>
+                                <th class="min-w-55px text-center"></th>
+                            </tr>
+                            <tr class="text-gray-900 fs-6" *ngFor="let item of dataSourceDetail; let i= index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.districtName}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.numberOfWardCommercialInfrastructureEstimate}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.numberOfWardNewCountrysideEstimate}}
+                                </td>
+                                <td class="text-center">
+                                    <button *ngIf="!view" type="button" mat-icon-button
+                                        (click)="(delDetail1(item))">
+                                        <mat-icon color="warn">
+                                            delete
+                                        </mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light bg-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="cateretailData && !view">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

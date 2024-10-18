@@ -1,0 +1,180 @@
+<div class="modal-content">
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Phân loại</label>
+                        <div class="mat-group-radio mb-4">
+                            <mat-radio-group formControlName="Classify" labelPosition="after" color="primary">
+                                <mat-radio-button class="me-12" [value]="1">Nhập khẩu</mat-radio-button>
+                                <mat-radio-button class="me-12" [value]="2">Xuất khẩu</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12" *ngIf="formGroup.controls.Classify.value === 1">
+                        <label class="form-label required fw-semibold fs-6">Mặt hàng chủ yếu</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'" [data]="targetsImport" [options]="options"
+                                formControlName="Targets">
+                            </app-select-custom>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" *ngIf="formGroup.controls.Classify.value === 2">
+                        <label class="form-label required fw-semibold fs-6">Chỉ tiêu</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'" [data]="targetsExport" [options]="options"
+                                formControlName="Targets">
+                            </app-select-custom>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6" *ngIf="formGroup.controls.Classify.value === 1 && formGroup.controls.Targets.value === 'Mặt hàng nhập khẩu chủ yếu'">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Mặt hàng chủ yếu</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'" [data]="importedGoods" [options]="options"
+                                formControlName="Name">
+                            </app-select-custom>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6" *ngIf="formGroup.controls.Classify.value === 2 && formGroup.controls.Targets.value !== 'Tổng kim ngạch xuất khẩu'">
+                    <div class="col-lg-12" *ngIf="formGroup.controls.Targets.value === 'Phân theo khối doanh nghiệp' || formGroup.controls.Targets.value === 'Phân theo nhóm hàng'">
+                        <label class="form-label required fw-semibold fs-6">{{formGroup.controls.Targets.value}}</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'" [data]="exportData" [options]="options"
+                                formControlName="Name">
+                            </app-select-custom>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" *ngIf="formGroup.controls.Targets.value === 'Mặt hàng xuất khẩu chủ yếu' || formGroup.controls.Targets.value === 'Thị trường xuất khẩu'">
+                        <label class="form-label required fw-semibold fs-6">{{formGroup.controls.Targets.value}}</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập tên sản phẩm" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('Name')" [class.is-valid]="isControlValid('Name')"
+                            formControlName="Name" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Name')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Đơn vị tính</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập đơn vị tính" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('Unit')" [class.is-valid]="isControlValid('Unit')"
+                            formControlName="Unit" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Unit')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tháng báo cáo</label>
+                        <!-- <input type="month" class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập năm báo cáo" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('Date')" [class.is-valid]="isControlValid('Date')"
+                            formControlName="Date" /> -->
+                        <app-month-year-picker-custom ComponentId="date2" formControlName="Date"></app-month-year-picker-custom>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Date')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Kế hoạch {{GetYearMonth("Year")}}</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('Plan')" [class.is-valid]="isControlValid('Plan')"
+                            formControlName="Plan" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Plan')">Bắt buộc</div>
+                    </div>
+                    <!-- <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Thực hiện tháng 4/{{formGroup.controls.Year.value - 1}}</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('ValueSameMonthLastYear')" 
+                            [class.is-valid]="isControlValid('ValueSameMonthLastYear')"
+                            formControlName="ValueSameMonthLastYear"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'ValueSameMonthLastYear')">Bắt buộc</div>
+                    </div> -->
+                </div>
+                <div class="form-group row mb-6">
+                    <!-- <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Thực hiện tháng 3/{{formGroup.controls.Year.value}}</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('ValueLastMonth')" [class.is-valid]="isControlValid('ValueLastMonth')"
+                            formControlName="ValueLastMonth"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'ValueLastMonth')">Bắt buộc</div>
+                    </div> -->
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Ước tính TH tháng
+                            {{GetYearMonth("Month")}}/{{GetYearMonth("Year")}}</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('EstimatedMonth')"
+                            [class.is-valid]="isControlValid('EstimatedMonth')" formControlName="EstimatedMonth" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'EstimatedMonth')">Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Cộng dồn đến tháng
+                            {{GetYearMonth("Month")}}/{{GetYearMonth("Year")}}</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('CumulativeToMonth')"
+                            [class.is-valid]="isControlValid('CumulativeToMonth')"
+                            formControlName="CumulativeToMonth" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'CumulativeToMonth')">Bắt buộc
+                        </div>
+                    </div>
+                    <!-- <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Cộng dồn đến tháng 4/{{formGroup.controls.Year.value - 1}}</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('CumulativeToMonthLastYear')" 
+                            [class.is-valid]="isControlValid('CumulativeToMonthLastYear')"
+                            formControlName="CumulativeToMonthLastYear"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'CumulativeToMonthLastYear')">Bắt buộc</div>
+                    </div> -->
+                </div>
+                <!-- <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">So sánh tháng trước</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid" 
+                            readonly autocomplete="off" [value]="GetValue('EstimatedMonth', 'ValueLastMonth')"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">So với tháng cùng kỳ</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid"
+                            readonly autocomplete="off" [value]="GetValue('EstimatedMonth', 'ValueSameMonthLastYear')"/>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Luỹ kế so KH năm</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid"
+                            readonly autocomplete="off" [value]="GetValue('EstimatedMonth', 'Plan')"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Luỹ kế so cùng kỳ</label>
+                        <input type="number" class="form-control form-control-lg form-control-solid"
+                            readonly autocomplete="off" [value]="GetValue('CumulativeToMonth', 'CumulativeToMonthLastYear')"/>
+                    </div>
+                </div> -->
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="financialPlanTargetsData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác
+                nhận</button>
+        </ng-container>
+    </div>
+</div>

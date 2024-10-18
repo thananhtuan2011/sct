@@ -1,0 +1,27 @@
+thead {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    th {
+        padding-left: 0 !important;
+        // border: dashed 1px #eff2f5;
+    }
+}
+
+tbody #Total {
+    position: sticky;
+    bottom: 0;
+    background-color: #ffffff;
+    // font-weight: bold;
+}
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+app-select-custom {
+    height: 45.86px !important;
+}

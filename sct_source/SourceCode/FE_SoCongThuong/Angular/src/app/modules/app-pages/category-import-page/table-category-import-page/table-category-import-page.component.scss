@@ -1,0 +1,11 @@
+.spinner-border-lg {
+    --bs-spinner-width: 2rem;
+    --bs-spinner-height: 2rem;
+    --bs-spinner-border-width: 0.2em;
+}
+
+.loading {
+    font-size: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+}

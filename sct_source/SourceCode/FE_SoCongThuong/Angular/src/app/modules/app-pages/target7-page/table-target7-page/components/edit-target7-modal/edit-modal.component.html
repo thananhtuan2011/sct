@@ -1,0 +1,241 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="editData">
+                <ng-container *ngIf="id && !type">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id && !type">THÊM MỚI</ng-container>
+                BÁO CÁO CHỈ TIÊU CƠ SỞ HẠ TẦNG THƯƠNG MẠI
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right"
+                [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Năm
+                        </label>
+                        <app-month-year-picker-custom formControlName="Year"
+                            ComponentId="Year" ViewMode="years">
+                        </app-month-year-picker-custom>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="controlHasError('required', 'Year')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Giai đoạn
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom
+                                [width]="'100%'" [data]="stageData"
+                                [options]="options"
+                                formControlName="StageId">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('StageId')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Huyện
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom
+                                [width]="'100%'" [data]="districtData"
+                                [options]="options"
+                                formControlName="DistrictId">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('DistrictId')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Xã
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom
+                                [width]="'100%'" [data]="communeDataFilter"
+                                [options]="options"
+                                formControlName="CommuneId">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('CommuneId')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Số chợ trong quy hoạch của xã
+                        </label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            autocomplete="off"
+                            placeholder="Hãy số chợ quy hoạch của xã"
+                            (keypress)="prenventInputNonNumber($event)"
+                            [class.is-invalid]="isControlInvalid('MarketInPlaning')"
+                            [class.is-valid]="isControlValid('MarketInPlaning')"
+                            formControlName="MarketInPlaning" />
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'MarketInPlaning')">
+                            Bắt buộc
+                        </div>
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('pattern', 'MarketInPlaning')">
+                            Số xã phải là số
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Kế hoạch {{title}} {{title ?
+                            this.formGroup.controls.Year.value : ""}}
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <label
+                                class="form-label fw-semibold fs-6 ms-6 text-primary">
+                                Cơ sở hạ tầng TM nông thôn mới
+                            </label>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-radio-group formControlName="PlanCommercial"
+                                color="primary"
+                                class="ms-6 d-flex justify-content-between">
+                                <mat-radio-button [value]="true">Đạt</mat-radio-button>
+                                <mat-radio-button [value]="false">Chưa đạt</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+
+                        <div class="col-lg-7">
+                            <label
+                                class="form-label fw-semibold fs-6 ms-6 text-primary">
+                                Chợ đạt chuẩn nông thôn mới
+                            </label>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-radio-group formControlName="PlanMarket"
+                                color="primary"
+                                class="ms-6 d-flex justify-content-between">
+                                <mat-radio-button [value]="true">Đạt</mat-radio-button>
+                                <mat-radio-button [value]="false">Chưa đạt</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Ước tính thực hiện {{title}} {{title ?
+                            this.formGroup.controls.Year.value : ""}}
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <label
+                                class="form-label fw-semibold fs-6 ms-6 text-primary">
+                                Cơ sở hạ tầng TM nông thôn mới
+                            </label>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-radio-group
+                                formControlName="EstimateCommercial"
+                                color="primary"
+                                class="ms-6 d-flex justify-content-between">
+                                <mat-radio-button [value]="true">Đạt</mat-radio-button>
+                                <mat-radio-button [value]="false">Chưa đạt</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="col-lg-7">
+                            <label
+                                class="form-label fw-semibold fs-6 ms-6 text-primary">
+                                Chợ đạt chuẩn nông thôn mới
+                            </label>
+                        </div>
+                        <div class="col-lg-5">
+                            <mat-radio-group formControlName="EstimateMarket"
+                                color="primary"
+                                class="ms-6 d-flex justify-content-between">
+                                <mat-radio-button [value]="true">Đạt</mat-radio-button>
+                                <mat-radio-button [value]="false">Chưa đạt</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6 me-3">
+                    <div class="col-lg-7">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="type ? false : true">
+                            Tiêu chí nông thôn mới nâng cao
+                        </label>
+                    </div>
+                    <div class="col-lg-5">
+                        <mat-radio-group
+                            formControlName="NewRuralCriteriaRaised"
+                            color="primary"
+                            class="ms-6 d-flex justify-content-between">
+                            <mat-radio-button [value]="true">Đạt</mat-radio-button>
+                            <mat-radio-button [value]="false">Chưa đạt</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">
+                            Ghi chú
+                        </label>
+                        <textarea
+                            class="form-control form-control-lg form-control-solid"
+                            formControlName="Note">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2"
+            (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="editData && !type">
+            <button type="submit" class="btn btn-primary btn-elevate"
+                (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

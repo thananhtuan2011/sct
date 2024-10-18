@@ -1,0 +1,114 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$demo1-primary: mat.define-palette(mat.$indigo-palette);
+$demo1-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+// The warn palette is optional (defaults to red).
+$demo1-warn: mat.define-palette(mat.$red-palette);
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$demo1-theme: mat.define-light-theme(( color: ( primary: $demo1-primary, accent: $demo1-accent, warn: $demo1-warn, )));
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($demo1-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+@import "./assets/sass/style.scss";
+// @import "./assets/sass/style";
+// Replace above style with this css file to enable RTL styles
+// @import "./assets/css/style.rtl";
+@import './assets/sass/plugins.scss';
+@import "./assets/sass/style.angular.scss";
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+    background: transparent;
+    padding: 0 !important;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-subscript-wrapper {
+    padding: 0 !important;
+}
+
+.select2-selection__rendered {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.dropdown-toggle.btn.btn-active-light-primary:hover:not(.btn-active) {
+    color: white;
+    background-color: #0080C7 !important;
+}
+
+.dropdown-toggle.btn.btn-light {
+    color: #0080C7;
+    background-color: #F1FAFF !important;
+}
+
+.dropdown-toggle.btn {
+    border-radius: 4px !important;
+}
+
+.table-row-dashed {
+    thead {
+        th[colspan] {
+            border-left: 1px solid #3198D1;
+            border-bottom: 1px solid #3198D1;
+            border-right: 1px solid #3198D1;
+        }
+        tr:nth-child(2) th {
+            border-left: 1px solid #3198D1;
+            border-right: 1px solid #3198D1;
+        }
+        tr:nth-child(3) th {
+            border-left: 1px solid #3198D1;
+            border-right: 1px solid #3198D1;
+        }
+        tr:nth-child(4) th {
+            border-left: 1px solid #3198D1;
+            border-right: 1px solid #3198D1;
+        }
+        tr:nth-child(5) th {
+            border-left: 1px solid #3198D1;
+            border-right: 1px solid #3198D1;
+        }
+    }
+    tr {
+        border-bottom: none !important;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #F9F9F9;
+    }
+}
+
+.mt-30px {
+    margin-top: 30px;
+}
+
+@media (min-width: 1400px) {
+    .container-xxl {
+        max-width: 100%;
+    }
+}

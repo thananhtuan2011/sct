@@ -1,0 +1,90 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="industrialPromotionProjectDetailData">
+                THÊM MỚI DOANH NGHIỆP NGOÀI ĐỊA BÀN TỈNH
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="industrialPromotionProjectDetailData">
+            <form action="#" class="form form-label-right"
+                [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên
+                            doanh nghiệp</label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập tên doanh nghiệp"
+                            autocomplete="off" formControlName="BusinessNameVi" />
+                    </div>
+                    <div class="invalid-feedback d-block"
+                        *ngIf="controlHasError('required', 'BusinessNameVi')">Bắt
+                        buộc</div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 ">
+                        <label class="form-label required">Mã doanh nghiệp</label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập mã doanh nghiệp"
+                            autocomplete="off" formControlName="BusinessCode" />
+                    </div>
+                    <div class="invalid-feedback d-block"
+                        *ngIf="controlHasError('required', 'BusinessCode')">Bắt
+                        buộc</div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">Địa chỉ</label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập địa chỉ"
+                            autocomplete="off" formControlName="DiaChi" />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">Người đại diện</label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập người đại diện"
+                            autocomplete="off" formControlName="NguoiDaiDien" />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Ngành
+                            nghề kinh doanh</label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập ngành nghề kinh doanh"
+                            autocomplete="off" formControlName="NganhNghe" />
+                    </div>
+                    <div class="invalid-feedback d-block"
+                        *ngIf="controlHasError('required', 'NganhNghe')">Bắt
+                        buộc</div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2"
+            (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="industrialPromotionProjectDetailData">
+            <button type="submit" class="btn btn-primary btn-elevate"
+                (click)="save()" [disabled]="formGroup.invalid">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

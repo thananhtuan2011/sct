@@ -1,0 +1,52 @@
+<!-- start: Paginator -->
+
+<div class="d-flex align-items-center py-3">
+    <!-- begin: loading -->
+    <!-- <div class="d-flex align-items-center" *ngIf="true">
+        <div class="mr-2 text-muted">Loading...</div>
+        <div class="spinner spinner-primary mr-10"></div>
+    </div> -->
+    <!-- end: loading -->
+
+    <!-- begin: pageSize -->
+    <!-- <select class="form-control form-control-sm font-weight-bold mr-4 border-0 bg-light false" style="width: 75px" [(ngModel)]="paginator.pageSize" (change)="sizeChange()">
+    <option class="btn" *ngFor="let ps of pageSizes">
+      {{ ps }}
+    </option>
+  </select> -->
+    <div class="dataTables_length" id="kt_permissions_table_length">
+        <label><select
+        name="kt_permissions_table_length"
+        aria-controls="kt_permissions_table"
+        class="form-select form-select-sm form-select-solid"  [(ngModel)]="paginator.pageSize"
+        (change)="sizeChange()"
+      >
+      <option class="btn" *ngFor="let ps of pageSizes">
+        {{ ps }}
+      </option>
+      </select></label
+    >
+  </div>
+
+  <span class="react-bootstrap-table-pagin ation-total py-2 px-3">
+    &nbsp;Hiển thị các dòng từ &nbsp;{{sodonghientai}}
+    đến&nbsp;{{ sodongcuoitrang }}&nbsp; trong &nbsp;{{ paginator.total }}
+  </span>
+  <!-- end: pageSize -->
+</div>
+<div class="d-flex flex-wrap py-2 mr-3">
+  <div class="d-flex align-items-center mx-3" *ngIf="isLoading">
+    <span class="spinner-border spinner-border-sm align-middle mx-2" ></span>
+    <div class="mr-2 text-muted">Loading...</div>
+</div>
+  <ng-pagination
+    [collectionSize]="paginator.total"
+    [(page)]="paginator.page"
+    [maxSize]="4"
+    [rotate]="true"
+    [boundaryLinks]="true"
+    [pageSize]="paginator.pageSize"
+    (pageChange)="pageChange($event)"
+  ></ng-pagination>
+</div>
+<!-- end: Paginator -->

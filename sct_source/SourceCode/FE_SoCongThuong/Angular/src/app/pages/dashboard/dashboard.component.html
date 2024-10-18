@@ -1,0 +1,203 @@
+<div [ngSwitch]="prepare_status">
+    <div *ngSwitchCase="true">
+        <!--begin::Row-->
+        <form id="kt_account_profile_details_form" [formGroup]="formGroup" class="form">
+            <div class="row g-5 g-xl-10 mb-5 mt-1 mb-xl-10">
+                <!-- <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3">
+                    <h4>
+                        Dashboard
+                    </h4>
+                </div> -->
+            </div>
+
+            <div class="row gy-5 gx-xl-8">
+                <div class="col-xl-6 mb-6">
+                    <div class="card p-8" style="height: 700px;">
+                        <div class="d-flex flex-row-fluid justify-content-between">
+                            <h5 class="mb-6">
+                                Quản lý doanh nghiệp
+                            </h5>
+                        </div>
+                        <hr class="mb-6" style="border-top: dotted 2px; margin: 0 0 13px 0" />
+                        <b>{{'Doanh nghiệp'}}</b>
+                        <ng-container *ngIf="businessChartData">
+                            <canvas baseChart [options]="barChartXOptions" type="bar" height="550"
+                                [data]="businessChartData">
+                            </canvas>
+                        </ng-container>
+                        <b>{{'Huyện'}}</b>
+                    </div>
+                </div>
+                <div class="col-xl-6 mb-6">
+                    <div class="card p-8" style="height: 700px;">
+                        <div class="d-flex flex-row-fluid justify-content-between">
+                            <h5 class="mb-6" style="display: inline;">
+                                Phòng thương mại
+                            </h5>
+                            <div class="mb-6" style="margin-top: '-12px';">
+                                <app-select-custom [width]="'240px'" data-bs-toggle="modal"
+                                    [data]="categoryData" [options]="options" formControlName="type">
+                                </app-select-custom>
+                            </div>
+                        </div>
+                        <hr class="mb-6" style="border-top: dotted 2px; margin: 0 0 13px 0" />
+                        <b>{{type}}</b>
+                        <ng-container [ngSwitch]="this.formGroup.controls.type.value">
+                            <ng-container *ngSwitchCase="0">
+                                <canvas baseChart [options]="barChartXOptions" type="bar" height="550"
+                                    [data]="MarketData">
+                                </canvas>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="1">
+                                <canvas baseChart [options]="barChartXOptions" type="bar" height="550"
+                                    [data]="PetroleumData">
+                                </canvas>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="2">
+                                <canvas baseChart [options]="barChartXOptions" type="bar" height="550"
+                                    [data]="CigaretteData">
+                                </canvas>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="3">
+                                <canvas baseChart [options]="barChartXOptions" type="bar" height="550"
+                                    [data]="AlcoholData">
+                                </canvas>
+                            </ng-container>
+                        </ng-container>
+                        <b>{{'Huyện'}}</b>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row gy-5 gx-xl-8">
+                <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                    <div class="card p-8 mb-6" style="height: 300px;">
+                        <div class="row">
+                            <h5>
+                                Thủ tục hành chính
+                            </h5>
+                            <hr class="mb-6" style="border-top: dotted 2px;" />
+                            <canvas height="200px" baseChart type="doughnut" [options]="doughnutChartOptions"
+                                [data]="administrativeProceduresData">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                    <div class="card p-8" style="height: 300px;">
+                        <div class="row">
+                            <h5 style="display: inline;">Tình hình bán lẻ rượu</h5>
+                            <hr style="border-top: dotted 2px;" />
+                        </div>
+                        <ng-container *ngIf="alcoholProductData">
+                            <canvas baseChart [options]="barChartYOptions1" type="bar"
+                                height="200px"
+                                [data]="alcoholProductData">
+                            </canvas>
+                        </ng-container>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- <div class="row gy-5 g-xl-8 mb-6" style="height: 600px;">
+                <div class="col-xl-4">
+                    <div class="card p-8 mb-6" style="height: 290px;">
+                        <div class="row" style="height: 100%;">
+                            <h5>
+                                Kinh phí khuyến công
+                            </h5>
+                            <hr class="mb-6" style="border-top: dotted 2px; margin: 0 0 13px" />
+                            <canvas baseChart height="200px" [options]="pieChartOptions" [plugins]="pieChartPlugins"
+                                type="pie" [data]="fundingData">
+                            </canvas>
+                        </div>
+                    </div>
+                    <div class="card p-8" style="height: 290px;">
+                        <div class="row">
+                            <h5>
+                                Kết quả thực hiện đề án xúc tiến thương mại
+                            </h5>
+                            <hr class="mb-6" style="border-top: dotted 2px; margin: 0 0 13px" />
+                            <canvas baseChart height="180px" type="doughnut" [options]="halfDoughnutChartOptions"
+                                [data]="TradePromotionProjectManagementData">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8" style="height: 100%;">
+                    <div class="card p-8" style="height: 600px;">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="d-flex flex-row-fluid justify-content-between">
+                                    <h5 class="mb-6" style="display: inline;">
+                                        Quản lý xuất nhập khẩu
+                                    </h5>
+                                    <div class="mb-6" style="margin-top: '-12px';">
+                                        <app-select-custom [width]="'400px'" data-bs-toggle="modal"
+                                            [data]="businessNameData" [options]="options" formControlName="business">
+                                        </app-select-custom>
+                                    </div>
+                                </div>
+                                <hr class="mb-6" style="border-top: dotted 2px; margin: 0 0 13px" />
+                                <div class="row">
+                                    <div class="col-lg-6" style="text-align: center;">
+                                        <label style="color: #04ADBF; font-weight: bold;">
+                                            Nhập khẩu
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6" style="text-align: center;">
+                                        <label style="color: #F25A38; font-weight: bold;">
+                                            Xuất khẩu
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <canvas height="290" baseChart [options]="barChartYReverseOptions"
+                                            type="bar" [data]="importGoodsData">
+                                        </canvas>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <canvas height="290" baseChart [options]="barChartYOptions" type="bar"
+                                            [data]="exportGoodsData">
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </form>
+        <!-- end::Row -->
+
+        <!--  -->
+
+        <!-- begin:: Modal example -->
+        <!-- <app-modal #modal [modalConfig]="modalConfig">
+        Modal body html
+        </app-modal>
+        <button type="button" class="btn btn-primary" (click)="openModal()">Open modal</button> -->
+        <!-- Note: Don't forget import ModalsModule (from _metronic/partials) into your module -->
+        <!-- end:: Modal example -->
+    </div>
+    <div *ngSwitchCase="false">
+        <div class="app-loading">
+            <div class="logo">
+                <img src="../../../assets/media/logos/logo-sct.png" alt="CA" class="h-100px">
+            </div>
+            <!-- <svg class="spinner" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+            </svg> -->
+            <h1 class="mt-6 text-uppercase form-label text-primary">
+                Sở công thương Bến Tre
+            </h1>
+        </div>
+    </div>
+</div>
+<!-- <ng-container *ngIf="prepare_status" >
+</ng-container>
+
+<ng-container *ngIf="!prepare_status">
+</ng-container> -->

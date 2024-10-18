@@ -1,0 +1,151 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="CateCriNumber7DetailModel">
+        <h2 class="text-primary">THÊM MỚI BÁO CÁO</h2>
+      </ng-container>
+    </div>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="CateCriNumber7DetailModel">
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row mb-6">
+          <h3>Báo cáo thực hiện tiêu chí cơ sở hạ tầng thương mại nông thôn</h3>
+        </div>
+        <div [className]="isDefaultValue('DistrictId') ? 'form-group row' : 'form-group row mb-6'">
+          <div class="col-lg-6">
+            <label class="form-label required fw-semibold fs-6">Tên huyện/ Thị xã</label>
+            <app-select-custom [width]="'100%'" [placeholder]="'Chọn huyện/Thị xã'" [data]="dataDistrict"
+              [options]="options" formControlName="DistrictId">
+            </app-select-custom>
+            <div style="padding-top: 20px;" class="invalid-feedback d-block mb-6" *ngIf="isDefaultValue('DistrictId')">
+              Bắt buộc
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="form-label fw-semibold fs-6">Số xã trong huyện/ Thị xã</label>
+            <input readonly type="text" class="form-control form-control-lg form-control-solid" name="NumberOfWard"
+              placeholder="Số xã trong huyện/ Thị xã" autocomplete="off" formControlName="NumberOfWard" />
+          </div>
+        </div>
+        <div class="form-group row mb-6">
+          <div class="col-lg-6">
+            <label class="form-label fw-semibold fs-6">Số xã đạt chuẩn tiêu chí số 7 (Lũy kế) đến kỳ báo cáo</label>
+            <input (keypress)="prenventInputNonNumber($event)" type="text"
+              class="form-control form-control-lg form-control-solid" name="NumberOfQualifyingWard"
+              placeholder="Số xã đạt chuẩn tiêu chí số 7 (Lũy kế) đến kỳ báo cáo" autocomplete="off"
+              formControlName="NumberOfQualifyingWard" />
+            <div class="invalid-feedback d-block" *ngIf="controlHasError('pattern', 'NumberOfQualifyingWard')">
+              Sai định dạng
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="form-label fw-semibold fs-6">Số xã có chợ trong quy hoạch</label>
+            <input (keypress)="prenventInputNonNumber($event)" type="text"
+              class="form-control form-control-lg form-control-solid" name="NumberOfWardWithMarket"
+              placeholder="Số xã có chợ trong quy hoạch" autocomplete="off" formControlName="NumberOfWardWithMarket" />
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="controlHasError('pattern', 'NumberOfWardWithMarket')">
+            Sai định dạng
+          </div>
+        </div>
+        <hr style="width: 100%; border-top: 1px dashed">
+        <div class="form-group row mb-6">
+          <h3>Báo cáo thực hiện 6 tháng/năm cùng kỳ năm năm trước</h3>
+        </div>
+        <div class="form-group row mb-6">
+          <div class="col-lg-6">
+            <label class="form-label fw-semibold fs-6">Số xã đạt tiêu chí cơ sở hạ tầng thương mại nông thôn</label>
+            <input (keypress)="prenventInputNonNumber($event)" type="text"
+              class="form-control form-control-lg form-control-solid" name="NumberOfWardCommercialInfrastructure"
+              placeholder="Số xã đạt tiêu chí cơ sở hạ tầng thương mại nông thôn" autocomplete="off"
+              formControlName="NumberOfWardCommercialInfrastructure" />
+            <div class="invalid-feedback d-block"
+              *ngIf="controlHasError('pattern', 'NumberOfWardCommercialInfrastructure')">
+              Sai định dạng
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="form-label fw-semibold fs-6">Số xã có chợ đạt chuẩn nông thôn mới</label>
+            <input (keypress)="prenventInputNonNumber($event)" type="text"
+              class="form-control form-control-lg form-control-solid" name="NumberOfWardNewCountryside"
+              placeholder="Số xã có chợ đạt chuẩn nông thôn mới" autocomplete="off"
+              formControlName="NumberOfWardNewCountryside" />
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="controlHasError('pattern', 'NumberOfWardNewCountryside')">
+            Sai định dạng
+          </div>
+        </div>
+        <hr style="width: 100%; border-top: 1px dashed">
+        <div class="form-group row mb-6">
+          <h3>Báo cáo thực hiện trong năm báo cáo</h3>
+        </div>
+        <div class="form-group row">
+          <label class="form-label fw-semibold fs-6">Kế hoạch 6 tháng/năm</label>
+        </div>
+        <div class="form-group row mb-6">
+          <div class="col-lg-6">
+            <label class="form-label fw-semibold fs-6">Số xã đạt tiêu chí cơ sở hạ tầng thương mại nông thôn</label>
+            <input (keypress)="prenventInputNonNumber($event)" type="text"
+              class="form-control form-control-lg form-control-solid" name="NumberOfWardCommercialInfrastructure_Plan"
+              placeholder="Số xã đạt tiêu chí cơ sở hạ tầng thương mại nông thôn" autocomplete="off"
+              formControlName="NumberOfWardCommercialInfrastructure_Plan" />
+            <div class="invalid-feedback d-block"
+              *ngIf="controlHasError('pattern', 'NumberOfWardCommercialInfrastructure_Plan')">
+              Sai định dạng
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="form-label fw-semibold fs-6">Số xã có chợ đạt chuẩn nông thôn mới</label>
+            <input (keypress)="prenventInputNonNumber($event)" type="text"
+              class="form-control form-control-lg form-control-solid" name="NumberOfWardNewCountryside_Plan"
+              placeholder="Số xã có chợ đạt chuẩn nông thôn mới" autocomplete="off"
+              formControlName="NumberOfWardNewCountryside_Plan" />
+            <div class="invalid-feedback d-block" *ngIf="controlHasError('pattern', 'NumberOfWardNewCountryside_Plan')">
+              Sai định dạng
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="form-label fw-semibold fs-6">Ước thực hiện 6 tháng/năm</label>
+        </div>
+        <div class="form-group row mb-6">
+          <div class="col-lg-6">
+            <label class="form-label fw-semibold fs-6">Số xã đạt tiêu chí cơ sở hạ tầng thương mại nông thôn</label>
+            <input (keypress)="prenventInputNonNumber($event)" type="text"
+              class="form-control form-control-lg form-control-solid"
+              name="NumberOfWardCommercialInfrastructure_Estimate"
+              placeholder="Số xã đạt tiêu chí cơ sở hạ tầng thương mại nông thôn" autocomplete="off"
+              formControlName="NumberOfWardCommercialInfrastructure_Estimate" />
+            <div class="invalid-feedback d-block"
+              *ngIf="controlHasError('pattern', 'NumberOfWardCommercialInfrastructure_Estimate')">
+              Sai định dạng
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="form-label fw-semibold fs-6">Số xã có chợ đạt chuẩn nông thôn mới</label>
+            <input (keypress)="prenventInputNonNumber($event)" type="text"
+              class="form-control form-control-lg form-control-solid" name="NumberOfWardNewCountryside_Estimate"
+              placeholder="Số xã có chợ đạt chuẩn nông thôn mới" autocomplete="off"
+              formControlName="NumberOfWardNewCountryside_Estimate" />
+            <div class="invalid-feedback d-block"
+              *ngIf="controlHasError('pattern', 'NumberOfWardNewCountryside_Estimate')">
+              Sai định dạng</div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+    <ng-container *ngIf="CateCriNumber7DetailModel">
+      <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác
+        nhận</button>
+    </ng-container>
+  </div>
+</div>

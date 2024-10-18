@@ -1,0 +1,184 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="marketmanagementData">
+                <ng-container *ngIf="marketmanagementData.id !== '' && !type">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="marketmanagementData.id !== '' && type">CHI TIẾT</ng-container>
+                <ng-container *ngIf="marketmanagementData.id === '' ">THÊM MỚI</ng-container>
+                BẢNG KÊ GIÁ THU QUẢN LÝ
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="marketmanagementData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="card">
+                        <div class="card-header" ngbAutofocus style="padding-left: 1.5rem; padding-top: 1.5rem;">
+                            <h4 class="text-primary">Bảng kê giá thu phí quản lý</h4>
+                        </div>
+                    </div>
+                    <div class="card-body border-0 mt-6" style="margin-left: 28px;">
+                        <div class="form-group row">
+                            <div [className]="isdefaultvalue('DistrictId') || isdefaultvalue('CommuneId') ? 'form-group row' : 'form-group row mb-6'">
+                                <div class="col-lg-6 mb-6 " *ngIf="type">
+                                    <label class="form-label fw-semibold fs-6" [class.required]="!type">Huyện</label>
+                                    <app-select-custom [width]="'100%'" [data]="districtData" [options]="options" formControlName="DistrictId" (valueChanged)="changedistrict($event)" [disabled]="true">
+                                    </app-select-custom>
+                                    <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isdefaultvalue('DistrictId')">Hãy chọn huyện</div>
+                                </div>
+                                <div class="col-lg-6 mb-6 " *ngIf="!type">
+                                    <label class="form-label fw-semibold fs-6" [class.required]="!type">Huyện</label>
+                                    <app-select-custom [width]="'100%'" [data]="districtData" [options]="options" formControlName="DistrictId" (valueChanged)="changedistrict($event)">
+                                    </app-select-custom>
+                                    <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isdefaultvalue('DistrictId')">Hãy chọn huyện</div>
+                                </div>
+
+                                <div class="col-lg-6 mb-6" *ngIf="!type">
+                                    <label class="form-label fw-semibold fs-6" [class.required]="!type">Xã</label>
+                                    <app-select-custom [width]="'100%'" [data]="communeDataFilter" [options]="options" formControlName="CommuneId" (valueChanged)="changecommune($event)">
+                                    </app-select-custom>
+                                    <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isdefaultvalue('CommuneId')">Hãy chọn xã</div>
+                                </div>
+
+                                <div class="col-lg-6 mb-6" *ngIf="type">
+                                    <label class="form-label fw-semibold fs-6" [class.required]="!type">Xã</label>
+                                    <app-select-custom [width]="'100%'" [data]="communeDataFilter" [options]="options" formControlName="CommuneId" (valueChanged)="changecommune($event)" [disabled]="true">
+                                    </app-select-custom>
+                                    <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isdefaultvalue('CommuneId')">Hãy chọn xã</div>
+                                </div>
+                            </div>
+
+                            <div class='form-group row'>
+                                <div class="col-lg-6 mb-6" *ngIf="!type">
+                                    <label class="form-label fw-semibold fs-6" [class.required]="!type">Tên chợ</label>
+                                    <app-select-custom [width]="'100%'" [data]="marketDataFilter" [options]="options" formControlName="MarketId">
+                                    </app-select-custom>
+                                    <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isdefaultvalue('MarketId')">Hãy chọn chợ</div>
+                                </div>
+                                <div class="col-lg-6 mb-6" *ngIf="type">
+                                    <label class="form-label fw-semibold fs-6" [class.required]="!type">Tên chợ</label>
+                                    <app-select-custom [disabled]="true" [width]="'100%'" [data]="marketDataFilter" [options]="options" formControlName="MarketId">
+                                    </app-select-custom>
+                                    <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isdefaultvalue('MarketId')">Hãy chọn chợ</div>
+                                </div>
+                                <div class="col-lg-6 mb-6">
+                                    <label class="form-label fw-semibold fs-6" [class.required]="!type">Số sạp</label>
+                                    <input *ngIf="type" readonly="true" type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" formControlName="BoothNumber" />
+                                    <input placeholder="Hãy nhập số sạp" *ngIf="!type" type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" formControlName="BoothNumber" />
+                                    <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'BoothNumber')">Bắt buộc</div>
+                                </div>
+                            </div>
+                            <!-- 
+                            <div [className]="isdefaultvalue('NganhHangKinhDoanh') ? 'form-group row' : 'form-group row mb-6'">
+                                <div class="col-lg-12 mb-6">
+                                    <label class="form-label fw-semibold fs-6" [class.required]="!type">Ngành hàng kinh doanh</label>
+                                    <app-select-custom [width]="'100%'" [data]="businessLineData" [options]="options" formControlName="NganhHangKinhDoanh">
+                                    </app-select-custom>
+                                    <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isdefaultvalue('NganhHangKinhDoanh')">Hãy chọn nghành hàng kinh doanh</div>
+                            
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="form-group row mb-6">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6" [class.required]="!type">Số sạp</label>
+                                    <input type="text" class="form-control form-control-lg form-control-solid"
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        formControlName="BoothNumber"/>
+                                    <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'BoothNumber')">Bắt buộc</div>
+                                </div>
+                            </div> -->
+
+                            <div class="form-group row mb-6">
+                                <div class="col-lg-6">
+                                    <label class="form-label">Giá thu phí trong nhà lồng</label>
+                                    <input *ngIf="type" readonly="true" type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" formControlName="GiaTrongNhaLong" />
+                                    <input placeholder="Hãy nhập giá thu phí trong nhà lồng" *ngIf="!type" type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" formControlName="GiaTrongNhaLong" />
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label class="form-label">Giá thu phí ngoài nhà lồng</label>
+                                    <input placeholder="Hãy nhập giá thu phí ngoài nhà lồng" *ngIf="!type" type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" formControlName="GiaNgoaiNhaLong" />
+                                    <input *ngIf="type" readonly="true" type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" formControlName="GiaNgoaiNhaLong" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-6">
+                                <div class="col-lg-6">
+                                    <label class="form-label">Đề xuất giá mới</label>
+                                    <input placeholder="Hãy nhập đề xuất giá mới" *ngIf="!type" type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" formControlName="DeXuatGiaMoi" />
+                                    <input *ngIf="type" readonly="true" type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" formControlName="DeXuatGiaMoi" />
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label">Ghi chú</label>
+                                    <input *ngIf="type" readonly="true" type="text" class="form-control form-control-lg form-control-solid" formControlName="Note" />
+                                    <input placeholder="Ghi chú" *ngIf="!type" type="text" class="form-control form-control-lg form-control-solid" formControlName="Note" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center" ngbAutofocus style="padding-left: 1.5rem; padding-top: 1.5rem; margin-bottom: 8px;">
+                            <div class="d-flex flex-row-fluid">
+                                <h4 class="text-primary">Mặt hàng kinh doanh
+                                </h4>
+                                <mat-icon class="icons" data-toggle="tooltip" data-placement="left" title="Mặt hàng khai báo từ Danh mục mặt hàng">info</mat-icon>
+                            </div>
+
+                            <button *ngIf="!type" type="button" class="btn btn-primary btn-elevate" ngbAutofocus (click)="addBusinessLine()">Thêm mới mặt hàng</button>
+                        </div>
+                        <!-- <input  type="text" formControlName="Search" data-kt-participate-support-fair-table-filter="Search" class="form-control form-control-solid w-250px ps-15" placeholder="Tìm kiếm..." /> -->
+                    </div>
+                    <div class="card-body">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable " id="kt_participate-support-fair_table">
+                            <thead>
+                                <tr class="text-center text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="min-w-75px text-center" style="vertical-align: middle;">STT</th>
+                                    <th class="min-w-175px" style="vertical-align: middle;">Tên mặt hàng</th>
+                                    <th class="min-w-175px" style="vertical-align: middle;">Giá thị trường</th>
+                                    <th *ngIf="!type" class="min-w-70px" style="vertical-align: middle;">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody class="fw-semibold text-gray-600">
+                                <tr class="text-center" *ngFor="let item of businessLineDetail; let i = index">
+                                    <td class="text-center">
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        {{item.businessLineName}}
+                                    </td>
+
+                                    <td>
+                                        {{f_currency(item.price) === "NaN" ? "" : f_currency(item.price)}} đ
+                                    </td>
+
+                                    <td *ngIf="!type">
+                                        <button type="button" mat-icon-button color="warn" (click)="delete_detail(item)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="marketmanagementData">
+            <button *ngIf="!type" type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

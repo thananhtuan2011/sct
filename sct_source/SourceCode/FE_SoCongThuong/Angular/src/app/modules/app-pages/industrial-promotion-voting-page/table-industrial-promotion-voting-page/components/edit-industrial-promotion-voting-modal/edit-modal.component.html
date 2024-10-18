@@ -1,0 +1,105 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="resultsIndustrialPromotionVotingData">
+                <ng-container *ngIf="resultsIndustrialPromotionVotingData.id !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="resultsIndustrialPromotionVotingData.id === ''">THÊM MỚI</ng-container>
+                BÁO CÁO KẾT QUẢ BÌNH CHỌN SẢN PHẨM CÔNG NGHIỆP NÔNG THÔN TIÊU BIỂU
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="resultsIndustrialPromotionVotingData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <label class="form-label required fw-semibold fs-6 mb-6" color="primary">SPCNNTTB thực hiện Năm</label>
+                    <mat-radio-group formControlName="Locallity" [color]="'primary'">
+                        <mat-radio-button [value]="true" style="margin-left: 10px;">Cấp Trung ương</mat-radio-button>
+                        <mat-radio-button [value]="false" style="margin-left: 20px;">Cấp Tỉnh</mat-radio-button>
+                    </mat-radio-group>
+                    <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Locallity')">Bắt buộc
+                    </div>
+                    <!-- <div class="invalid-feedback d-block"
+              *ngIf="isDefaultValue('Locallity')">Bắt buộc</div> -->
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <div [className]="isDefaultValue('Targets') ? 'form-group row' : 'form-group row mb-6'">
+                            <div class="col-lg-12 mb-6">
+                                <label name="Targets" class="form-label required fw-semibold fs-6">Nhóm sản phẩm đăng ký tham gia bình chọn</label>
+                                <app-select-custom [width]="'100%'" [placeholder]="'-- Chọn một nhóm --'" [data]="selectData" [options]="options" formControlName="Targets"></app-select-custom>
+                                <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('Targets')">Bắt buộc</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Số lượng sản phẩm đăng ký</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="NumbersRegister" autocomplete="off" [class.is-invalid]="isControlInvalid('NumbersRegister')" [class.is-valid]="isControlValid('NumbersRegister')" (keypress)="prenventInputNonNumber($event)"
+                            formControlName="NumbersRegister" placeholder="Hãy nhập số lượng sản phẩm đăng ký"/>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'NumbersRegister')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Tổng số sản phẩm được cấp giấy chứng nhận</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" [class.is-invalid]="isControlInvalid('NumberCertified')" [class.is-valid]="isControlValid('NumberCertified')" (keypress)="prenventInputNonNumber($event)" formControlName="NumberCertified"
+                        placeholder="Hãy nhập tổng số sản phẩm"/>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'NumberCertified')">Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="form-group row mb-6">
+          <div class="col-lg-12">
+            <label class="form-label required fw-semibold fs-6">Năm báo cáo khuyến công Quốc gia</label>
+            <input type="text" class="form-control form-control-lg form-control-solid" name="YearNationalReport"
+              placeholder="Hãy nhập năm báo cáo khuyến công Quốc gia" autocomplete="off"
+              [class.is-invalid]="isControlInvalid('YearNationalReport')"
+              [class.is-valid]="isControlValid('YearNationalReport')"
+              (keypress)="prenventInputNonNumber($event)"
+              formControlName="YearNationalReport" />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'YearNationalReport')">Bắt buộc</div>
+            <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'YearNationalReport')">Chỉ được phép nhập năm là số
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-6">
+          <div class="col-lg-12">
+            <label class="form-label required fw-semibold fs-6">Năm báo cáo khuyến công Địa phương</label>
+            <input type="text" class="form-control form-control-lg form-control-solid" name="YearLocalReport"
+              placeholder="Hãy nhập năm báo cáo khuyến công Địa phương" autocomplete="off"
+              [class.is-invalid]="isControlInvalid('YearLocalReport')"
+              [class.is-valid]="isControlValid('YearLocalReport')"
+              (keypress)="prenventInputNonNumber($event)"
+              formControlName="YearLocalReport" />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'YearLocalReport')">Bắt buộc</div>
+            <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'YearLocalReport')">Chỉ được phép nhập năm là số
+            </div>
+          </div>
+        </div> -->
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Đơn vị tính</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Unit" placeholder="Hãy nhập đơn vị tính"/>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'CommuneCode')">Mã xã ít nhất 3 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'CommuneCode')">Mã xã tối đa 100 ký tự</div> -->
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'CommuneCode')">Mã xã không được có dấu và
+              khoảng trắng</div> -->
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="resultsIndustrialPromotionVotingData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác
+        nhận</button>
+        </ng-container>
+    </div>
+</div>

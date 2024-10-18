@@ -1,0 +1,196 @@
+<ng-container *ngIf="isLoading$ | async">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="commercialmanagementData">
+    <form action="#" class="form form-label-right" [formGroup]="formGroup">
+
+        <!-- <div class="form-group row mb-6">
+            <div class="col-lg-12 mb-6">
+                <label class="form-label required fw-semibold fs-6">Loại chợ</label>
+                <app-select-custom [width]="'100%'" [data]="typeofmarketData" [options]="options"
+                    formControlName="TypeOfMarketId" (valueChanged)="gettypeofmarket($event)">
+                </app-select-custom>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="isDefaultValue('TypeOfMarketId')">Hãy chọn loại chợ</div>
+        </div> -->
+
+        <div class="form-group row mb-6">
+            <div class="col-lg-12 mb-6">
+                <label class="form-label required fw-semibold fs-6">Địa bàn (Huyện)</label>
+                <app-select-custom [width]="'100%'" [data]="districtData" [options]="options" formControlName="DistrictId" (valueChanged)="loadCommuneByDistrict($event)">
+                </app-select-custom>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="isDefaultValue('DistrictId')">Bắt buộc</div>
+        </div>
+
+        <div class="form-group row mb-6">
+            <div class="col-lg-12 mb-6">
+                <label class="form-label required fw-semibold fs-6">Xã / Thị trấn</label>
+                <app-select-custom [width]="'100%'" [data]="communeDataFilter" [options]="options" formControlName="CommuneId">
+                </app-select-custom>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="isDefaultValue('CommuneId')">Bắt buộc</div>
+        </div>
+
+        <div class="form-group row mb-6">
+            <div class="col-lg-12">
+                <label class="form-label required fw-semibold fs-6">Địa chỉ</label>
+                <input placeholder="Hãy nhập địa chỉ" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Address" [class.is-invalid]="isControlInvalid('Address')" [class.is-valid]="isControlValid('Address')" />
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Address')">Bắt buộc</div>
+        </div>
+
+        <div class="form-group row mb-6">
+            <div class="col-lg-12 mb-6">
+                <label class="form-label required fw-semibold fs-6">Loại chợ</label>
+                <app-select-custom [width]="'100%'" [data]="typeOfMarketData" [options]="options" formControlName="TypeOfMarket" (valueChanged)="getTypeOfMarket($event)">
+                </app-select-custom>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="isDefaultValue('TypeOfMarket')">Bắt buộc</div>
+        </div>
+        <div [ngSwitch]="typeOfMarketId">
+            <!-- <div *ngSwitchCase="1">giá trị 1</div>
+            <div *ngSwitchCase="2">giá trị 2</div> -->
+
+            <div *ngSwitchCase="1">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Phân theo địa bàn</label>
+                        <app-select-custom [width]="'100%'" [data]="areaData" [options]="options" formControlName="Area">
+                        </app-select-custom>
+                    </div>
+                    <div class="invalid-feedback d-block" *ngIf="isDefaultValue('Area')">Bắt buộc</div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Hạng</label>
+                        <app-select-custom [width]="'100%'" [data]="rankData" [options]="options" formControlName="RankId">
+                        </app-select-custom>
+                    </div>
+                    <div class="invalid-feedback d-block" *ngIf="isDefaultValue('RankId')">Bắt buộc</div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">
+                    Tính chất xây dựng
+                </label>
+                        <app-select-custom [width]="'100%'" [data]="constructivenatureData" [options]="options" formControlName="ConstructiveNatureId">
+                        </app-select-custom>
+                    </div>
+                    <div class="invalid-feedback d-block" *ngIf="isDefaultValue('ConstructiveNatureId')">Bắt buộc</div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">
+                    Tính chất kinh doanh
+                </label>
+                        <app-select-custom [width]="'100%'" [data]="businessnatureData" [options]="options" formControlName="BusinessNatureId">
+                        </app-select-custom>
+                    </div>
+                    <div class="invalid-feedback d-block" *ngIf="isDefaultValue('BusinessNatureId')">Bắt buộc</div>
+                </div>
+
+                <!-- <div *ngIf="typeofmarket !== 'Chợ ngoài quy hoạch'" class="form-group row mb-6">
+            <div class="col-lg-2">
+                <label class="form-label required fw-semibold fs-6">
+                    Loại chợ <br> đầu mối
+                </label>
+            </div>
+            <div class="col-lg-10 mb-6">
+                <app-select-custom [width]="'100%'" [data]="typewholesalemarketData" [options]="options"
+                    formControlName="TypeWholesaleMarketId">
+                </app-select-custom>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="isDefaultValue('TypeWholesaleMarketId')">Hãy chọn loại chợ đầu mối</div>
+        </div> -->
+
+                <div [className]="isDefaultValue('ManagementFormId') || isDefaultValue('ManagementObjectId') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-6 mb-6">
+                        <label class="form-label required fw-semibold fs-6">
+                    Hình thức quản lý
+                </label>
+                        <app-select-custom [width]="'100%'" [data]="managementformData" [options]="options" formControlName="ManagementFormId">
+                        </app-select-custom>
+                        <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isDefaultValue('ManagementFormId')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-6 mb-6">
+                        <label class="form-label required fw-semibold fs-6">
+                    Đối tượng quản lý
+                </label>
+                        <app-select-custom [width]="'100%'" [data]="managementobjectDataFilter" [options]="options" formControlName="ManagementObjectId">
+                        </app-select-custom>
+                        <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isDefaultValue('ManagementObjectId')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label fw-semibold fs-6">Hình thức chợ</label>
+                        <app-select-custom [width]="'100%'" [data]="formMarketData" [options]="options" formControlName="FormMarket">
+                        </app-select-custom>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label  fw-semibold fs-6">Chợ giải tỏa, dời đi</label>
+                        <app-select-custom [width]="'100%'" [data]="marketClearedData" [options]="options" formControlName="MarketCleared">
+                        </app-select-custom>
+                    </div>
+                </div>
+            </div>
+            <div *ngSwitchCase="2">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label fw-semibold fs-6">Hình thức</label>
+                        <app-select-custom [width]="'100%'" [data]="formDataMarket" [options]="options" formControlName="Form">
+                        </app-select-custom>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row mb-6">
+            <div class="col-lg-6">
+                <label class="form-label required fw-semibold fs-6">Điện thoại</label>
+                <input placeholder="Hãy nhập số điện thoại" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="PhoneNumber" (keypress)="prenventInputNonNumber($event)" [class.is-invalid]="isControlInvalid('PhoneNumber')"
+                    [class.is-valid]="isControlValid('PhoneNumber')" />
+                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'PhoneNumber')">Bắt buộc</div>
+            </div>
+
+            <div class="col-lg-6">
+                <label class="form-label">Email</label>
+                <input placeholder="Hãy nhập email" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Email" />
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="controlHasError('email', 'Email')">Hãy nhập đúng định dạng email</div>
+        </div>
+
+        <div class="form-group row mb-6">
+            <div class="col-lg-12">
+                <label class="form-label">Fax</label>
+                <input placeholder="Hãy nhập fax" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Fax" />
+            </div>
+        </div>
+
+        <div class="form-group row mb-6">
+            <div class="col-lg-12">
+                <label class="form-label">Ghi chú</label>
+                <textarea placeholder="Ghi chú" rows="4" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Note"></textarea>
+            </div>
+        </div>
+    </form>
+</ng-container>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+    <ng-container *ngIf="commercialmanagementData">
+        <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+    </ng-container>
+</div>

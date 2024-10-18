@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+<div class="form-group">
+    <div class="input-group input-group-solid">
+        <input 
+            type="text" 
+            class="form-control form-control-lg form-control-solid" 
+            [name]="ComponentId"
+            [id]="ComponentId" 
+            [disabled]="onDisable" 
+            [placeholder]="Placeholder"/>
+        <div class="input-group-append" (click)="open()">
+            <span class="input-group-text">
+                <i class="text-dark-50 bi bi-calendar-check fs-2x"></i>
+            </span>
+        </div>
+    </div>
+</div>

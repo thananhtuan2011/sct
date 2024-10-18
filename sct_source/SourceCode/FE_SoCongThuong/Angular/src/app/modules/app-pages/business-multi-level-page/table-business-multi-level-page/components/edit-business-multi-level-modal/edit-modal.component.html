@@ -1,0 +1,154 @@
+<div class="modal-content bg-light">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="multiLevelSalesManagementData">
+                <ng-container *ngIf="multiLevelSalesManagementData.id !== '' && !type">CHỈNH SỬA
+                </ng-container>
+                <ng-container *ngIf="multiLevelSalesManagementData.id === '' && !type">THÊM MỚI
+                </ng-container>
+                THÔNG TIN CƠ SỞ BÁN HÀNG ĐA CẤP
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="multiLevelSalesManagementData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-6">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">Tên
+                                    doanh nghiệp</label>
+                                <app-select-custom [width]="'100%'" [data]="BusinessData" [options]="options" formControlName="BusinessId">
+                                </app-select-custom>
+                                <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('BusinessId')">Bắt buộc
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label class="form-label">Người liên hệ</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Contact" placeholder="Hãy nhập người liên hệ" />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-6">
+                                <label class="form-label">Mã doanh nghiệp</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Hãy nhập mã doanh nghiệp" formControlName="BusinessCode" readonly/>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" autocomplete="off" placeholder="Hãy nhập số điện thoại" formControlName="PhoneNumber" />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-2">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">Huyện</label>
+                                <app-select-custom [width]="'100%'" [data]="districtData" [options]="options" formControlName="DistrictId">
+                                </app-select-custom>
+                                <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('DistrictId')">Bắt buộc
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <label class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Address" placeholder="Hãy nhập địa chỉ" />
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label class="form-label">Địa chỉ người liên hệ</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="AddressContact" placeholder="Hãy nhập địa chỉ người liên hệ" />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-3">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                                    Ngày bắt đầu
+                                </label>
+
+                                <app-date-picker-custom formControlName="StartDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'StartDate')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">Tình trạng</label>
+                                <app-select-custom [width]="'100%'" [data]="statusData" [options]="options" formControlName="Status">
+                                </app-select-custom>
+                                <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('Status')">Bắt buộc
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label class="form-label">
+                                    Hàng hóa bán hàng đa cấp
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Hãy nhập hàng hóa bán hàng đa cấp" autocomplete="off" formControlName="Goods" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-6">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                                    Số giấy chứng nhận Bán hàng đa cấp
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Hãy nhập số giấy chứng nhận bán hàng đa cấp" autocomplete="off" formControlName="NumCert" />
+                                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'NumCert')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label class="form-label">Xác nhận bán hàng đa cấp tại địa phương</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Hãy nhập xác nhận bán hàng đa cấp tại địa phương" autocomplete="off" formControlName="LocalConfirm" />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-6">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                                    Ngày cấp
+                                </label>
+
+                                <app-date-picker-custom formControlName="CertDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'CertDate')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                                    Ngày hết hạn
+                                </label>
+
+                                <app-date-picker-custom formControlName="CertExp" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'CertExp')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label">Ghi chú</label>
+                                <textarea row="2" type="text" class="form-control form-control-lg form-control-solid" placeholder="Ghi chú" autocomplete="off" formControlName="Note"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="!type" type="button" class="btn btn-light bg-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <button *ngIf="type" type="button" class="btn btn-light bg-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="multiLevelSalesManagementData && !type">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">
+                Xác nhận
+            </button>
+        </ng-container>
+    </div>
+</div>

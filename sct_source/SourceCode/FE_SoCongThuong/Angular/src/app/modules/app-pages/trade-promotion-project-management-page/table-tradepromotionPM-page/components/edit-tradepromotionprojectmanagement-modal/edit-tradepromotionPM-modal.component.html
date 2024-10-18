@@ -1,0 +1,257 @@
+<div class="modal-content bg-light">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="tradepromotionprojectManagementData">
+                <ng-container *ngIf="id && !type">
+                    CHỈNH SỬA
+                </ng-container>
+                <ng-container *ngIf="!id && !type">
+                    THÊM MỚI
+                </ng-container>
+                ĐỀ ÁN XÚC TIẾN THƯƠNG MẠI
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="tradepromotionprojectManagementData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="card mb-6">
+                    <div class="card-header pt-8">
+                        <h3 class="text-primary">Thông tin đề án</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row mb-8">
+                            <div class="col-lg-12">
+                                <label class="form-label fw-semibold fs-6" [class.required]="!type">
+                                    Tên đề án xúc tiến thương mại
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="TradePromotionProjectManagementName"
+                                    placeholder="Hãy nhập tên đề án xúc tiến thương mại" autocomplete="off"
+                                    [class.is-valid]="isControlValid('TradePromotionProjectManagementName')"
+                                    [class.is-invalid]="isControlInvalid('TradePromotionProjectManagementName')"
+                                    formControlName="TradePromotionProjectManagementName" />
+                                <div class="invalid-feedback"
+                                    *ngIf="controlHasError('required', 'TradePromotionProjectManagementName')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-8">
+                            <div class="col-lg-12">
+                                <label class="form-label fw-semibold fs-6" [class.required]="!type">
+                                    Đơn vị thực hiện
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    placeholder="Hãy nhập tên đơn vị thực hiện" autocomplete="off"
+                                    formControlName="ImplementingAgencies"
+                                    [class.is-valid]="isControlValid('ImplementingAgencies')"
+                                    [class.is-invalid]="isControlInvalid('ImplementingAgencies')" />
+                                <div class="invalid-feedback"
+                                    *ngIf="controlHasError('required', 'ImplementingAgencies')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-8">
+                            <div class="col-lg-8">
+                                <label class="form-label fw-semibold fs-6">
+                                    Kinh phí
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    (keypress)="prenventInputNonNumber($event)"
+                                    placeholder="Hãy nhập tên đề án xúc tiến thương mại" autocomplete="off"
+                                    formControlName="Cost" />
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="form-label fw-semibold fs-6">
+                                    Đơn vị tiền tệ
+                                </label>
+                                <app-select-custom [width]="'100%'" [data]="currencyUnitData" [options]="options"
+                                    formControlName="CurrencyUnit">
+                                </app-select-custom>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-8">
+                            <div class="col-lg-6">
+                                <label class="form-label fw-semibold fs-6" [class.required]="!type">
+                                    Thời gian (dự kiến tổ chức)
+                                </label>
+                                <app-date-time-picker formControlName="TimeStart"
+                                    [MaxDate]="MaxDate"></app-date-time-picker>
+                                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'TimeStart')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">
+                                    Thời gian (dự kiến kết thúc)
+                                </label>
+                                <app-date-time-picker formControlName="TimeEnd"
+                                    [MinDate]="MinDate"></app-date-time-picker>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-8">
+                            <div class="col-lg-12">
+                                <label class="form-label fw-semibold fs-6" [class.required]="!type">
+                                    Số văn bản phê duyệt
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="NumberOfApprovalDocuments" autocomplete="off"
+                                    (keypress)="prenventInputNonNumber($event)"
+                                    [class.is-invalid]="isControlInvalid('NumberOfApprovalDocuments')"
+                                    [class.is-valid]="isControlValid('NumberOfApprovalDocuments')"
+                                    formControlName="NumberOfApprovalDocuments" />
+                                <div class="invalid-feedback"
+                                    *ngIf="controlHasError('required', 'NumberOfApprovalDocuments')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label fw-semibold fs-6">
+                                    Đính kèm văn bản phê duyệt
+                                </label>
+                                <div class="container" appDnd (fileDropped)="onFileDropped($event)"
+                                    style="display: inline;" *ngIf="!type">
+                                    <input type="file" #fileDropRef id="fileDropRef" multiple
+                                        accept="application/pdf, .xlsx, .xls, .doc, .docx"
+                                        (change)="fileBrowseHandler($event)" />
+                                    <label style="display: inline;" for="fileDropRef">
+                                        Chọn file
+                                    </label>
+                                </div>
+                                <div class="files-list">
+                                    <div class="single-file" *ngFor="let file of file_documents; let i = index">
+                                        <div class="file-icon">
+                                            <img class="icon"
+                                                src="../../../../../../../assets/media/svg/icons/pdf-svgrepo-com.svg">
+                                        </div>
+                                        <div class="info">
+                                            <h4 class="name" *ngIf="file?.name">
+                                                {{ file?.name }}
+                                            </h4>
+                                            <a class="name" *ngIf="file?.linkFile" href="{{file.linkFile}}">
+                                                {{file?.linkFile.split('/')[file?.linkFile.split('/').length-1]}}
+                                            </a>
+                                            <p class="size" *ngIf="file?.size">
+                                                {{ formatBytes(file?.size, 0) }}
+                                            </p>
+                                            <p class="size" *ngIf="!file?.size">
+                                                {{ "File đã Upload" }}
+                                            </p>
+                                        </div>
+                                        <div class="delete" (click)="deleteFile(i) " *ngIf="!type">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18"
+                                                viewBox="0 0 14 18">
+                                                <path fill="#B1B1B1" fill-rule="nonzero"
+                                                    d="M1 16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v10zm3.17-7.83a.996.996 0 0 1 1.41 0L7 9.59l1.42-1.42a.996.996 0 1 1 1.41 1.41L8.41 11l1.42 1.42a.996.996 0 1 1-1.41 1.41L7 12.41l-1.42 1.42a.996.996 0 1 1-1.41-1.41L5.59 11 4.17 9.58a.996.996 0 0 1 0-1.41zM10.5 1L9.79.29C9.61.11 9.35 0 9.09 0H4.91c-.26 0-.52.11-.7.29L3.5 1H1c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1h-2.5z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-6">
+                    <div class="card-header pt-8">
+                        <h3 class="text-primary">Kết quả thực hiện</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <app-select-custom [width]="'100%'" [data]="implementResults" [options]="options"
+                                    formControlName="ImplementationResults">
+                                </app-select-custom>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12 mt-10">
+                                <label class="form-label">Lí do</label>
+                                <textarea type="text" rows="4" class="form-control form-control-lg form-control-solid"
+                                    formControlName="Reason">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-6">
+                    <div class="card-header">
+                        <h3 class="text-primary pt-8">Doanh nghiệp tham gia</h3>
+                        <div class="d-flex justify-content-end pt-3 pb-3"
+                            data-kt-participate-support-fair-table-toolbar="base" *ngIf="!type">
+                            <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal"
+                                data-bs-target="#kt_modal_add_participate-support-fair"
+                                (click)="add_enterprise_in_province(1)">
+                                <!--(click)="add_enterprise_in_province(1) (click)="add_enterprise_outside_province(1)""-->
+                                Chọn doanh nghiệp</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#kt_modal_add_participate-support-fair"
+                                (click)="add_enterprise_outside_province(1)">
+                                Thêm mới doanh nghiệp</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable "
+                            id="kt_participate-support-fair_table">
+                            <thead>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="min-w-75px text-center" style="vertical-align: middle;">STT</th>
+                                    <th class="min-w-175px" style="vertical-align: middle;">Mã số doanh
+                                        nghiệp</th>
+                                    <th class="min-w-175px" style="vertical-align: middle;">Tên doanh
+                                        nghiệp</th>
+                                    <th class="min-w-175px" style="vertical-align: middle;">Ngành nghề
+                                        kinh doanh</th>
+                                    <th class="text-end min-w-70px" style="vertical-align: middle;" *ngIf="!type">
+                                        Hành động
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="fw-semibold text-gray-600">
+                                <tr *ngFor="let item of businessData; let i = index;">
+                                    <td class="text-center">
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        {{item.businessCode}}
+                                    </td>
+
+                                    <td>
+                                        {{item.businessNameVi}}
+                                    </td>
+
+                                    <td>
+                                        {{item.nganhNghe}}
+                                    </td>
+
+                                    <td class="text-center" *ngIf="!type">
+                                        <button type="button" class="icons" mat-icon-button
+                                            (click)="delete_detail(item)">
+                                            <mat-icon color="warn">delete</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="tradepromotionprojectManagementData && !type">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

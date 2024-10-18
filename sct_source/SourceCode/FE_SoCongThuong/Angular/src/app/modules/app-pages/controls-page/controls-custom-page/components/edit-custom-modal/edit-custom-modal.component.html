@@ -1,0 +1,51 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="customData">
+                <ng-container *ngIf="customData.id">Chỉnh sửa</ng-container>
+                <ng-container *ngIf="!customData.id">Thêm mới</ng-container>
+                test
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="customData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label class="form-label">Nhập tên</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="Name" placeholder="Name" autocomplete="off" [class.is-invalid]="isControlInvalid('Name')" [class.is-valid]="isControlValid('Name')" formControlName="Name" />
+                        <!-- <div class="valid-feedback" *ngIf="isControlValid('Name')"> name was entered correct</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Name')">Bắt buộc</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'Name')">Tên ít nhất 3 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'Name')">Tên tối đa 100 ký tự</div>
+                    </div>
+                </div>
+                <div class="form-group row mt-1">
+                    <div class="col-lg-2">
+                        <label class="form-label">Giới tính</label>
+                    </div>
+                    <div class="col-lg-10">
+                        <mat-radio-group formControlName="Gender">
+                            <mat-radio-button *ngFor="let item of genders" 
+                          [value]="item.value">{{ item.name }}</mat-radio-button>
+                          </mat-radio-group>
+                    </div>
+                </div>
+                
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="customData">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="formGroup.invalid">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

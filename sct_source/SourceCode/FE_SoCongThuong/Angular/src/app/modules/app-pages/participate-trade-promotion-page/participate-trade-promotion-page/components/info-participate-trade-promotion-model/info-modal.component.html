@@ -1,0 +1,407 @@
+<!--begin::Main-->
+<div class="app-main flex-column flex-row-fluid bg-light" id="kt_app_main">
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        <!--begin::Toolbar-->
+        <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+            <!--begin::Toolbar container-->
+            <div id="kt_app_toolbar_container"
+                class="app-container container-xxl d-flex flex-stack">
+                <!--begin::Page title-->
+                <div
+                    class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                    <ng-container>
+                        <!--begin::Title-->
+                        <h4
+                            class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 text-primary">
+                            CHI TIẾT DOANH NGHIỆP
+                        </h4>
+                        <!--end::Title-->
+                        <!--begin::Breadcrumb-->
+                        <!-- <app-breadcrumb></app-breadcrumb> -->
+                        <!--end::Breadcrumb-->
+                    </ng-container>
+                </div>
+                <!--end::Page title-->
+            </div>
+            <!--end::Toolbar container-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div *ngIf="infoData" id="kt_app_content_container"
+                class="app-container container-xxl">
+                <!--begin::Card-->
+                <div class="row mb-6">
+                    <div class="col-lg-8">
+                        <!-- THÔNG TIN LIÊN LẠC -->
+                        <div class="card">
+                            <div class="card-header border-0 pt-8">
+                                <h5 class="text-primary">THÔNG TIN DOANH NGHIỆP</h5>
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-12">
+                                    <div class="card-body pt-6">
+                                        <!-- 1 -->
+                                        <div class="row mb-6">
+                                            <div class="d-flex flex-stack">
+                                                <div
+                                                    class="text-gray-900 fw-semibold fs-6 me-2">
+                                                    Tên đơn vị
+                                                </div>
+                                                <div
+                                                    class="text-gray-900 fw-bolder fs-6">
+                                                    {{infoData.businessNameVi}}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="separator separator-dashed my-3"></div>
+                                        </div>
+                                        <!-- 2 -->
+                                        <div class="row mb-6">
+                                            <div class="d-flex flex-stack">
+                                                <div
+                                                    class="text-gray-900 fw-semibold fs-6 me-2">
+                                                    Mã số thuế
+                                                </div>
+                                                <div
+                                                    class="text-gray-900 fw-bolder fs-6">
+                                                    {{infoData.maSoThue}}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="separator separator-dashed my-3"></div>
+                                        </div>
+                                        <!-- 3 -->
+                                        <div class="row mb-6">
+                                            <div class="d-flex flex-stack">
+                                                <div
+                                                    class="text-gray-900 fw-semibold fs-6 me-2">
+                                                    Địa chỉ
+                                                </div>
+                                                <div
+                                                    class="text-gray-900 fw-bolder fs-6">
+                                                    {{infoData.diaChiTruSo}}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="separator separator-dashed my-3"></div>
+                                        </div>
+                                        <!-- 4 -->
+                                        <div class="row mb-6">
+                                            <div class="d-flex flex-stack">
+                                                <div
+                                                    class="text-gray-900 fw-semibold fs-6 me-2">
+                                                    Ngày cấp giấy phép
+                                                </div>
+                                                <div
+                                                    class="text-gray-900 fw-bolder fs-6">
+                                                    {{infoData.ngayCapPhep}}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="separator separator-dashed my-3"></div>
+                                        </div>
+                                        <!-- 5 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <!-- THÔNG TIN DOANH NGHIỆP -->
+                        <div class="card" style="height: 100%;">
+                            <div class="card-header border-0 pt-8">
+                                <h5 class="text-primary">THÔNG TIN LIÊN LẠC</h5>
+                            </div>
+                            <div class="row mb-6">
+                                <div class="col-lg-12">
+                                    <div class="card-body pt-6">
+                                        <!-- 1 -->
+                                        <div class="row mb-6">
+                                            <div class="d-flex flex-stack">
+                                                <div
+                                                    class="text-gray-900 fw-semibold fs-6 me-2">
+                                                    Đại diện pháp luật
+                                                </div>
+                                                <div
+                                                    class="text-gray-900 fw-bolder fs-6">
+                                                    {{infoData.nguoiDaiDien}}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="separator separator-dashed my-3"></div>
+                                        </div>
+                                        <!-- 2 -->
+                                        <div class="row mb-6">
+                                            <div class="d-flex flex-stack">
+                                                <div
+                                                    class="text-gray-900 fw-semibold fs-6 me-2">
+                                                    Email
+                                                </div>
+                                                <div
+                                                    class="text-gray-900 fw-bolder fs-6">
+                                                    {{infoData.email}}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="separator separator-dashed my-3"></div>
+                                        </div>
+                                        <!-- 3 -->
+                                        <div class="row mb-6">
+                                            <div class="d-flex flex-stack">
+                                                <div
+                                                    class="text-gray-900 fw-semibold fs-6 me-2">
+                                                    Điện thoại
+                                                </div>
+                                                <div
+                                                    class="text-gray-900 fw-bolder fs-6">
+                                                    {{infoData.soDienThoai}}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="separator separator-dashed my-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Card-->
+                <div class="row mb-6" style="height: 100%; overflow: scroll;">
+                    <div class="col-lg-12">
+                        <!-- Ngành nghề kinh doanh -->
+                        <div class="card">
+                            <div class="card-header pt-8 row">
+                                <div class="col-lg-8 mb-6"
+                                    style="display: flex; align-content: center; flex-wrap: wrap;">
+                                    <h5 class="text-primary d-flex">
+                                        Ngành nghề kinh doanh
+                                    </h5>
+                                </div>
+                                <div
+                                    class="col-lg-4 mb-6">
+                                    <input
+                                        class="form-control form-control-lg form-control-solid"
+                                        placeholder="Tìm kiếm..."
+                                        autocomplete="off"
+                                        [(ngModel)]="Search2"
+                                        onkeydown="return(event.keyCode!=13);" />
+                                </div>
+                            </div>
+                            <!--begin::Card body-->
+                            <div class="card-body border-0 pt-0">
+                                <table
+                                    class="table align-middle table-row-dashed fs-6 gy-5 dataTable"
+                                    id="kt_business_table">
+                                    <thead>
+                                        <tr style="vertical-align: middle;"
+                                            class="text-gray-900 fw-semibold fs-6 me-2">
+                                            <th class="min-w-75px text-center">STT</th>
+                                            <th class="min-w-200px">
+                                                Mã ngành nghề
+                                            </th>
+                                            <th class="min-w-200px">
+                                                Tên ngành nghề
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-gray-900 ">
+                                        <tr
+                                            *ngFor="let item of dataSource|filter: Search2; let i = index;">
+                                            <td class="text-center">
+                                                {{i+1}}
+                                            </td>
+                                            <td>
+                                                {{item.code}}
+                                            </td>
+                                            <td>
+                                                {{item.name}}
+                                            </td>
+                                            <td
+                                                class="separator separator-dashed my-3">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-6" style="height: 100%; overflow: scroll;">
+                    <div class="col-lg-12">
+                        <!-- CHƯƠNG TRÌNH XÚC TIẾN THƯƠNG MẠI THAM GIA -->
+                        <div class="card">
+                            <div class="card-header pt-8 row">
+                                <div class="col-lg-8 mb-6"
+                                    style="display: flex; align-content: center; flex-wrap: wrap;">
+                                    <h5 class="text-primary">
+                                        CHƯƠNG TRÌNH XÚC TIẾN THƯƠNG MẠI THAM
+                                        GIA
+                                    </h5>
+                                </div>
+                                <div class="col-lg-4 mb-6">
+                                    <input
+                                        class="form-control form-control-lg form-control-solid"
+                                        placeholder=" Tìm kiếm..."
+                                        autocomplete="off"
+                                        [(ngModel)]="Search"
+                                        onkeydown="return(event.keyCode!=13);" />
+                                </div>
+                            </div>
+
+                            <div class="card-body border-0 pt-0">
+                                <table
+                                    class="table align-middle table-row-dashed fs-6 gy-5 dataTable"
+                                    id="kt_business_table">
+                                    <thead>
+                                        <tr class="text-gray-900 fw-semibold fs-6 me-2" 
+                                            style="vertical-align: middle;">
+                                            <th class="min-w-75px text-center">
+                                                STT
+                                            </th>
+                                            <th class="min-w-100px">
+                                                Tên chương trình
+                                            </th>
+                                            <th class="min-w-100px">
+                                                Địa điểm
+                                            </th>
+                                            <th class="min-w-100px">
+                                                Thời gian dự<br>kiến bắt đầu
+                                            </th>
+                                            <th class="min-w-100px">
+                                                Thời gian dự<br>kiến kết thúc
+                                            </th>
+                                            <th class="min-w-100px">
+                                                Quy mô
+                                            </th>
+                                            <th class="min-w-100px">
+                                                Kế hoạch XTTM<br>tham gia
+                                            </th>
+                                        </thead>
+                                        <tbody class="text-gray-900 ">
+                                            <tr
+                                                *ngFor="let item of dataSource1| filter: Search; let i = index ">
+                                                <td class="text-center">
+                                                    {{i+1}}
+                                                </td>
+                                                <td>
+                                                    {{item.name}}
+                                                </td>
+                                                <td>
+                                                    {{item.address}}
+                                                </td>
+                                                <td>
+                                                    {{item.startTime}}
+                                                </td>
+                                                <td>
+                                                    {{item.endTime}}
+                                                </td>
+                                                <td>
+                                                    {{item.scale}}
+                                                </td>
+                                                <td>
+                                                    {{item.planJoin?"Sở tham gia":"Hỗ trợ doanh nghiệp tham gia"}}
+                                                </td>
+                                                <td
+                                                    class="separator separator-dashed my-3"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-6"
+                        style="height: 100%; overflow: scroll;">
+                        <div class="col-lg-12">
+                            <!-- CHƯƠNG TRÌNH XÚC TIẾN THƯƠNG MẠI THAM GIA -->
+                            <div class="card">
+                                <div class="card-header pt-8 row">
+                                    <div class="col-lg-8 mb-6"
+                                        style="display: flex; align-content: center; flex-wrap: wrap;">
+                                        <h5 class="text-primary">
+                                            DỰ ÁN KHUYẾN CÔNG THAM GIA
+                                        </h5>
+                                    </div>
+                                    <div class="col-lg-4 mb-6">
+                                        <input
+                                            class="form-control form-control-lg form-control-solid"
+                                            placeholder=" Tìm kiếm..."
+                                            autocomplete="off"
+                                            [(ngModel)]="Search3"
+                                            onkeydown="return(event.keyCode!=13);" />
+                                    </div>
+                                </div>
+                                <!--begin::Card body-->
+                                <div class="card-body border-0 pt-0">
+                                    <table
+                                        class="table align-middle table-row-dashed fs-6 gy-5 dataTable"
+                                        id="kt_business_table">
+                                        <thead>
+                                            <tr style="vertical-align: middle;"
+                                                class="text-gray-900 fw-semibold fs-6 me-2">
+                                                <th
+                                                    class="min-w-75px text-center">STT</th>
+                                                <th class="min-w-100px">
+                                                    Tên dự án
+                                                </th>
+                                                <th class="min-w-175px">
+                                                    Thời gian bắt đầu
+                                                </th>
+                                                <th class="min-w-175px">
+                                                    Thời gian kết thúc
+                                                </th>
+                                                <th class="min-w-175px">
+                                                    Nguồn vốn
+                                                </th>
+                                                <th class="min-w-175px">
+                                                    Kinh phí thực hiện
+                                                </th>
+                                            </thead>
+                                            <tbody class="text-gray-900 ">
+                                                <tr
+                                                    *ngFor="let item of dataIndustryPromotion| filter: Search3; let i = index ">
+                                                    <td class="text-center">
+                                                        {{i+1}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.Name}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.StartDate}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.EndDate}}
+                                                    </td>
+                                                    <td>
+                                                        {{item.CapitalName}}
+                                                    </td>
+                                                    <td>
+                                                        {{f_currency(item.Funding)}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--end::Card body-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                            class="btn btn-light bg-white btn-elevate mr-2"
+                            (click)="modal.dismiss()">Thoát</button>
+                    </div>
+                    <!--end::Content container-->
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Content wrapper-->
+        </div>
+        <!--end:::Main-->

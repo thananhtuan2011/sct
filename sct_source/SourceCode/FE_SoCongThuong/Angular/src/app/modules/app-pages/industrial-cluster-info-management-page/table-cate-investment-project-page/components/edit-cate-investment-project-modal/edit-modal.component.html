@@ -1,0 +1,129 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="cateinvestmentprojectData">
+                <ng-container *ngIf="cateinvestmentprojectData.id !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="cateinvestmentprojectData.id === ''">THÊM MỚI</ng-container>
+                QUẢN LÝ DỰ ÁN ĐẦU TƯ
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="cateinvestmentprojectData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+
+                <div class="form-group row mb-6">
+                    <label class="form-label required fw-semibold fs-6 mb-6" color="primary">Đầu tư</label>
+                    <mat-radio-group class="mb-6" formControlName="InvestmentType" [color]="'primary'">
+                        <mat-radio-button [value]=1 style="margin-left: 10px;">Trong nước (tỷ đồng)</mat-radio-button>
+                        <mat-radio-button [value]=2 style="margin-left: 20px;">Ngoài nước (triệu USD)</mat-radio-button>
+                    </mat-radio-group>
+                    <div class="invalid-feedback d-block mt-3" *ngIf="isDefaultValue('InvestmentType')">Bắt buộc</div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên doanh nghiệp / dự án</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="BusinessName" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'BusinessName')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Chủ doanh nghiệp / dự án </label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Owner" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Owner')">Bắt buộc</div>
+
+                    </div>
+                </div>
+                <div [className]="isDefaultValue('district') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Huyện</label>
+                        <app-select-custom [width]="'100%'" [placeholder]="'Huyện'" [data]="districtData" [options]="options" formControlName="district">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('district')">
+                            Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Ngành nghề</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Career" />
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Điện thoại</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" (keypress)="prenventInputNonNumber($event)" autocomplete="off" formControlName="PhoneNumber" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Vốn đăng kí</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Investment" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('Investment')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Số lao động</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="NumberOfWorker" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('NumberOfWorker')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Diện tích (ha)</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="ProjectArea" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('ProjectArea')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Sản lượng (SP / Ngày)</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Quantity" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('Quantity')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Công suất</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Produce" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('Produce')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Giá trị sản xuất</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="ProductValue" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('ProductValue')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">Thực trạng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Reality" />
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="cateinvestmentprojectData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+            <!-- [disabled]="formGroup.invalid || formGroup.controls['InvestmentType'].value === 0" -->
+        </ng-container>
+    </div>
+</div>

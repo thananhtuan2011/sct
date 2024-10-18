@@ -1,0 +1,51 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="managementFirePreventionData">
+                <ng-container *ngIf="managementFirePreventionData.id !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="managementFirePreventionData.id === ''">THÊM MỚI</ng-container>
+                THỰC TRẠNG PCCC CỦA CHỢ
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="managementFirePreventionData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên doanh nghiệp</label>
+                        <input placeholder="Hãy nhập tên doanh nghiệp" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="BusinessName" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'BusinessName')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Địa chỉ</label>
+                        <input placeholder="Hãy nhập địa chỉ" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Address" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Address')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Thực trạng</label>
+                        <app-select-custom [width]="'100%'" [data]="realityData" [options]="options" formControlName="Reality"></app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('Reality')">Bắt buộc</div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="managementFirePreventionData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

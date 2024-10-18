@@ -1,0 +1,66 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="communeData">
+                <ng-container *ngIf="id">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id">THÊM MỚI</ng-container>
+                DANH MỤC XÃ
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="communeData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                
+                <div [className]="isDefaultValue('DistrictId') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label name="DistrictId" class="form-label required fw-semibold fs-6">Tên Huyện</label>
+                        <app-select-custom [width]="'100%'" [placeholder]="'Chọn Huyện'"
+                        [data]="selectData" [options]="options" [(ngModel)]="default_value"
+                        formControlName="DistrictId"
+                        ></app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('DistrictId')">Hãy chọn huyện</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Mã Xã</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="CommuneCode" 
+                        placeholder="Hãy nhập mã Xã" autocomplete="off" [class.is-invalid]="isControlInvalid('CommuneCode')" 
+                        [class.is-valid]="isControlValid('CommuneCode')" formControlName="CommuneCode" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'CommuneCode')">Bắt buộc</div>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'CommuneCode')">Mã xã ít nhất 3 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'CommuneCode')">Mã xã tối đa 100 ký tự</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'CommuneCode')">Mã xã không được có dấu và khoảng trắng</div>
+                    </div>
+                </div>
+                
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên Xã</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="CommuneName" 
+                        placeholder="Hãy nhập tên Xã" autocomplete="off" [class.is-invalid]="isControlInvalid('CommuneName')" 
+                        [class.is-valid]="isControlValid('CommuneName')" formControlName="CommuneName" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'CommuneName')">Bắt buộc</div>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'CommuneName')">Tên xã ít nhất 3 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'CommuneName')">Tên xã tối đa 100 ký tự</div> -->
+                    </div>
+                </div>
+
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="communeData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

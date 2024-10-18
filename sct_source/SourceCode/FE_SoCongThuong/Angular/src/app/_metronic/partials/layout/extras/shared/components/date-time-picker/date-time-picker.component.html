@@ -1,0 +1,72 @@
+<div class="input-group input-group-solid">
+  <input
+    class="form-control form-control-lg form-control-solid" 
+    placeholder="DD/MM/YYYY HH:MM"
+    (blur)="inputBlur($event)"
+    [ngModel]="dateString | date:inputDatetimeFormat"
+    (change)="onInputChange($event)" [disabled]="disabled" />
+    <!-- [ngClass]="ngControl.valid ? 'ng-valid' : 'ng-invalid'" -->
+
+  <div class="input-group-append">
+    <span class="input-group-text">
+      <i class="text-dark-50  bi bi-calendar-check fs-2x" [ngbPopover]="!disabled ? calendarContent : null"></i>
+    </span>
+    <!-- <button 
+      class="btn btn-outline-secondary text-dark-50  bi bi-calendar-check fs-2x" 
+      [ngbPopover]="calendarContent"
+      [disabled]="disabled" type="button">
+      <fa-icon [icon]="['far', 'calendar']"></fa-icon>
+    </button> -->
+  </div>
+</div>
+
+<ng-template #calendarContent>
+  <div>
+    <div *ngIf="!showTimePickerToggle">
+      <ngb-datepicker 
+        id="dp" 
+        #dp 
+        name="datepicker" 
+        [ngModel]="datetime"
+        (ngModelChange)="onDateChange($event, dp)"
+        style="display: inherit;"
+        >
+      </ngb-datepicker>
+
+      <button 
+        class="btn btn-block btn-outline-secondary bi bi-clock fs-2x"
+        [disabled]="!datetime.day" type="button"
+        (click)="toggleDateTimeState($event)"
+        style="width: -webkit-fill-available;">
+        <!-- border: 1px solid; -->
+        <!-- [ngbPopover]="timePickerContent" -->
+        <!-- <fa-icon [icon]="['far', 'clock']"></fa-icon> -->
+      </button>
+    </div>
+    
+    <div *ngIf="showTimePickerToggle">
+      <button 
+        class="btn btn-block btn-outline-secondary bi bi-calendar-check fs-2x"
+        [ngbPopover]="!disabled ? calendarContent : null" type="button"
+        (click)="toggleDateTimeState($event)"
+        style="width: -webkit-fill-available;"
+        >
+        <!-- <fa-icon [icon]="['far', 'calendar']"></fa-icon> -->
+      </button>
+      
+      <div class="mt-auto">
+        <ngb-timepicker 
+          #tp 
+          name="timepicker" 
+          [ngModel]="datetime"
+          (ngModelChange)="onTimeChange($event)"
+          [hourStep]="hourStep" 
+          [minuteStep]="minuteStep"
+          >
+          <!-- [seconds]="seconds"  -->
+          <!-- [secondStep]="secondStep" -->
+        </ngb-timepicker>
+      </div>
+    </div>
+  </div>
+</ng-template>

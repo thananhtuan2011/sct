@@ -1,0 +1,39 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="cateCriteriData">
+        <ng-container *ngIf="cateCriteriData.cateCriteriaName!== ''">CHỈNH SỬA</ng-container>
+        <ng-container *ngIf="cateCriteriData.cateCriteriaName === ''">THÊM MỚI</ng-container>
+        TIÊU CHÍ
+      </ng-container>
+    </div>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="cateCriteriData">
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row mb-6">
+          <div class="col-lg-12">
+            <label class="form-label required fw-semibold fs-6">Tên tiêu chí</label>
+            <input type="text" class="form-control form-control-lg form-control-solid" name="cateCriteriaName"
+              placeholder="Hãy nhập tiêu tên tiêu chí" autocomplete="off"
+              [class.is-invalid]="isControlInvalid('cateCriteriaName')" [class.is-valid]="isControlValid('cateCriteriaName')"
+              formControlName="cateCriteriaName" />
+            <!-- <div class="valid-feedback" *ngIf="isControlValid('Name')"> name was entered correct</div> -->
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'cateCriteriaName')">Bắt buộc</div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+    <ng-container *ngIf="cateCriteriData">
+      <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+    </ng-container>
+  </div>
+</div>

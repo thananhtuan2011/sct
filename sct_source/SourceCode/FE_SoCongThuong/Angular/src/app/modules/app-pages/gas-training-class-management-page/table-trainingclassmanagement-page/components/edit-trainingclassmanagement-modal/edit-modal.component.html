@@ -1,0 +1,154 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="trainingClassManagementData">
+                <ng-container *ngIf="trainingClassManagementData.topic !=='' && !type">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="trainingClassManagementData.topic === '' && !type">THÊM MỚI</ng-container>
+                <!-- <ng-container *ngIf="trainingClassManagementData.topic !=='' && type">THÔNG TIN</ng-container> -->
+                LỚP TẬP HUẤN
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="trainingClassManagementData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-8">
+                    <div class="col-lg-12">
+                        <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                            Nội dung tập huấn</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="Topic" placeholder="Hãy nhập nội dung tập huấn" autocomplete="off" [class.is-valid]="isControlValid('Topic')" [class.is-invalid]="isControlInvalid('Topic')" formControlName="Topic"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Topic')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-8">
+                    <div class="col-lg-12">
+                        <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                            Thời gian tổ chức</label>
+                        <app-date-picker-custom formControlName="TimeStart"></app-date-picker-custom>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'TimeStart')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-8">
+                    <div class="col-lg-12">
+                        <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                            Địa điểm tập huấn
+                        </label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="Location" placeholder="Hãy nhập tên đơn vị thực hiện" autocomplete="off" formControlName="Location" [class.is-valid]="isControlValid('Location')" [class.is-invalid]="isControlInvalid('Location')"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Location')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-8">
+                    <div class="col-lg-12">
+                        <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                            Đối tượng tham gia
+                        </label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="Participant" placeholder="Hãy nhập đối tượng tham gia" autocomplete="off" formControlName="Participant" [class.is-valid]="isControlValid('Participant')" [class.is-invalid]="isControlInvalid('Participant')"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Participant')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-8">
+                    <div class="col-lg-12">
+                        <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                            Số người tham dự
+                        </label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="NumberOfAttendees" autocomplete="off" placeholder="Hãy nhập số người tham dự" [class.is-invalid]="isControlInvalid('NumberOfAttendees')" [class.is-valid]="isControlValid('NumberOfAttendees')"
+                            formControlName="NumberOfAttendees" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'NumberOfAttendees')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">File danh sách tập huấn</label>
+                        <div *ngIf="!type" class="container" appDnd (fileDropped)="onFileDropped($event)">
+                            <input type="file" #fileDropRef id="fileDropRef" multiple accept="application/pdf, .csv, .txt, .xlsx, .doc, .docx" (change)="fileBrowseHandler($event)" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64">
+                                <g fill="#3B454F" fill-rule="nonzero">
+                                    <path
+                                        d="M42.656 15.135a1.953 1.953 0 0 1-1.391-.578L31.5 4.795l-9.765 9.762a1.97 1.97 0 1 1-2.785-2.785L30.106.616a1.97 1.97 0 0 1 2.785 0l11.157 11.156a1.97 1.97 0 0 1-1.392 3.363z" />
+                                    <path
+                                        d="M31.5 36.791a1.97 1.97 0 0 1-1.969-1.969V2.01a1.97 1.97 0 0 1 3.938 0v32.812a1.97 1.97 0 0 1-1.969 1.969z" />
+                                    <path
+                                        d="M55.781 63.041H7.22A7.225 7.225 0 0 1 0 55.822V41.385a4.599 4.599 0 0 1 4.594-4.594h7.234a4.567 4.567 0 0 1 4.402 3.276l2.814 9.382a.658.658 0 0 0 .628.467h23.656a.658.658 0 0 0 .628-.467l2.814-9.385a4.572 4.572 0 0 1 4.402-3.273h7.234A4.599 4.599 0 0 1 63 41.385v14.437a7.225 7.225 0 0 1-7.219 7.219zM4.594 40.729a.656.656 0 0 0-.657.656v14.437a3.286 3.286 0 0 0 3.282 3.282H55.78a3.286 3.286 0 0 0 3.282-3.282V41.385a.656.656 0 0 0-.657-.656h-7.234a.65.65 0 0 0-.628.467L47.73 50.58a4.628 4.628 0 0 1-4.402 3.274H19.672a4.567 4.567 0 0 1-4.402-3.276l-2.814-9.382a.65.65 0 0 0-.628-.467H4.594z" />
+                                </g>
+                            </svg>
+                            <h3 class="mt-4">Kéo thả ở đây</h3>
+                            <h3 class="mb-4">hoặc</h3>
+                            <label style="display: inline;" for="fileDropRef">Chọn file</label>
+                        </div>
+                        <div class="files-list">
+                            <div class="single-file" *ngFor="let file of file_documents; let i = index">
+                                <div class="file-icon">
+                                    <!-- <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 58 58"
+                                        style="enable-background:new 0 0 58 58;" xml:space="preserve">
+                                        <polygon style="fill:#EDEADA;" points="51.5,14 37.5,0 6.5,0 6.5,58 51.5,58 " />
+                                        <g>
+                                            <path style="fill:#CEC9AE;"
+                                                d="M16.5,23h25c0.552,0,1-0.447,1-1s-0.448-1-1-1h-25c-0.552,0-1,0.447-1,1S15.948,23,16.5,23z" />
+                                            <path style="fill:#CEC9AE;"
+                                                d="M16.5,15h10c0.552,0,1-0.447,1-1s-0.448-1-1-1h-10c-0.552,0-1,0.447-1,1S15.948,15,16.5,15z" />
+                                            <path style="fill:#CEC9AE;"
+                                                d="M41.5,29h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,29,41.5,29z" />
+                                            <path style="fill:#CEC9AE;"
+                                                d="M41.5,37h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,37,41.5,37z" />
+                                            <path style="fill:#CEC9AE;"
+                                                d="M41.5,45h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,45,41.5,45z" />
+                                        </g>
+                                        <polygon style="fill:#CEC9AE;" points="37.5,0 37.5,14 51.5,14 " />
+                                    </svg> -->
+                                    <img class="icon" src="../../../../../../../assets/media/svg/icons/pdf-svgrepo-com.svg">
+                                </div>
+                                <div class="info">
+                                    <h4 class="name" *ngIf="file?.name">
+                                        {{ file?.name }}
+                                    </h4>
+                                    <a class="name" *ngIf="file?.linkFile" href="{{file.linkFile}}">
+                                        {{ file?.linkFile.split('/')[file?.linkFile.split('/').length-1] }}
+                                    </a>
+                                    <p class="size" *ngIf="file?.size">
+                                        {{ formatBytes(file?.size, 0) }}
+                                    </p>
+                                    <p class="size" *ngIf="!file?.size">
+                                        {{ "File đã Upload" }}
+                                    </p>
+                                    <!-- <app-progress [progress]="file?.progress"></app-progress> -->
+                                </div>
+                                <div *ngIf="!type" class="delete" (click)="deleteFile(i)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18">
+                                        <path fill="#B1B1B1" fill-rule="nonzero"
+                                            d="M1 16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v10zm3.17-7.83a.996.996 0 0 1 1.41 0L7 9.59l1.42-1.42a.996.996 0 1 1 1.41 1.41L8.41 11l1.42 1.42a.996.996 0 1 1-1.41 1.41L7 12.41l-1.42 1.42a.996.996 0 1 1-1.41-1.41L5.59 11 4.17 9.58a.996.996 0 0 1 0-1.41zM10.5 1L9.79.29C9.61.11 9.35 0 9.09 0H4.91c-.26 0-.52.11-.7.29L3.5 1H1c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1h-2.5z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="trainingClassManagementData && !type">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác
+                nhận</button>
+        </ng-container>
+    </div>
+</div>

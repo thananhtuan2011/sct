@@ -1,0 +1,326 @@
+<div class="modal-content bg-light">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="industrialPromotionProjectData">
+                <ng-container
+                    *ngIf="industrialPromotionProjectData.id !== '' && !type">CHỈNH
+                    SỬA</ng-container>
+                <ng-container
+                    *ngIf="industrialPromotionProjectData.id === '' && !type">THÊM
+                    MỚI</ng-container>
+                THÔNG TIN DỰ ÁN KHUYẾN CÔNG
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="industrialPromotionProjectData">
+            <form action="#" class="form form-label-right"
+                [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-7">
+                        <div class="card border-0" style="height: 100%;">
+                            <div class="card-header">
+                                <h1 class="card-title text-primary">
+                                    <strong>Thông tin dự án khuyến công</strong>
+                                </h1>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row mb-6">
+                                    <div class="col-lg-12">
+                                        <label
+                                            class="form-label fw-semibold fs-6"
+                                            [class.required]="!type">
+                                            Tên đề án
+                                        </label>
+                                        <input type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            autocomplete="off"
+                                            placeholder="Hãy nhập tên đề án"
+                                            [class.is-invalid]="isControlInvalid('ProjectName')"
+                                            [class.is-valid]="isControlValid('ProjectName')"
+                                            formControlName="ProjectName" />
+                                        <div class="invalid-feedback d-block"
+                                            *ngIf="controlHasError('required', 'ProjectName')">
+                                            Bắt buộc
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-6">
+                                    <div class="col-lg-12">
+                                        <label
+                                            class="form-label fw-semibold fs-6"
+                                            [class.required]="!type">
+                                            Nguồn vốn
+                                        </label>
+                                        <div class="mb-6">
+                                            <app-select-custom [width]="'100%'"
+                                                [data]="capitalData"
+                                                [options]="options"
+                                                formControlName="Capital">
+                                            </app-select-custom>
+                                        </div>
+                                        <div
+                                            class="invalid-feedback d-block pt-2"
+                                            *ngIf="isDefaultValue('Capital')">
+                                            Bắt buộc
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <label
+                                            class="form-label fw-semibold fs-6"
+                                            [class.required]="!type">
+                                            Thời gian bắt đầu thực hiện
+                                        </label>
+                                        <app-date-picker-custom
+                                            formControlName="StartDate"
+                                            Placeholder="DD/MM/YYYY">
+                                        </app-date-picker-custom>
+                                        <div class="invalid-feedback d-block"
+                                            *ngIf="controlHasError('required', 'StartDate')">
+                                            Bắt buộc
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label
+                                            class="form-label fw-semibold fs-6"
+                                            [class.required]="!type">
+                                            Thời gian kết thúc
+                                        </label>
+                                        <app-date-picker-custom
+                                            formControlName="EndDate"
+                                            Placeholder="DD/MM/YYYY">
+                                        </app-date-picker-custom>
+                                        <div class="invalid-feedback d-block"
+                                            *ngIf="controlHasError('required', 'EndDate')">
+                                            Bắt buộc
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="card border-0" style="height: 100%;">
+                            <div class="card-header">
+                                <h1 class="card-title text-primary">
+                                    <strong>Kinh phí thực hiện</strong>
+                                </h1>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row mb-6">
+                                    <div class="col-lg-12">
+                                        <label
+                                            class="form-label fw-semibold fs-6"
+                                            [class.required]="!type">
+                                            Tổng kinh phí
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="text"
+                                                class="form-control form-control-lg form-control-solid"
+                                                autocomplete="off"
+                                                placeholder="Hãy nhập tổng kinh phí"
+                                                (keypress)="prenventInputNonNumber($event)"
+                                                [class.is-invalid]="isControlInvalid('Funding')"
+                                                [class.is-valid]="isControlValid('Funding')"
+                                                formControlName="Funding" />
+                                            <div class="input-group-append">
+                                                <span
+                                                    class="input-group-text form-control form-control-lg form-control-solid">VND</span>
+                                            </div>
+                                        </div>
+                                        <div class="invalid-feedback d-block"
+                                            *ngIf="controlHasError('required', 'Funding')">Bắt
+                                            buộc</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-6">
+                                    <div class="col-lg-12">
+                                        <label
+                                            class="form-label fw-semibold fs-6"
+                                            [class.required]="!type">Kinh
+                                            phí khuyến công hỗ trợ</label>
+                                        <div class="input-group">
+                                            <input type="text"
+                                                class="form-control form-control-lg form-control-solid"
+                                                autocomplete="off"
+                                                placeholder="Hãy nhập kinh phí khuyến công hỗ trợ"
+                                                (keypress)="prenventInputNonNumber($event)"
+                                                [class.is-invalid]="isControlInvalid('IndustrialPromotionFunding')"
+                                                [class.is-valid]="isControlValid('IndustrialPromotionFunding')"
+                                                formControlName="IndustrialPromotionFunding" />
+                                            <div class="input-group-append">
+                                                <span
+                                                    class="input-group-text form-control form-control-lg form-control-solid">VND</span>
+                                            </div>
+                                        </div>
+                                        <div class="invalid-feedback d-block"
+                                            *ngIf="controlHasError('required', 'IndustrialPromotionFunding')">Bắt
+                                            buộc</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-lg-12">
+                                        <label
+                                            class="form-label fw-semibold fs-6"
+                                            [class.required]="!type">Kinh
+                                            phí doanh nghiệp đối ứng</label>
+                                        <div class="input-group">
+                                            <input type="text"
+                                                class="form-control form-control-lg form-control-solid"
+                                                autocomplete="off"
+                                                placeholder="Hãy nhập kinh phí doanh nghiệp đối ứng"
+                                                (keypress)="prenventInputNonNumber($event)"
+                                                [class.is-invalid]="isControlInvalid('ReciprocalEnterpriseFunding')"
+                                                [class.is-valid]="isControlValid('ReciprocalEnterpriseFunding')"
+                                                formControlName="ReciprocalEnterpriseFunding" />
+                                            <div class="input-group-append">
+                                                <span
+                                                    class="input-group-text form-control form-control-lg form-control-solid">VND</span>
+                                            </div>
+                                        </div>
+                                        <div class="invalid-feedback d-block"
+                                            *ngIf="controlHasError('required', 'ReciprocalEnterpriseFunding')">Bắt
+                                            buộc</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 mt-6">
+                    <div class="card-header">
+                        <h1 class="card-title text-primary">
+                            <strong>Doanh nghiệp tham gia</strong>
+                        </h1>
+                    </div>
+                    <div class="card-header">
+                        <div class="card-title">
+                            <!--begin::Search-->
+                            <div
+                                class="d-flex align-items-center position-relative my-1">
+                                <span
+                                    class="svg-icon svg-icon-1 position-absolute ms-6">
+                                    <svg width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect opacity="0.5" x="17.0365"
+                                            y="15.1223" width="8.15546"
+                                            height="2" rx="1"
+                                            transform="rotate(45 17.0365 15.1223)"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                                <input type="text" formControlName="Search"
+                                    data-kt-participate-support-fair-table-filter="Search"
+                                    class="form-control form-control-solid w-250px ps-15"
+                                    placeholder="Tìm kiếm..." />
+                            </div>
+                        </div>
+                        <div class="card-toolbar" *ngIf="!type">
+                            <div class="d-flex justify-content-end"
+                                data-kt-participate-support-fair-table-toolbar="base">
+                                <!--begin::Add participate-support-fair-detail-->
+                                <button type="button"
+                                    class="btn btn-primary me-3"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#kt_modal_add_participate-support-fair"
+                                    (click)="add_enterprise_in_province(1)">
+                                    Chọn doanh nghiệp</button>
+
+                                <button type="button"
+                                    class="btn btn-primary me-3"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#kt_modal_add_participate-support-fair"
+                                    (click)="add_enterprise_outside_province(1)">
+                                    Thêm mới doanh nghiệp</button>
+                                <!--end::Add participate-support-fair-detail-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table
+                            class="table align-middle table-row-dashed fs-6 gy-5 dataTable "
+                            id="kt_participate-support-fair_table">
+                            <thead>
+                                <tr
+                                    class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="min-w-75px text-center"
+                                        style="vertical-align: middle;">STT</th>
+                                    <th class="min-w-175px"
+                                        style="vertical-align: middle;">Mã số
+                                        doanh nghiệp</th>
+                                    <th class="min-w-175px"
+                                        style="vertical-align: middle;">Tên
+                                        doanh nghiệp</th>
+                                    <th class="min-w-175px"
+                                        style="vertical-align: middle;">Ngành
+                                        nghề kinh doanh</th>
+                                    <th *ngIf="!type"
+                                        class="text-end min-w-70px"
+                                        style="vertical-align: middle;">Hành
+                                        động</th>
+                                </tr>
+                            </thead>
+                            <tbody class="fw-semibold text-gray-600">
+                                <tr
+                                    *ngFor="let item of detailData | filter: formGroup.controls['Search'].value; let i = index;">
+                                    <td class="text-center">
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        {{item.businessCode}}
+                                    </td>
+
+                                    <td>
+                                        {{item.businessNameVi}}
+                                    </td>
+
+                                    <td>
+                                        {{item.nganhNghe}}
+                                    </td>
+
+                                    <td class="text-end" *ngIf="!type">
+                                        <button type="button" mat-icon-button
+                                            color="warn"
+                                            (click)="delete_detail(item)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="!type" type="button"
+            class="btn btn-light bg-white btn-elevate mr-2"
+            (click)="modal.dismiss()">Thoát</button>
+        <button *ngIf="type" type="button"
+            class="btn btn-light bg-white btn-elevate mr-2"
+            (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="industrialPromotionProjectData && !type">
+            <button type="submit" class="btn btn-primary btn-elevate"
+                nbgAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

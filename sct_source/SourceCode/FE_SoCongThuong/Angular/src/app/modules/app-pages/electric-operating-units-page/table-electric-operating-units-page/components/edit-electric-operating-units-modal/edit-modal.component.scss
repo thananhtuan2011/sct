@@ -1,0 +1,5 @@
+:host ::ng-deep {
+    .mat-checkbox-disabled .mat-checkbox-label {
+        color: black !important;
+    }
+}

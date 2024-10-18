@@ -1,0 +1,118 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="cateinvestmentprojectData">
+                <ng-container *ngIf="cateinvestmentprojectData.id !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="cateinvestmentprojectData.id === ''">THÊM MỚI</ng-container>
+                QUẢN LÝ CỤM CÔNG NGHIỆP
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="cateinvestmentprojectData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên cụm công nghiệp</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="IndustrialClustersName" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'IndustrialClustersName')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div [className]="isDefaultValue('district') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Huyện</label>
+                        <app-select-custom [width]="'100%'" [placeholder]="'Huyện'" [data]="districtData" [options]="options" formControlName="district">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('district')">
+                            Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Diện tích thành lập</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="OriginalArea" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('OriginalArea')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Quyết định thành lập</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="EstablishCode" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'EstablishCode')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Diện tích mở rộng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="ExpandedArea" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('ExpandedArea')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Quyết định mở rộng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="DecisionExpandCode" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'DecisionExpandCode')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Diện tích QH chi tiết</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="DetailedArea" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('DetailedArea')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Quyết định phê duyệt QHCT</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="ApprovalDecision" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'ApprovalDecision')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Diện tích đất công nghiệp</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="IndustrialArea" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('IndustrialArea')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label required fw-semibold fs-6">Diện tích đất cho thuê</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="RentedArea" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('RentedArea')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tỉ lệ lấp đấy (%)</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Occupancy" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('Occupancy')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">Ghi chú</label>
+                        <textarea cols="4" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Note">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="cateinvestmentprojectData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

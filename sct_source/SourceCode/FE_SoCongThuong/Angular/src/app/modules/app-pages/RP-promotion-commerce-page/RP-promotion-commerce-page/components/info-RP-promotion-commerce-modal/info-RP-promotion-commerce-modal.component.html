@@ -1,0 +1,196 @@
+<div class="modal-content bg-light">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="ReportPromotionCommerceData">
+        <ng-container *ngIf="ReportPromotionCommerceData.host!== ''">
+          <span>
+            <h1>Chi tiết báo cáo hoạt động xúc tiến thương mại</h1>
+            <mat-hint>
+              <a style="size: 10px;color: rgba(105, 101, 101, 0.678);">
+                TTKC&XTTM-Quản lý báo cáo hoạt động xúc tiến thương mại
+              </a>
+            </mat-hint>
+          </span>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="ReportPromotionCommerceData">
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="row mb-6 pt-2">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header border-0 pt-8">
+                <span>
+                  <h2 class="text-primary">THÔNG TIN ĐƠN VỊ</h2>
+                </span>
+                <div class="row mb-6 pt-2">
+                  <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                      <label class="form-label">Đơn vị chủ trì</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="host"
+                        placeholder="Hãy nhập đơn vị chủ trì" autocomplete="off"
+                        [class.is-invalid]="isControlInvalid('host')" [class.is-valid]="isControlValid('host')"
+                        formControlName="host" />
+                      <div class="invalid-feedback" *ngIf="controlHasError('required', 'host')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-6">
+                      <label class="form-label">Thủ trưởng đơn vị</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="chief"
+                        placeholder="Hãy nhập thủ trưởng đơn vị" autocomplete="off"
+                        [class.is-invalid]="isControlInvalid('chief')" [class.is-valid]="isControlValid('chief')"
+                        formControlName="chief"/>
+                      <div class="invalid-feedback" *ngIf="controlHasError('required', 'chief')">Bắt buộc</div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-lg-6 mb-6">
+                      <label class="form-label">Tên đơn vị</label>
+                      <app-select-custom [width]="'100%'" [placeholder]="'Kỳ báo cáo'" [data]="data_busi"
+                        [options]="options" formControlName="business" (valueChanged)="loadProjectById($event)">
+                      </app-select-custom>
+                      <div style="padding-top: 20px;" class="invalid-feedback" *ngIf="isDefaultValue('business')">
+                        Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-6 mb-6">
+                      <label class="form-label fw-semibold fs-6">Địa chỉ</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="address"
+                        placeholder="Địa chỉ" autocomplete="off" formControlName="address" readonly />
+                    </div>
+                  </div>
+                  <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                      <label class="form-label">Đại diện</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="represent"
+                        placeholder="Đại diện" autocomplete="off" [class.is-invalid]="isControlInvalid('represent')"
+                        [class.is-valid]="isControlValid('represent')" formControlName="represent" />
+                      <div class="invalid-feedback" *ngIf="controlHasError('required', 'represent')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-6">
+                      <label class="form-label">Chức vụ</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="position"
+                        placeholder="Chức vụ" autocomplete="off" [class.is-invalid]="isControlInvalid('position')"
+                        [class.is-valid]="isControlValid('position')" formControlName="position"/>
+                      <div class="invalid-feedback" *ngIf="controlHasError('required', 'position')">Bắt buộc</div>
+                    </div>
+                  </div>
+                  <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                      <label class="form-label">Điện thoại</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="phonenumber"
+                        placeholder="Điện thoại" autocomplete="off" formControlName="phonenumber" />
+                    </div>
+                    <div class="col-lg-6">
+                      <label class="form-label fw-semibold fs-6">Fax</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="fax"
+                        placeholder="Fax" autocomplete="off" formControlName="fax" />
+                      <div class="invalid-feedback" *ngIf="controlHasError('required', 'fax')">Bắt buộc</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-6 pt-2">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header border-0 pt-8">
+                <span>
+                  <h2 class="text-primary">KẾT QUẢ THAM GIA ĐỀ ÁN XÚC TIẾN THƯƠNG MẠI </h2>
+                </span>
+                <div class="row mb-6 pt-2">
+                  <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                      <label class="form-label">Tên đề án</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="projectName"
+                        placeholder="Hãy nhập tên đề án" autocomplete="off"
+                        [class.is-invalid]="isControlInvalid('projectName')"
+                        [class.is-valid]="isControlValid('projectName')" formControlName="projectName"/>
+                      <div class="invalid-feedback" *ngIf="controlHasError('required', 'position')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-6">
+                      <label class="form-label">Đơn vị tổ chức</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="organize"
+                        placeholder="Hãy nhập đơn vị tổ chức" autocomplete="off" formControlName="organize" />
+                    </div>
+                  </div>
+                  <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                      <label class="form-label">Thời gian bắt đầu</label>
+                      <div class="input-group input-group-solid">
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid"
+                          autocomplete="off" placeholder="dd/MM/YYYY" ngbDatepicker #d="ngbDatepicker"
+                          formControlName="startTime" />
+                        <div class="input-group-append" (click)="d.toggle()">
+                          <span class="input-group-text">
+                            <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <label class="form-label">Địa chỉ tổ chức</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="location"
+                        placeholder="Địa chỉ tổ chức" autocomplete="off" formControlName="location" />
+                    </div>
+                  </div>
+                  <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                      <label class="form-label">Thời gian kết thúc</label>
+                      <div class="input-group input-group-solid">
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid"
+                          autocomplete="off" placeholder="dd/MM/YYYY" ngbDatepicker #d1="ngbDatepicker"
+                          formControlName="endTime" />
+                        <div class="input-group-append" (click)="d1.toggle()">
+                          <span class="input-group-text">
+                            <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <label class="form-label">Quy mô</label>
+                      <input type="text" class="form-control form-control-lg form-control-solid" name="scale"
+                        placeholder="Quy mô" autocomplete="off" formControlName="scale" />
+                    </div>
+                  </div>
+                  <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                      <label class="form-label">Kết quả tham gia</label>
+                      <textarea type="text" rows="4" class="form-control form-control-lg form-control-solid"
+                        name="resultNote" placeholder="Kết quả tham gia" autocomplete="off"
+                        formControlName="resultNote">  </textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                      <label class="form-label fw-semibold fs-6">Thuận lợi, khó khăn, các đề xuất, kiến nghị</label>
+                      <textarea type="text" rows="4" class="form-control form-control-lg form-control-solid" name="note"
+                        placeholder="Thuận lợi, khó khăn, các đề xuất, kiến nghị" autocomplete="off"
+                        formControlName="note">  </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <!-- <ng-container *ngIf="ReportPromotionCommerceData">
+      <button type="submit" class="btn btn-primary btn-elevate" 
+        [disabled]="formGroup.invalid">Word</button>
+    </ng-container> -->
+    <button type="button" class="btn btn-light bg-white btn-elevate mr-2" ngbAutofocus
+      (click)="modal.dismiss()">Thoát</button>
+  </div>
+</div>

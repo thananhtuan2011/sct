@@ -1,0 +1,56 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="stateunitsData">
+                <ng-container *ngIf="stateunitsData.stateUnitsCode !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="stateunitsData.stateUnitsCode === ''">THÊM MỚI</ng-container>
+                ĐƠN VỊ
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="stateunitsData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Đơn vị cha</label>
+                        <app-select-custom [width]="'100%'" [data]="ParentData"
+                        [options]="options" formControlName="ParentId">
+                    </app-select-custom>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Mã đơn vị</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="StateUnitsCode" 
+                        placeholder="Hãy nhập mã đơn vị" autocomplete="off" [class.is-invalid]="isControlInvalid('StateUnitsCode')" 
+                        [class.is-valid]="isControlValid('StateUnitsCode')" formControlName="StateUnitsCode" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'StateUnitsCode')">Bắt buộc</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'StateUnitsCode')">Mã đơn vị không được có dấu và khoảng trắng</div>
+                    </div>
+                </div>               
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên đơn vị</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="StateUnitsName" 
+                        placeholder="Hãy nhập tên đơn vị" autocomplete="off" [class.is-invalid]="isControlInvalid('StateUnitsName')" 
+                        [class.is-valid]="isControlValid('StateUnitsName')" formControlName="StateUnitsName" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'StateUnitsName')">Bắt buộc</div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="stateunitsData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

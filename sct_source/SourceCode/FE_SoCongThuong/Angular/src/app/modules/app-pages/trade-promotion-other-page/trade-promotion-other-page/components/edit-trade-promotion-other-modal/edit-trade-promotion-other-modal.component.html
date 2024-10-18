@@ -1,0 +1,340 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="tradePromotionOtherData">
+        <ng-container *ngIf="id! && !type">
+          CHỈNH SỬA 
+        </ng-container>
+        <ng-container *ngIf="!id && !type">
+          THÊM MỚI
+        </ng-container>
+        HOẠT ĐỘNG HỘI NGHỊ KẾT NỐI
+      </ng-container>
+    </div>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="showForm">
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="row mb-6 pt-2">
+          <div class="col-lg-12">
+            <div class="form-group row mb-6">
+              <div class="col-lg-6">
+                <label
+                  class="form-label fw-semibold fs-6"
+                  [class.required]="!type">
+                  Loại hình hoạt động xúc tiến thương mại
+                </label>
+                <div class="mb-6">
+                  <app-select-custom [width]="'100%'"
+                    [data]="typeData"
+                    [options]="options"
+                    formControlName="TypeOfActivity">
+                  </app-select-custom>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label class="form-label fw-semibold fs-6"
+                  [class.required]="!type">
+                  Nội dung hoạt động
+                </label>
+                <input type="text"
+                  class="form-control form-control-lg form-control-solid"
+                  autocomplete="off" placeholder="Hãy nhập nội dung hoạt động"
+                  [class.is-invalid]="isControlInvalid('Content')"
+                  [class.is-valid]="isControlValid('Content')"
+                  formControlName="Content" />
+                <div class="invalid-feedback"
+                  *ngIf="controlHasError('required', 'Content')">
+                  Bắt buộc
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row mb-6"
+              *ngIf="formGroup.controls.TypeOfActivity.value !== '2'">
+              <div class="col-lg-4">
+                <label class="form-label fw-semibold fs-6"
+                  [class.required]="!type">
+                  Thời gian bắt đầu
+                </label>
+                <app-date-picker-custom
+                  formControlName="StartDate"
+                  Placeholder="DD/MM/YYYY">
+                </app-date-picker-custom>
+                <div class="invalid-feedback d-block"
+                  *ngIf="controlHasError('required', 'StartDate')">
+                  Bắt buộc
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <label class="form-label fw-semibold fs-6">
+                  Thời gian kết thúc
+                </label>
+                <app-date-picker-custom
+                  formControlName="EndDate"
+                  Placeholder="DD/MM/YYYY">
+                </app-date-picker-custom>
+              </div>
+
+              <div class="col-lg-4">
+                <label class="form-label fw-semibold fs-6">
+                  Thời lượng
+                </label>
+                <input type="text"
+                  class="form-control form-control-lg form-control-solid"
+                  autocomplete="off" placeholder="Hãy nhập thời lượng"
+                  [class.is-invalid]="isControlInvalid('Time')"
+                  [class.is-valid]="isControlValid('Time')"
+                  formControlName="Time" />
+              </div>
+            </div>
+
+            <div class="form-group row mb-6"
+              *ngIf="formGroup.controls.TypeOfActivity.value === '2'">
+              <div class="col-lg-4">
+                <label class="form-label fw-semibold fs-6"
+                  [class.required]="!type">
+                  Thời gian phát sóng
+                </label>
+                <app-date-picker-custom
+                  formControlName="StartDate"
+                  Placeholder="DD/MM/YYYY">
+                </app-date-picker-custom>
+                <div class="invalid-feedback d-block"
+                  *ngIf="controlHasError('required', 'StartDate')">
+                  Bắt buộc
+                </div>
+              </div>
+
+              <div class="col-lg-8">
+                <label class="form-label fw-semibold fs-6">
+                  Số lượng / Thời lượng phát sóng
+                </label>
+                <input type="text"
+                  class="form-control form-control-lg form-control-solid"
+                  autocomplete="off" placeholder="Hãy nhập thời lượng"
+                  [class.is-invalid]="isControlInvalid('Time')"
+                  [class.is-valid]="isControlValid('Time')"
+                  formControlName="Time" />
+                <div class="invalid-feedback"
+                  *ngIf="controlHasError('required', 'Time')">
+                  Bắt buộc
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row mb-6">
+              <div class="col-lg-4">
+                <label
+                  class="form-label fw-semibold fs-6"
+                  [class.required]="!type">
+                  Huyện
+                </label>
+                <div class="mb-6">
+                  <app-select-custom [width]="'100%'"
+                    [data]="districtData"
+                    [options]="options"
+                    formControlName="DistrictId">
+                  </app-select-custom>
+                </div>
+                <div
+                  class="invalid-feedback d-block pt-2"
+                  *ngIf="isDefaultValue('DistrictId')">
+                  Bắt buộc
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <label
+                  class="form-label fw-semibold fs-6"
+                  [class.required]="!type">
+                  Địa điểm tổ chức
+                </label>
+                <input type="text"
+                  class="form-control form-control-lg form-control-solid"
+                  autocomplete="off"
+                  placeholder="Hãy nhập địa điểm tổ chức"
+                  [class.is-invalid]="isControlInvalid('Address')"
+                  [class.is-valid]="isControlValid('Address')"
+                  formControlName="Address" />
+                <div class="invalid-feedback d-block"
+                  *ngIf="controlHasError('required', 'Address')">
+                  Bắt buộc
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row mb-6">
+              <div class="col-lg-12">
+                <label class="form-label fw-semibold fs-6"
+                  [class.required]="!type">
+                  Kinh phí thực hiện</label>
+                <div class="input-group">
+                  <input type="text"
+                    class="form-control form-control-lg form-control-solid"
+                    autocomplete="off" placeholder="Hãy nhập kinh phí thực hiện"
+                    (keypress)="prenventInputNonNumber($event)"
+                    [class.is-invalid]="isControlInvalid('ImplementationCost')"
+                    [class.is-valid]="isControlValid('ImplementationCost')"
+                    formControlName="ImplementationCost" />
+                  <div class="input-group-append">
+                    <span
+                      class="input-group-text form-control form-control-lg form-control-solid">VND</span>
+                  </div>
+                </div>
+                <div class="invalid-feedback d-block"
+                  *ngIf="controlHasError('required', 'ImplementationCost')">
+                  Bắt buộc
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row mb-6">
+              <div class="col-lg-12">
+                <label class="form-label fw-semibold fs-6"
+                  *ngIf="formGroup.controls.TypeOfActivity.value !== '2'">
+                  Đơn vị tham gia
+                </label>
+                <label class="form-label fw-semibold fs-6"
+                  *ngIf="formGroup.controls.TypeOfActivity.value === '2'">
+                  Đơn vị phối hợp thực hiện
+                </label>
+                <input type="text"
+                  class="form-control form-control-lg form-control-solid"
+                  autocomplete="off"
+                  [placeholder]="formGroup.controls.TypeOfActivity.value !== '2' ? 'Hãy nhập đơn vị tham gia' : 'Hãy nhập đơn vị phối hợp thực hiện'"
+                  [class.is-invalid]="isControlInvalid('Participating')"
+                  [class.is-valid]="isControlValid('Participating')"
+                  formControlName="Participating" />
+              </div>
+            </div>
+
+            <div class="form-group row mb-6"
+              *ngIf="formGroup.controls.TypeOfActivity.value === '0'">
+              <div class="col-lg-12">
+                <label class="form-label fw-semibold fs-6">
+                  Đơn vị kết nối
+                </label>
+                <input type="text"
+                  class="form-control form-control-lg form-control-solid"
+                  autocomplete="off" placeholder="Hãy nhập đơn vị kết nối"
+                  [class.is-invalid]="isControlInvalid('Coordination')"
+                  [class.is-valid]="isControlValid('Coordination')"
+                  formControlName="Coordination" />
+              </div>
+            </div>
+
+            <div class="form-group row mb-6"
+              *ngIf="formGroup.controls.TypeOfActivity.value === '0' || formGroup.controls.TypeOfActivity.value === '1'">
+              <div class="col-lg-12">
+                <label class="form-label fw-semibold fs-6">
+                  Kết quả
+                </label>
+                <textarea type="text"
+                  class="form-control form-control-lg form-control-solid"
+                  autocomplete="off" placeholder="Hãy nhập kết quả"
+                  [class.is-invalid]="isControlInvalid('Result')"
+                  [class.is-valid]="isControlValid('Result')"
+                  formControlName="Result">
+                </textarea>
+              </div>
+            </div>
+
+            <div class="form-group row mb-6">
+              <div class="col-lg-12">
+                <label class="form-label fw-semibold fs-6">
+                  Ghi chú
+                </label>
+                <textarea type="text"
+                  class="form-control form-control-lg form-control-solid"
+                  autocomplete="off" placeholder="Hãy nhập ghi chú"
+                  [class.is-invalid]="isControlInvalid('Note')"
+                  [class.is-valid]="isControlValid('Note')"
+                  formControlName="Note">
+                </textarea>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-lg-12">
+                <label class="form-label">File kế hoạch tổ chức</label>
+                <div *ngIf="!type" class="container" appDnd
+                  (fileDropped)="onFileDropped($event)">
+                  <input type="file" #fileDropRef id="fileDropRef" multiple
+                    (change)="fileBrowseHandler($event)"
+                    accept="application/pdf" />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="63" height="64"
+                    viewBox="0 0 63 64">
+                    <g fill="#3B454F" fill-rule="nonzero">
+                      <path
+                        d="M42.656 15.135a1.953 1.953 0 0 1-1.391-.578L31.5 4.795l-9.765 9.762a1.97 1.97 0 1 1-2.785-2.785L30.106.616a1.97 1.97 0 0 1 2.785 0l11.157 11.156a1.97 1.97 0 0 1-1.392 3.363z" />
+                      <path
+                        d="M31.5 36.791a1.97 1.97 0 0 1-1.969-1.969V2.01a1.97 1.97 0 0 1 3.938 0v32.812a1.97 1.97 0 0 1-1.969 1.969z" />
+                      <path
+                        d="M55.781 63.041H7.22A7.225 7.225 0 0 1 0 55.822V41.385a4.599 4.599 0 0 1 4.594-4.594h7.234a4.567 4.567 0 0 1 4.402 3.276l2.814 9.382a.658.658 0 0 0 .628.467h23.656a.658.658 0 0 0 .628-.467l2.814-9.385a4.572 4.572 0 0 1 4.402-3.273h7.234A4.599 4.599 0 0 1 63 41.385v14.437a7.225 7.225 0 0 1-7.219 7.219zM4.594 40.729a.656.656 0 0 0-.657.656v14.437a3.286 3.286 0 0 0 3.282 3.282H55.78a3.286 3.286 0 0 0 3.282-3.282V41.385a.656.656 0 0 0-.657-.656h-7.234a.65.65 0 0 0-.628.467L47.73 50.58a4.628 4.628 0 0 1-4.402 3.274H19.672a4.567 4.567 0 0 1-4.402-3.276l-2.814-9.382a.65.65 0 0 0-.628-.467H4.594z" />
+                    </g>
+                  </svg>
+                  <h3 class="mt-4">Kéo thả ở đây</h3>
+                  <h3 class="mb-4">hoặc</h3>
+                  <label style="display: inline;" for="fileDropRef">Chọn file</label>
+                </div>
+                <div class="files-list">
+                  <div class="single-file"
+                    *ngFor="let file of files; let i = index">
+                    <div class="file-icon">
+                      <img class="icon"
+                        src="../../../../../../../assets/media/svg/icons/pdf-svgrepo-com.svg">
+                    </div>
+                    <div class="info">
+                      <h4 class="name" *ngIf="file?.name">
+                        {{file?.name}}
+                      </h4>
+                      <a class="name"
+                        *ngIf="file?.linkFile"
+                        href="{{file.linkFile}}">
+                        {{file?.linkFile.split('/')[file?.linkFile.split('/').length-1]}}
+                      </a>
+                      <p class="size" *ngIf="file?.size">
+                        {{ formatBytes(file?.size, 0) }}
+                      </p>
+                      <p class="size" *ngIf="!file?.size">
+                        {{"File đã Upload"}}
+                      </p>
+                    </div>
+                    <div *ngIf="!type" class="delete"
+                      (click)="deleteFile(i)">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14" height="18"
+                        viewBox="0 0 14 18">
+                        <path fill="#B1B1B1"
+                          fill-rule="nonzero"
+                          d="M1 16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v10zm3.17-7.83a.996.996 0 0 1 1.41 0L7 9.59l1.42-1.42a.996.996 0 1 1 1.41 1.41L8.41 11l1.42 1.42a.996.996 0 1 1-1.41 1.41L7 12.41l-1.42 1.42a.996.996 0 1 1-1.41-1.41L5.59 11 4.17 9.58a.996.996 0 0 1 0-1.41zM10.5 1L9.79.29C9.61.11 9.35 0 9.09 0H4.91c-.26 0-.52.11-.7.29L3.5 1H1c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1h-2.5z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2"
+      (click)="modal.dismiss()">Thoát</button>
+    <ng-container *ngIf="tradePromotionOtherData && !type">
+      <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus
+        (click)="check_formGroup()">Xác nhận
+      </button>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="industryData">
+                <ng-container *ngIf="industryData.industryCode !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="industryData.industryCode === ''">THÊM MỚI</ng-container>
+            </ng-container> 
+            NGÀNH NGHỀ
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label name="parentIndustryId" class="form-label">Ngành nghề cha</label>
+                        <app-select-custom 
+                        [width]="'100%'" 
+                        [placeholder]="'Chọn ngành nghề cha'"
+                        [data]="selectData" 
+                        [options]="options"
+                        formControlName="parentIndustryId"
+                        ></app-select-custom>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6" >Mã ngành nghề</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="industryCode" placeholder="Nhập mã ngành nghề" autocomplete="off" [class.is-invalid]="isControlInvalid('industryCode')" [class.is-valid]="isControlValid('industryCode')" formControlName="industryCode" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'industryCode')">Bắt buộc</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'industryCode')">Mã ngành nghề không được có dấu và khoảng trắng</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên ngành nghề</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="industryName" placeholder="Nhập tên ngành nghề" autocomplete="off" [class.is-invalid]="isControlInvalid('industryName')" [class.is-valid]="isControlValid('industryName')" formControlName="industryName" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'industryName')">Bắt buộc</div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="industryData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

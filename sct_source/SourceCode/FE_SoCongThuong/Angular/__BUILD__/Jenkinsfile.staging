@@ -1,0 +1,59 @@
+pipeline {
+    environment {
+        REGISTRY_HOST = "registry.jee.vn"
+        REGISTRY_PUBLISHER = "os"
+        REGISTRY_CRED = "registry"
+        PROJECT_NAME = "sct-fe-staging"
+        DOMAIN = "dps.com.vn"
+        SUBDOMAIN = "sct-bentre"
+        STACK_NAME = "socongthuong-staging"
+
+        NODE_ENV = "staging"
+
+        service = ""
+    }
+    agent any
+    stages {
+        stage('Clone repository') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
+        }
+        stage('Build image') {
+            steps {
+                script {
+                    dir("SourceCode/FE_SoCongThuong/Angular"){
+                        service = docker.build("${REGISTRY_HOST}/${REGISTRY_PUBLISHER}/${PROJECT_NAME}:latest", "--build-arg NODE_ENV=${NODE_ENV} -f Dockerfile .")
+                    }
+                }
+            }
+        }
+        stage('Push image') {
+            steps {
+                script {
+                    docker.withRegistry("https://${REGISTRY_HOST}", REGISTRY_CRED) {
+                        service.push("latest")
+                    }
+                }
+            }
+        }
+        stage('Stack deploy') {
+            steps {
+                script {
+                    docker.withRegistry("https://${REGISTRY_HOST}", REGISTRY_CRED) {
+                        dir("SourceCode/FE_SoCongThuong/Angular/__BUILD__"){
+                            sh "docker stack deploy -c swarm.yml --with-registry-auth ${STACK_NAME}"
+                        }
+                    }
+                }
+            }
+        }
+        stage('Cleaning up') {
+            steps{
+                sh "docker system prune -f"
+            }
+        }
+    }
+}

@@ -1,0 +1,81 @@
+<style>
+    .tree-list-phan-quyen {
+        font-size: 14px;
+    }
+    
+    .tree-list-phan-quyen ul,
+    .tree-list-phan-quyen ul li {
+        list-style: none;
+    }
+    
+    .tree-list-phan-quyen .ea-quyen {
+        display: inline-flex;
+    }
+    
+    .color-folder {
+        color: #f1c40f;
+    }
+    
+    .color-success {
+        color: #34bfa3;
+    }
+    
+    .m-point {
+        cursor: pointer;
+    }
+    
+    .hidding {
+        display: none;
+    }
+    
+     :host>>>.mat-checkbox>label.mat-checkbox-layout>div.mat-checkbox-inner-container {
+        width: 14px;
+        height: 14px;
+    }
+    
+     :host>>>.mat-checkbox>label {
+        margin-bottom: .5rem;
+    }
+    
+     :host>>>.chk-sty.mat-checkbox-checked .mat-checkbox-checkmark {
+        opacity: 0;
+    }
+    
+    .font-14 {
+        font-size: 14px;
+    }
+</style>
+<div class="tree-list-phan-quyen">
+    <div *ngFor="let quyen of valuePhanQuyen;let vi = index;">
+        <ul>
+            <li>
+                <div class="ea-quyen">
+
+                    <!-- Vuông + để khi click vào show ra các con, chuyển Vuông + thành Vuông - /-->
+                    <i style="padding-left: 10px;  padding-right: 10px; padding-top: 3px;" class="far fa-plus-square m-point m--margin-right-10 font-14" (click)="collapseChanged(quyen,0)" *ngIf=" quyen[propNameCss].lastChild ? false : ( !quyen[propNameCss].collapse ) "></i>
+                    <!-- Vuông - để khi click vào hide ra các con, chuyển Vuông - thành Vuông + /-->
+                    <i style="padding-left: 10px;  padding-right: 10px; padding-top: 3px;" class="far fa-minus-square   m-point  m--margin-right-10 font-14" (click)="collapseChanged(quyen,-1)" *ngIf=" quyen[propNameCss].lastChild ? false : ( quyen[propNameCss].collapse )"></i>
+
+                    <!-- Checkbox chọn quyền -->
+                    <!-- (change)="checkedChanged(quyen, $event)" -->
+                    <mat-checkbox [color]="'primary'" style="position: absolute; left: 20px; padding-top: 1px;" #Chk (change)="checkedChanged(quyen, $event)" [checked]="quyen[propNameCss].checked" class=" m-point m--margin-right-10" [ngClass]="quyen[propNameCss].parentChk">
+                    </mat-checkbox>
+                    <!-- Vuông + thì cái này -->
+                    <!-- <i class="fas fa-folder  m-point color-folder m--margin-right-10 font-14" *ngIf="!quyen[propNameCss ].collapse"></i> -->
+                    <!-- Vuông - thì cái này -->
+                    <!-- <i class="fas fa-folder-open  m-point color-folder  m--margin-right-10 font-14" *ngIf="quyen[propNameCss ].collapse"></i> -->
+
+                    <!-- Hiển thị text của node --->
+                    <!-- <label>{{quyen[nameNode]}}</label> -->
+                    <!-- {{quyen.data.idRole}} -->
+                    <label *ngIf="quyen[propNameCss].lastChild" style="padding-left: 30px;padding-bottom: 10px;">{{quyen[nameNodeNoKey]}}</label>
+                    <label *ngIf="!quyen[propNameCss].lastChild" style="padding-bottom: 10px;">{{quyen[nameNodeNoKey]}}</label>
+                </div>
+
+                <!-- *ngIf="quyen[propNameChild]" -->
+                <app-tree-phan-quyen-node [valuePhanQuyen]="quyen[propNameChild]" [parentNode]="quyen" [propNameCss]="propNameCss" [propNameChild]="propNameChild" [nameNode]="nameNodeNoKey" *ngIf="quyen[propNameChild]" [ngClass]="quyen[propNameCss].collapse ? '' : 'hidding'">
+                </app-tree-phan-quyen-node>
+            </li>
+        </ul>
+    </div>
+</div>

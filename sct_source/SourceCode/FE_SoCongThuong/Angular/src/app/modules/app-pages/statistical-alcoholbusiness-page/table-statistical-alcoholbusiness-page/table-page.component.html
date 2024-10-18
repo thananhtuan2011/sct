@@ -1,0 +1,465 @@
+<!--begin::Main-->
+<div class="app-main flex-column flex-row-fluid" id="kt_app_main" style="margin-bottom: -48px;">
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        <!--begin::Toolbar-->
+
+        <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6" style="margin-top: -14px;">
+            <!--begin::Toolbar container-->
+            <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                <!--begin::Page title-->
+                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+
+                    <ng-container>
+                        <!--begin::Title-->
+                        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                            Thống kê tình hình kinh doanh rượu</h1>
+                        <!--end::Title-->
+                        <!--begin::Breadcrumb-->
+                        <app-breadcrumb></app-breadcrumb>
+                        <!--end::Breadcrumb-->
+                    </ng-container>
+
+                </div>
+                <!--end::Page title-->
+            </div>
+            <!--end::Toolbar container-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-xxl">
+                <!--begin::Card-->
+                <div class="card">
+                    <mat-tab-group mat-stretch-tabs="false">
+                        <mat-tab label="Rượu thủ công">
+                            <div class="card-header border-0">
+                                <!--begin::Card title-->
+                                <div class="card-title">
+                                    <!--begin::Search-->
+                                    <div [formGroup]="searchGroup" class="d-flex align-items-center position-relative my-1">
+                                        <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                                        <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
+                                                    rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
+                                                <path
+                                                    d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                    fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                        <input type="text" formControlName="searchTerm" data-kt-business-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Tìm kiếm..." (keyup.enter)="onEnter()" />
+                                    </div>
+                                    <!--end::Search-->
+                                </div>
+                                <!--begin::Card title-->
+                                <!--begin::Card toolbar-->
+                                <div class="card-toolbar">
+
+                                    <div class="d-flex justify-content-end" ngbDropdown placement="bottom-right">
+                                        <!-- begin::Filter -->
+                                        <button type="button" class="btn btn-light-primary me-3" id="kt-filter-button" ngbDropdownToggle>
+                                            <!-- begin::Svg Icon | path: icons/duotune/general/gen031.svg -->
+                                            <span class="svg-icon svg-icon-2">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
+                                                        fill="currentColor" />
+                                                </svg>
+                                            </span>Lọc
+                                            <!--end::Svg Icon-->
+                                        </button>
+                                        <div class="w-300px w-md-325px" id="kt-toolbar-filter" ngbDropdownMenu>
+                                            <ng-container [formGroup]="filterGroup">
+                                                <!-- Tiêu đề -->
+                                                <ng-container id="head">
+                                                    <div class="px-7 py-3">
+                                                        <div class="fs-4 text-dark fw-bold text-center">
+                                                            Điều kiện lọc:
+                                                        </div>
+                                                    </div>
+                                                    <div class="separator border-gray-200"></div>
+                                                </ng-container>
+                                                <!-- Option 1 -->
+                                                <!-- <ng-container id="Option1">
+                                                    <div class="px-7 py-3">
+                                                        <div class="fs-4 text-dark fw-bold">
+                                                            Huyện:
+                                                        </div>
+                                                    </div>
+                                                    <div class="row px-7 mb-6">
+                                                        <app-select-custom [width]="'100%'" data-bs-toggle="modal" [data]="districtData" [options]="options" formControlName="district">
+                                                        </app-select-custom>
+                                                    </div>
+                                                    <div class="separator border-gray-200 mt-6"></div>
+                                                </ng-container> -->
+
+                                                <!-- Option 2 -->
+                                                <ng-container id="Option2">
+                                                    <div class="px-7 py-3">
+                                                        <div class="fs-4 text-dark fw-bold">
+                                                            Tên doanh nghiệp:
+                                                        </div>
+                                                    </div>
+                                                    <div class="row px-7 mb-6">
+                                                        <app-select-custom [width]="'100%'" data-bs-toggle="modal" [data]="businessData" [options]="options" formControlName="business">
+                                                        </app-select-custom>
+                                                    </div>
+                                                    <div class="separator border-gray-200 mt-6"></div>
+                                                </ng-container>
+
+                                                <!-- Option 3 -->
+                                                <ng-container id="Option3">
+                                                    <div class="px-7 py-3">
+                                                        <div class="fs-4 text-dark fw-bold">
+                                                            Năm:
+                                                        </div>
+                                                    </div>
+                                                    <div class="row px-7 mb-6">
+                                                        <app-select-custom [width]="'100%'" data-bs-toggle="modal" [data]="yearData" [options]="options" formControlName="year">
+                                                        </app-select-custom>
+                                                    </div>
+                                                    <div class="separator border-gray-200 mt-6"></div>
+                                                </ng-container>
+                                                <!-- Reset Button -->
+                                                <ng-container id="Option4">
+                                                    <div class="row py-3 px-7">
+                                                        <div class="col-lg-6 center-button">
+                                                            <button type="button" class="btn btn-light-secondary text-dark" (click)="clearFilter()">
+                                                                Thiết lập lại
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-lg-6 center-button">
+                                                            <button type="button" class="btn btn-light-primary" (click)="applyFilter()">
+                                                                Áp dụng
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
+                                        <!--end::Menu-->
+                                        <!--end::Filter-->
+                                    </div>
+                                </div>
+                                <!--end::Card toolbar-->
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="card-body pt-0" style="overflow-y: auto; padding-bottom: 0;" [ngStyle]="{'max-height': getHeight()}">
+                                        <!--begin::Table-->
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable" id="kt_business_table" style="padding: unset;">
+                                            <!--begin::Table head-->
+                                            <thead>
+                                                <!--begin::Table row-->
+                                                <tr class="text-gray-900 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="3">
+                                                        STT
+                                                        <!-- <app-sort-icon column="Id"></app-sort-icon> -->
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="3">
+                                                        Tên huyện
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="3">
+                                                        Tổng <br>doanh nghiệp
+                                                    </th>
+                                                </tr>
+                                                <!--end::Table row-->
+                                            </thead>
+                                            <tbody class="fw-semibold text-gray-600">
+                                                <tr *ngFor="let item of dataCraftAlcoholBusiness.dataCountBusiness ; let i = index;">
+                                                    <td class="text-center">{{i + 1}}</td>
+                                                    <td class="text-center text-decoration-underline" style="cursor: pointer;" (click)="changeValueDistrict(item.districtId)">{{item.districtName}}</td>
+                                                    <td class="text-center">{{item.count}}</td>
+                                                </tr>
+                                                <!-- <tr>
+                                                <td></td>
+                                                <td>Tổng cộng</td>
+                                                <td class="text-center">{{dataNotBuildUpgrade.total}}</td>
+                                            </tr> -->
+                                            </tbody>
+                                            <!--end::Table body-->
+                                        </table>
+                                        <!--end::Table-->
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <h3 class="mb-4 ml-8">Thống kê tình hình kinh doanh rượu khu vực {{districtName}} năm {{yearId}}</h3>
+                                    <div class="card-body pt-0" style="overflow-y: auto; padding-bottom: 0;" [ngStyle]="{'max-height': getHeight()}">
+                                        <!--begin::Table-->
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable" id="kt_business_table" style="padding: unset;">
+                                            <!--begin::Table head-->
+                                            <thead>
+                                                <!--begin::Table row-->
+                                                <tr class="text-gray-900 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        STT
+                                                        <!-- <app-sort-icon column="Id"></app-sort-icon> -->
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Tên doanh nghiệp
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Địa chỉ
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Số lượng <br>mua trong năm
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Tổng giá trị <br> mua trong năm
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Số lượng <br> bán trong năm
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Tổng giá trị <br> bán trong năm
+                                                    </th>
+                                                </tr>
+                                                <!--end::Table row-->
+                                            </thead>
+                                            <tbody class="fw-semibold text-gray-600">
+                                                <tr *ngFor="let item of dataCraftAlcoholBusiness.dataCateReportSoldAncol | filter: dataSearch : ['districtId','maDoanhNghiep']; let i = index;">
+                                                    <td class="text-center">{{i + 1}}</td>
+                                                    <td class="text-center">{{item.tenDoanhNghiep}}</td>
+                                                    <td class="text-center">{{item.diaChi}}</td>
+                                                    <td class="text-center">{{item.soLuongMua}}</td>
+                                                    <td class="text-center">{{item.giaTriMua}}</td>
+                                                    <td class="text-center">{{item.soLuongBan}}</td>
+                                                    <td class="text-center">{{item.giaTriBan}}</td>
+                                                </tr>
+                                            </tbody>
+                                            <!--end::Table body-->
+                                        </table>
+                                        <!--end::Table-->
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Rượu công nghiệp">
+                            <div class="card-header border-0">
+                                <!--begin::Card title-->
+                                <div class="card-title">
+                                    <!--begin::Search-->
+                                    <div [formGroup]="searchGroup" class="d-flex align-items-center position-relative my-1">
+                                        <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                                        <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
+                                                    rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
+                                                <path
+                                                    d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                    fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                        <input type="text" formControlName="searchTermIndustry" data-kt-business-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Tìm kiếm..." (keyup.enter)="onEnterIndustry()" />
+                                    </div>
+                                    <!--end::Search-->
+                                </div>
+                                <!--begin::Card title-->
+                                <!--begin::Card toolbar-->
+                                <div class="card-toolbar">
+                                    <div class="d-flex justify-content-end" ngbDropdown placement="bottom-right">
+                                        <!-- begin::Filter -->
+                                        <button type="button" class="btn btn-light-primary me-3" id="kt-filter-button" ngbDropdownToggle>
+                                            <!-- begin::Svg Icon | path: icons/duotune/general/gen031.svg -->
+                                            <span class="svg-icon svg-icon-2">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
+                                                        fill="currentColor" />
+                                                </svg>
+                                            </span>Lọc
+                                            <!--end::Svg Icon-->
+                                        </button>
+                                        <div class="w-300px w-md-325px " id="kt-toolbar-filter2" ngbDropdownMenu>
+                                            <ng-container [formGroup]="filterGroup2">
+                                                <!-- Tiêu đề -->
+                                                <ng-container id="head">
+                                                    <div class="px-7 py-3">
+                                                        <div class="fs-4 text-dark fw-bold text-center">
+                                                            Điều kiện lọc:
+                                                        </div>
+                                                    </div>
+                                                    <div class="separator border-gray-200"></div>
+                                                </ng-container>
+                                                <!-- Option 1 -->
+                                                <!-- <ng-container id="Option21">
+                                                    <div class="px-7 py-3">
+                                                        <div class="fs-4 text-dark fw-bold">
+                                                            Huyện:
+                                                        </div>
+                                                    </div>
+                                                    <div class="row px-7 mb-6">
+                                                        <app-select-custom [width]="'100%'" data-bs-toggle="modal" [data]="districtData" [options]="options" formControlName="district2">
+                                                        </app-select-custom>
+                                                    </div>
+                                                    <div class="separator border-gray-200 mt-6"></div>
+                                                </ng-container> -->
+
+                                                <!-- Option 2 -->
+                                                <ng-container id="Option22">
+                                                    <div class="px-7 py-3">
+                                                        <div class="fs-4 text-dark fw-bold">
+                                                            Tên doanh nghiệp:
+                                                        </div>
+                                                    </div>
+                                                    <div class="row px-7 mb-6">
+                                                        <app-select-custom [width]="'100%'" data-bs-toggle="modal" [data]="businessData" [options]="options" formControlName="business2">
+                                                        </app-select-custom>
+                                                    </div>
+                                                    <div class="separator border-gray-200 mt-6"></div>
+                                                </ng-container>
+
+                                                <!-- Option 3 -->
+                                                <ng-container id="Option23">
+                                                    <div class="px-7 py-3">
+                                                        <div class="fs-4 text-dark fw-bold">
+                                                            Năm:
+                                                        </div>
+                                                    </div>
+                                                    <div class="row px-7 mb-6">
+                                                        <app-select-custom [width]="'100%'" data-bs-toggle="modal" [data]="yearData" [options]="options" formControlName="year2">
+                                                        </app-select-custom>
+                                                    </div>
+                                                    <div class="separator border-gray-200 mt-6"></div>
+                                                </ng-container>
+                                                <!-- Reset Button -->
+                                                <ng-container id="Option4">
+                                                    <div class="row py-3 px-7">
+                                                        <div class="col-lg-6 center-button">
+                                                            <button type="button" class="btn btn-light-secondary text-dark" (click)="clearFilter()">
+                                                                Thiết lập lại
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-lg-6 center-button">
+                                                            <button type="button" class="btn btn-light-primary" (click)="applyFilter()">
+                                                                Áp dụng
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
+                                        <!--end::Menu-->
+                                        <!--end::Filter-->
+                                    </div>
+                                </div>
+                                <!--end::Card toolbar-->
+                            </div>
+                            <div class="row">
+
+                                <div class="col-lg-4">
+                                    <div class="card-body pt-0" style="overflow-y: auto; padding-bottom: 0;" [ngStyle]="{'max-height': getHeight()}">
+                                        <!--begin::Table-->
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable" id="kt_business_table" style="padding: unset;">
+                                            <!--begin::Table head-->
+                                            <thead>
+                                                <!--begin::Table row-->
+                                                <tr class="text-gray-900 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="3">
+                                                        STT
+                                                        <!-- <app-sort-icon column="Id"></app-sort-icon> -->
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="3">
+                                                        Tên huyện
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="3">
+                                                        Tổng <br>doanh nghiệp
+                                                    </th>
+                                                </tr>
+                                                <!--end::Table row-->
+                                            </thead>
+                                            <tbody class="fw-semibold text-gray-600">
+                                                <tr *ngFor="let item of dataIndustrialAlcoholBusiness.dataCountBusiness ; let i = index;">
+                                                    <td class="text-center">{{i + 1}}</td>
+                                                    <td class="text-center text-decoration-underline" style="cursor: pointer;" (click)="changeValueDistrict2(item.districtId)">{{item.districtName}}</td>
+                                                    <td class="text-center">{{item.count}}</td>
+                                                </tr>
+                                                <!-- <tr>
+                                            <td></td>
+                                            <td>Tổng cộng</td>
+                                            <td class="text-center">{{dataNotBuildUpgrade.total}}</td>
+                                        </tr> -->
+                                            </tbody>
+                                            <!--end::Table body-->
+                                        </table>
+                                        <!--end::Table-->
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <h3 class="mb-4 ml-8">Thống kê tình hình kinh doanh rượu khu vực {{districtName2}} năm {{yearId2}}</h3>
+                                    <div class="card-body pt-0" style="overflow-y: auto; padding-bottom: 0;" [ngStyle]="{'max-height': getHeight()}">
+                                        <!--begin::Table-->
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable" id="kt_business_table" style="padding: unset;">
+                                            <!--begin::Table head-->
+                                            <thead>
+                                                <!--begin::Table row-->
+                                                <tr class="text-gray-900 fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        STT
+                                                        <!-- <app-sort-icon column="Id"></app-sort-icon> -->
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Tên doanh nghiệp
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Địa chỉ
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Số lượng <br>mua trong năm
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Tổng giá trị <br> mua trong năm
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Số lượng <br> bán trong năm
+                                                    </th>
+                                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">
+                                                        Tổng giá trị <br> bán trong năm
+                                                    </th>
+                                                </tr>
+
+                                                <!--end::Table row-->
+                                            </thead>
+                                            <tbody class="fw-semibold text-gray-600">
+                                                <tr *ngFor="let item of dataIndustrialAlcoholBusiness.dataCateReportSoldAncol | filter: dataSearchIndustry : ['districtId', 'maDoanhNghiep  ']; let i = index;">
+                                                    <td class="text-center">{{i + 1}}</td>
+                                                    <td class="text-center">{{item.tenDoanhNghiep}}</td>
+                                                    <td class="text-center">{{item.diaChi}}</td>
+                                                    <td class="text-center">{{item.soLuongMua}}</td>
+                                                    <td class="text-center">{{item.giaTriMua}}</td>
+                                                    <td class="text-center">{{item.soLuongBan}}</td>
+                                                    <td class="text-center">{{item.giaTriBan}}</td>
+                                                </tr>
+                                            </tbody>
+                                            <!--end::Table body-->
+                                        </table>
+                                        <!--end::Table-->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-tab>
+                    </mat-tab-group>
+                    <!--begin::Card header-->
+
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Content container-->
+        </div>
+        <!--end::Content-->
+    </div>
+    <!--end::Content wrapper-->
+
+</div>
+<!--end:::Main-->

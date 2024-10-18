@@ -1,0 +1,58 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="typeofenergyData">
+                <ng-container *ngIf="typeofenergyData.typeOfEnergyCode !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="typeofenergyData.typeOfEnergyCode === ''">THÊM MỚI</ng-container>
+                LOẠI HÌNH NĂNG LƯỢNG
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="typeofenergyData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Mã loại hình năng lượng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="TypeOfEnergyCode" 
+                        placeholder="Hãy nhập mã loại năng lượng" autocomplete="off" 
+                        [class.is-invalid]="isControlInvalid('TypeOfEnergyCode')" 
+                        [class.is-valid]="isControlValid('TypeOfEnergyCode')" 
+                        formControlName="TypeOfEnergyCode" />
+                        <!-- <div class="valid-feedback" *ngIf="isControlValid('Name')"> name was entered correct</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'TypeOfEnergyCode')">Bắt buộc</div>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'TypeOfEnergyCode')">Mã loại hình năng lượng ít nhất 6 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'TypeOfEnergyCode')">Mã loại hình năng lượng tối đa 6 ký tự</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'TypeOfEnergyCode')">Mã loại hình năng lượng không được có dấu và khoảng trắng</div>
+                    </div>
+                </div>               
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên loại hình năng lượng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="TypeOfEnergyName" 
+                        placeholder="Hãy nhập tên loại năng lượng" autocomplete="off" 
+                        [class.is-invalid]="isControlInvalid('TypeOfEnergyName')" 
+                        [class.is-valid]="isControlValid('TypeOfEnergyName')" 
+                        formControlName="TypeOfEnergyName" />
+                        <!-- <div class="valid-feedback" *ngIf="isControlValid('Name')"> name was entered correct</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'TypeOfEnergyName')">Bắt buộc</div>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'TypeOfEnergyName')">Tên loại hình năng lượng ít nhất 3 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'TypeOfEnergyName')">Tên loại hình năng lượng tối đa 100 ký tự</div> -->
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="typeofenergyData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

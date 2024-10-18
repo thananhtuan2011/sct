@@ -1,0 +1,284 @@
+<div class="modal-content bg-light">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="editData">
+                <ng-container *ngIf="id">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id">THÊM MỚI</ng-container>
+                PHIẾU QUẢN LÝ BÁN LẺ
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <!-- Card 1: Thông tin báo cáo -->
+                <div class="card mb-6">
+                    <div class="card-header p-8" style="align-content: space-around;">
+                        <h2 class="text-primary" style="margin: auto 0;">Thông tin báo cáo</h2>
+                    </div>
+                    <div class="card-body border-0">
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label required fw-semibold fs-6">Tên phiếu</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid"
+                                    name="TenPhieu" placeholder="Hãy nhập tên phiếu" autocomplete="off"
+                                    formControlName="ConsumerServiceRevenueCode" />
+                                <div class="invalid-feedback d-block"
+                                    *ngIf="controlHasError('required', 'ConsumerServiceRevenueCode')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-6">
+                                <label class="form-label">Ngày tạo</label>
+                                <app-date-picker-custom formControlName="NgayTao" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label class="form-label required fw-semibold fs-6">Tháng báo cáo</label>
+                                <!-- <div class="input-group input-group-solid">
+                                    <input type="month" class="form-control form-control-lg form-control-solid"
+                                        autocomplete="off" placeholder="MM/YYYY" formControlName="ReportMonth"/>
+                                </div> -->
+                                <app-month-year-picker-custom ComponentId="ReportMonth" formControlName="ReportMonth" Placeholder="MM/YYYY"></app-month-year-picker-custom>
+                                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'ReportMonth')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+
+                        <div [className]="isDefaultValue('CreateName') ? 'form-group row mb-6' : 'form-group row'">
+                            <div class="col-lg-6 mb-6">
+                                <label class="form-label required fw-semibold fs-6">Người tạo</label>
+                                <app-select-custom [width]="'100%'" [placeholder]="'Chọn người tạo'" [data]="dataUser"
+                                    [options]="options" formControlName="CreateName">
+                                </app-select-custom>
+                                <div style="padding-top: 20px;" class="invalid-feedback d-block"
+                                    *ngIf="isDefaultValue('CreateName')">Bắt buộc</div>
+                            </div>
+                            <div class="col-lg-6 mb-6">
+                                <label class="form-label required fw-semibold fs-6">Ngày duyệt</label>
+                                <app-date-picker-custom formControlName="NgayDuyet" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'NgayDuyet')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='form-group row mb-6'>
+                            <div class="col-lg-6">
+                                <label class="form-label required fw-semibold fs-6">Người duyệt</label>
+                                <app-select-custom [width]="'100%'" [placeholder]="'Chọn người duyệt'" [data]="dataUser"
+                                    [options]="options" formControlName="ConfirmName">
+                                </app-select-custom>
+                                <div style="padding-top: 20px;" class="invalid-feedback d-block"
+                                    *ngIf="isDefaultValue('ConfirmName')">Bắt buộc</div>
+                            </div>
+
+                            <div class="col-lg-6 mb-6">
+                                <label class="form-label required fw-semibold fs-6">Người kiểm tra</label>
+                                <app-select-custom [width]="'100%'" [placeholder]="'Chọn người kiểm tra'"
+                                    [data]="dataUser" [options]="options" formControlName="CheckName">
+                                </app-select-custom>
+                                <div style="padding-top: 20px;" class="invalid-feedback d-block"
+                                    *ngIf="isDefaultValue('CheckName')">Bắt buộc</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Tổng mức bán lẻ hàng hóa theo năm báo cáo -->
+                <div class="card mb-6">
+                    <div class="card-header p-8" style="align-content: space-around;">
+                        <span>
+                            <h2 class="text-primary" style="margin: auto 0;">Tổng mức bán lẻ hàng hóa theo năm báo cáo</h2>
+                            <a style="size: 10px;" style="margin: auto 0;"><mat-hint>Đơn vị tính: Tỷ đồng</mat-hint></a>
+                        </span>
+                        <button 
+                            type="button" 
+                            class="btn btn-primary" 
+                            data-bs-toggle="modal"
+                            style="height: 60% !important;" 
+                            data-bs-target="#kt_modal_add_typeofenergy"
+                            (click)="createCate()">
+                            Thêm chỉ tiêu
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
+                            <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                                <th class="min-w-100px text-center" style="vertical-align: middle;">STT</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Chỉ tiêu</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Thực hiện<br>tháng trước</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Ước tính<br>tháng báo cáo</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Cộng dồn từ đầu năm<br>đến cuối tháng báo cáo</th>
+                                <th class="min-w-50px"></th>
+                            </tr>
+                            <tr *ngFor="let item of dataSourceTheoNam; let i = index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.criteriaName}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.performLastmonth}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.estimateReportingMonth}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.cumulativeToReportingMonth}}
+                                </td>
+                                <td class="min-w-50px text-center">
+                                    <button type="button" mat-icon-button (click)="(delDetail(item, i))">
+                                        <mat-icon color="warn">
+                                            delete
+                                        </mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="2">
+                                    <label class="form-label fw-semibold fs-6">Tổng cộng:</label>
+                                </td>
+                                <td class="text-center">
+                                    {{round_number(totaldetail1)}}
+                                </td>
+                                <td class="text-center">
+                                    {{round_number(totaldetail2)}}
+                                </td>
+                                <td class="text-center">
+                                    {{round_number(totaldetail3)}}
+                                </td>
+                                <td class="text-center">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Card 3: Tổng mức bán lẻ hàng hóa theo năm trước -->
+                <!-- <div class="card mb-6">
+                    <div class="card-header p-8">
+                        <span>
+                            <h2 class="text-primary" style="margin: auto 0;">Tổng mức bán lẻ hàng hóa theo năm trước
+                            </h2>
+                            <a style="size: 10px;" style="margin: auto 0;"><mat-hint>Đơn vị tính: Tỷ đồng</mat-hint></a>
+                        </span>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            style="height: 60% !important;" data-bs-target="#kt_modal_add_typeofenergy"
+                            (click)="createCateOld()">Thêm chỉ tiêu</button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
+                            <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                                <th class="min-w-100px text-center" style="vertical-align: middle;">STT</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Chỉ tiêu</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Thực hiện<br>tháng báo cáo</th>
+                                <th class="min-w-175px text-center" style="vertical-align: middle;">Cộng dồn từ đầu năm<br>đến cuối tháng báo cáo</th>
+                                <th class="min-w-50px text-center"></th>
+                            </tr>
+                            <tr *ngFor="let item of dataSourceTheoNamTruoc; let i = index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.criteriaName}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.performReporting}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.cumulativeToReportingMonth}}
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" mat-icon-button (click)="(delDetail2(item))">
+                                        <mat-icon color="warn">
+                                            delete
+                                        </mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="2">
+                                    <label class="form-label fw-semibold">Tổng cộng:</label>
+                                </td>
+                                <td class="text-center">
+                                    {{totaldetail4 > 0 ? totaldetail4 : ""}}
+                                </td>
+                                <td class="text-center">
+                                    {{totaldetail5 > 0 ? totaldetail5 : ""}}
+                                </td>
+                                <td class="text-center">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div> -->
+
+                <!-- Card 4: Tỷ lệ(%) -->
+                <!-- <div class="card">
+                    <div class="card-header p-8">
+                        <h2 class="text-primary" style="margin: auto 0;">Tỷ lệ(%)</h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
+                            <tr class="text-gray-900 fs-6 me-2">
+                                <th id="STT" class="min-w-50px text-center" style="vertical-align: middle;">STT</th>
+                                <th id="Criteria" class="min-w-150px text-center" style="vertical-align: middle;">Chỉ tiêu</th>
+                                <th class="min-w-150px text-center" style="vertical-align: middle;">Ước tính tháng báo cáo<br>so với thực hiện tháng trước</th>
+                                <th class="min-w-150px text-center" style="vertical-align: middle;">Ước tính tháng báo cáo<br>so với thực hiện tháng cùng kỳ năm trước</th>
+                                <th class="min-w-150px text-center" style="vertical-align: middle;">Cộng dồn từ đầu năm<br>đến cuối tháng báo cáo</th>
+                            </tr>
+                            <tr *ngFor="let item of dataSource; let i = index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.criterianame}}
+                                </td>
+                                <td class="text-center">
+                                    {{round_number(item.col1)}}
+                                </td>
+                                <td class="text-center">
+                                    {{round_number(item.col2)}}
+                                </td>
+                                <td class="text-center">
+                                    {{round_number(item.col3)}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="Total" class="text-center" colspan="2">
+                                    <label class="form-label fw-semibold">Tổng cộng:</label>
+                                </td>
+                                <td class="text-center">
+                                    {{round_number(totaldetail6)}}
+                                </td>
+                                <td class="text-center">
+                                    {{round_number(totaldetail7)}}
+                                </td>
+                                <td class="text-center">
+                                    {{round_number(totaldetail8)}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div> -->
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light bg-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="editData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác
+                nhận</button>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,178 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="editData">
+                <ng-container *ngIf="id">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id">THÊM MỚI</ng-container>
+                CƠ SỞ SỬ DỤNG NĂNG LƯỢNG TRỌNG ĐIỂM
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right"
+                [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">
+                            Tên cơ sở
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'"
+                                [data]="businessData" [options]="options"
+                                formControlName="BusinessId">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('BusinessId')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="orm-group row mb-6">
+                    <div class="col-lg-3">
+                        <label class="form-label required fw-semibold fs-6">
+                            Huyện
+                        </label>
+                        <input readonly type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Huyện" autocomplete="off"
+                            formControlName="District" />
+                    </div>
+                    <div class="col-lg-9">
+                        <label class="form-label required fw-semibold fs-6">
+                            Địa điểm
+                        </label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Địa điểm cơ sở" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('Address')"
+                            [class.is-valid]="isControlValid('Address')"
+                            formControlName="Address" />
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'Address')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">
+                            Lĩnh vực
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'"
+                                [data]="typeofprofessionData"
+                                [options]="options" formControlName="Profession">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('Profession')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">
+                            Ngành nghề sản xuất
+                        </label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập ngành nghề sản xuất"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('ManufactProfession')"
+                            [class.is-valid]="isControlValid('ManufactProfession')"
+                            formControlName="ManufactProfession" />
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'ManufactProfession')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-3">
+                        <label class="form-label required fw-semibold fs-6">
+                            Năm
+                        </label>
+                        <app-month-year-picker-custom ComponentId="Date"
+                            formControlName="Date" Placeholder="YYYY"
+                            ViewMode="years"></app-month-year-picker-custom>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('Date')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <label class="form-label required fw-semibold fs-6">
+                            Tiêu thụ năng lượng quy đổi (TOE)
+                        </label>
+                        <input type="number" min="0"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập tiêu thụ năng lượng quy đổi"
+                            autocomplete="off"
+                            formControlName="EnergyConsumption" />
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('EnergyConsumption')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">
+                            Quyết định CSNLTĐ
+                        </label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập quyết định CSNLTĐ"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('Decision')"
+                            [class.is-valid]="isControlValid('Decision')"
+                            formControlName="Decision" />
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">
+                            Link thông tin cơ sở
+                        </label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập link thông tin cơ sở"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('Link')"
+                            [class.is-valid]="isControlValid('Link')"
+                            formControlName="Link" />
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">
+                            Ghi chú
+                        </label>
+                        <textarea type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            autocomplete="off" placeholder="Hãy nhập ghi chú"
+                            formControlName="Note" rows="2">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2"
+            (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="editData">
+            <button type="submit" class="btn btn-primary btn-elevate"
+                (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

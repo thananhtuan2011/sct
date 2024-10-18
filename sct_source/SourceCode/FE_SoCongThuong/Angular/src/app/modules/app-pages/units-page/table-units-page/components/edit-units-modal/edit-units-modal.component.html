@@ -1,0 +1,82 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="unitData">
+                <ng-container *ngIf="unitData.unitName !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="unitData.unitName === ''">THÊM MỚI</ng-container>
+            </ng-container>
+            ĐƠN VỊ TÍNH
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="unitData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên đơn vị tính</label>
+                        <input placeholder="Hãy nhập tên đơn vị tính" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" [class.is-invalid]="isControlInvalid('UnitName')" [class.is-valid]="isControlValid('UnitName')" formControlName="UnitName"
+                        />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'UnitName')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">Tên tiếng Anh</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Hãy nhập tên tiếng Anh" autocomplete="off" formControlName="UnitNameEn" />
+                        <!-- [class.is-invalid]="isControlInvalid('unitNameEN')" 
+                        [class.is-valid]="isControlValid('unitNameEN')"  -->
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('required', 'unitNameEN')">Bắt buộc</div> -->
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">Ký hiệu / mã đơn vị tính</label>
+                        <input type="text" placeholder="Hãy nhập ký hiệu / mã đơn vị tính" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="UnitCode"/>
+                        <!-- [class.is-invalid]="isControlInvalid('unitCode')" 
+                            [class.is-valid]="isControlValid('unitCode')"  -->
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('required', 'unitCode')">Bắt buộc</div> -->
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">Giá trị quy đổi</label>
+                        <input placeholder="Hãy nhập giá trị quy đổi" type="number" min="0" step="1" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Exchange"/>
+                        <!-- [class.is-invalid]="isControlInvalid('exchange')" 
+                        [class.is-valid]="isControlValid('exchange')"  -->
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('required', 'exchange')">Bắt buộc</div> -->
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label">Ghi chú</label>
+                        <!-- <input type="text" class="form-control form-control-lg form-control-solid" 
+                        autocomplete="off" 
+                        [class.is-invalid]="isControlInvalid('note')" 
+                        [class.is-valid]="isControlValid('note')" 
+                        formControlName="Note" /> -->
+                        <textarea placeholder="Ghi chú" type="text" rows="4" class="form-control form-control-lg form-control-solid" formControlName="Note">
+                        </textarea>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('required', 'note')">Bắt buộc</div> -->
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="unitData">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

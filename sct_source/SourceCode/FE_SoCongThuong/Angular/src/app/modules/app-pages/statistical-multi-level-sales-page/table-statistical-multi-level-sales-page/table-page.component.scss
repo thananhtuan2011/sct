@@ -1,0 +1,43 @@
+thead {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    th {
+        padding-left: 0 !important;
+        // border: dashed 1px #eff2f5;
+    }
+}
+
+tbody #total {
+    position: sticky;
+    bottom: 0;
+    background-color: #ffffff;
+    font-weight: bold;
+}
+
+th {
+    vertical-align: middle !important;
+}
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 200px;
+    overflow: auto;
+    word-break: break-word;
+}
+
+.item {
+    margin-right: 5px;
+}
+
+app-select-custom {
+    height: 45.86px !important;
+}

@@ -1,0 +1,143 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="ruralDevelopmentPlanData">
+                <ng-container *ngIf="ruralDevelopmentPlanData.id !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="ruralDevelopmentPlanData.id === ''">THÊM MỚI</ng-container>
+                KẾ HOẠCH PHÁT TRIỂN CHỢ NÔNG THÔN
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên TTTM / Siêu thị</label>
+                        <input placeholder="Hãy nhập tên TTTM / siêu thị" type="text" class="form-control form-control-lg form-control-solid" formControlName="SuperMarketShoppingMallName" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'SuperMarketShoppingMallName')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Địa chỉ</label>
+                        <input placeholder="Hãy nhập địa chỉ" type="text" class="form-control form-control-lg form-control-solid" formControlName="Address" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Address')">Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <!-- Column Left -->
+                    <div class="col-lg-6">
+                        <label class="form-label" style="display: flex; justify-content: center;">Dự kiến nguồn
+                            vốn</label>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label">Giai đoạn</label>
+                                <app-select-custom [width]="'100%'" [data]="stageData" [options]="options" formControlName="StageId">
+                                </app-select-custom>
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngFor="let year of currentYearRange">
+                            <div class="col-lg-12">
+                                <label class="form-label">{{year}}</label>
+                                <input placeholder="Hãy nhập dự kiến nguồn vốn năm {{year}}" (keyup)="dynamic_form_value_change($event, year)" (keypress)="prenventInputNonNumber($event)" type="text" class="form-control form-control-lg form-control-solid" [formControlName]="year" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column Right -->
+                    <div class="col-lg-6">
+                        <label class="form-label" style="display: flex; justify-content: center;">Kế hoạch năm đầu tư
+                            xây dựng</label>
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <label class="form-label">Tổng vốn đầu tư</label>
+
+                                <!-- <div 
+                                    class="invalid-feedback d-block" 
+                                    *ngIf="controlHasError('required', 'TotalInvestment')">
+                                    Bắt buộc
+                                </div> -->
+                                <div class="input-group">
+                                    <input placeholder="Hãy nhập tổng vốn đầu tư" (keypress)="prenventInputNonNumber($event)" type="text" class="form-control form-control-lg form-control-solid" formControlName="TotalInvestment" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text form-control form-control-lg form-control-solid">VND</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <label class="form-label">Ngân sách</label>
+                                <!-- <input (keypress)="prenventInputNonNumber($event)" type="text"
+                                    class="form-control form-control-lg form-control-solid" formControlName="Budget" /> -->
+                                <!-- <div 
+                                    class="invalid-feedback d-block" 
+                                    *ngIf="controlHasError('required', 'Budget')">
+                                    Bắt buộc
+                                </div> -->
+                                <div class="input-group">
+                                    <input placeholder="Hãy nhập vốn ngân sách" (keypress)="prenventInputNonNumber($event)" type="text" class="form-control form-control-lg form-control-solid" formControlName="Budget" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text form-control form-control-lg form-control-solid">VND</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <label class="form-label">Ngoài ngân sách</label>
+                                <!-- <input (keypress)="prenventInputNonNumber($event)" type="text"
+                                    class="form-control form-control-lg form-control-solid"
+                                    formControlName="OutOfBudget" /> -->
+                                <!-- <div 
+                                    class="invalid-feedback d-block" 
+                                    *ngIf="controlHasError('required', 'OutOfBudget')">
+                                    Bắt buộc
+                                </div> -->
+                                <div class="input-group">
+                                    <input placeholder="Hãy nhập vốn ngoài ngân sách" (keypress)="prenventInputNonNumber($event)" type="text" class="form-control form-control-lg form-control-solid" formControlName="OutOfBudget" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text form-control form-control-lg form-control-solid">VND</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Loại hình -->
+                        <div class="form-group row">
+                            <label class="form-label">Loại hình</label>
+                            <div class="col-lg-6">
+                                <section class="isbuild-section">
+                                    <mat-checkbox class="isbuild-margin" formControlName="IsBuild" (change)="buildorupgrade('IsBuild')">
+                                        Xây dựng
+                                    </mat-checkbox>
+                                </section>
+                            </div>
+                            <div class="col-lg-6">
+                                <section class="isupgrade-section">
+                                    <mat-checkbox class="isupgrade-margin" formControlName="IsUpgrade" (change)="buildorupgrade('IsUpgrade')">
+                                        Nâng cấp
+                                    </mat-checkbox>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="ruralDevelopmentPlanData">
+            <button type="submit" z class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác
+                nhận</button>
+        </ng-container>
+    </div>
+</div>

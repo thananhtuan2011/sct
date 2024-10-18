@@ -1,0 +1,94 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="alcoholBusinessData">
+                CHI TIẾT ĐƠN VỊ KINH DOANH RƯỢU
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="alcoholBusinessData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div className="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label fw-semibold fs-6">Tên doanh nghiệp</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="TenDoanhNghiep" formControlName="TenDoanhNghiep" />
+                    </div>
+                </div>
+                <div className="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label fw-semibold fs-6">Địa chỉ trụ sở</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="DiaChiTruSo" formControlName="DiaChiTruSo" />
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6 mb-6">
+                        <label class="form-label fw-semibold fs-6">Người đại diện</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="NguoiDaiDien" formControlName="NguoiDaiDien" />
+                    </div>
+                    <div class="col-lg-6 mb-6">
+                        <label class="form-label fw-semibold fs-6">Số điện thoại</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="SoDienThoai" formControlName="SoDienThoai" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6">Giấy đăng ký kinh doanh</label>
+                        <input type="text" readonly class="form-control form-control-lg form-control-solid" name="GiayDangKyKinhDoanh" autocomplete="off" formControlName="GiayDangKyKinhDoanh" />
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6">Ngày cấp phép</label>
+                        <input type="text" readonly class="form-control form-control-lg form-control-solid" name="NgayCapPhep" autocomplete="off" formControlName="NgayCapPhep" />
+                    </div>
+                </div>
+                <div class="form-group row mt-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Giấy phép bán buôn rượu</label>
+                        <input type="text" readonly class="form-control form-control-lg form-control-solid" name="GiayPhepBanBuon" autocomplete="off" formControlName="GiayPhepBanBuon" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Ngày cấp giấy phép bán buôn rượu</label>
+                        <input type="text" readonly class="form-control form-control-lg form-control-solid" name="NgayCapGiayPhepBanBuon" autocomplete="off" formControlName="NgayCapGiayPhepBanBuon" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Ngày hết hạn giấy phép bán buôn rượu</label>
+                        <input type="text" readonly class="form-control form-control-lg form-control-solid" name="NgayHetHanGiayPhepBanBuon" autocomplete="off" formControlName="NgayHetHanGiayPhepBanBuon" />
+                    </div>
+                </div>
+                <div className="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label fw-semibold fs-6">Hệ thống cửa hàng</label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable">
+                        <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                            <th class="min-w-100px text-center" style="vertical-align: middle;">STT</th>
+                            <th class="min-w-175px text-center" style="vertical-align: middle;">Tên cửa hàng</th>
+                            <th class="min-w-175px text-center" style="vertical-align: middle;">Người đại diện</th>
+                            <th class="min-w-175px text-center" style="vertical-align: middle;">SĐT</th>
+                        </tr>
+                        <tr *ngFor="let item of dataSource; let i = index">
+                            <td class="text-center">{{i+1}}</td>
+                            <td class="text-center" (click)="view(item)">
+                                <a style="text-decoration: underline; cursor: pointer;">
+                                    {{item.tenDoanhNghiep}}
+                                </a>
+                            </td>
+                            <td class="text-center">{{item.nguoiDaiDien}}</td>
+                            <td class="text-center">{{item.soDienThoai}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+    </div>
+</div>

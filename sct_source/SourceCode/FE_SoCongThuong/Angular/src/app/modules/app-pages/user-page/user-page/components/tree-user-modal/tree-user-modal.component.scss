@@ -1,0 +1,32 @@
+.tree-invisible {
+    display: none;
+}
+
+.mat-tree-node{
+    min-height: 40px;
+}
+
+.tree ul,
+.tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+}
+
+/* silly UX, they want a border in the full width of the tree between tree nodes */
+.tree {
+    position: relative;
+}
+
+.tree-node-name {
+    flex: 1 1 auto;
+}
+
+// li::before {
+//     height: 3rem;
+//     position: absolute;
+//     left: 0;
+//     right: 0;
+//     border-bottom: #EEE 1px solid;
+//     content: ' ';
+// }

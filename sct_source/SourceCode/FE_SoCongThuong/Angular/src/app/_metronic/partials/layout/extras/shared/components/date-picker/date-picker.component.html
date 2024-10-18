@@ -1,0 +1,24 @@
+<form class="form form-label-right">
+    <div class="form-group">
+        <div class="input-group input-group-solid">
+            <input 
+                type="text"
+                class="form-control form-control-lg form-control-solid" 
+                placeholder="DD/MM/YYYY" 
+                name="dp" 
+                [(ngModel)]="DateString"
+                (ngModelChange)="onInputChange($event)"
+                ngbDatepicker
+                #d="ngbDatepicker"
+                [disabled]="isDisabled"
+                (focus)="onTouched()">
+                <!-- [minDate]="{year: 1900, month: 1, day: 1}",
+                [maxDate]="{year: 2100, month: 1, day: 1}", -->
+            <div class="input-group-append" (click)="d.toggle()">
+                <span class="input-group-text">
+                    <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</form>

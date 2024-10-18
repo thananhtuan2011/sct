@@ -1,0 +1,28 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Phân quyền nhóm người dùng
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container>
+            <!--begin::Content-->
+            <app-tree-phan-quyen *ngIf="dataTreeQuyen ? dataTreeQuyen.length > 0 : false" [nameNode]="'keytext'" [nameNodeNoKey]="'text'" [propNameChild]="'children'" [propNameCss]="'anCss'" [valuePhanQuyen]="dataTreeQuyen" [textFeildRoof]="'Tất cả'" [idRoleKey]="'idRole'"
+                [permitted]="'Permitted'" (nemoTreeChanged)="treequyenChanged($event)">
+            </app-tree-phan-quyen>
+            <!--end::Content-->
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="saveRoles()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

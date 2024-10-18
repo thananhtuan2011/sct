@@ -1,0 +1,64 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="show">
+                <ng-container *ngIf="id">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id">THÊM MỚI</ng-container>
+                THÔNG TIN CHỢ, SIÊU THỊ, TRUNG TÂM THƯƠNG MẠI
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Loại hình</label>
+                        <app-select-custom [width]="'100%'" [data]="typeData" [options]="options" formControlName="Type" (valueChanged)="gettype($event)">
+                        </app-select-custom>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Mã {{type}}</label>
+                        <input placeholder="Hãy nhập mã {{type}}" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Code" [class.is-invalid]="isControlInvalid('Code')" [class.is-valid]="isControlValid('Code')" />
+                    </div>
+                    <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Code')">Bắt buộc</div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên {{type}}</label>
+                        <input placeholder="Hãy nhập tên {{type}}" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Name" [class.is-invalid]="isControlInvalid('Name')" [class.is-valid]="isControlValid('Name')" />
+                    </div>
+                    <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Name')">Bắt buộc</div>
+                </div>
+            </form>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <div [ngSwitch]="type">
+                <app-edit-market-modal *ngSwitchCase="'Chợ'" [id]='id' [typeId]='typeid' [code]="formGroup.controls['Code'].value" [name]="formGroup.controls['Name'].value">
+                </app-edit-market-modal>
+                <app-edit-supermarket-modal *ngSwitchCase="'Siêu thị'" [id]='id' [typeId]='typeid' [code]="formGroup.controls['Code'].value" [name]="formGroup.controls['Name'].value">
+                </app-edit-supermarket-modal>
+                <app-edit-shoppingmall-modal *ngSwitchCase="'Trung tâm thương mại'" [id]='id' [typeId]='typeid' [code]="formGroup.controls['Code'].value" [name]="formGroup.controls['Name'].value">
+                </app-edit-shoppingmall-modal>
+                <app-edit-conveniencestore-modal *ngSwitchCase="'Cửa hàng tiện lợi'" [id]='id' [typeId]='typeid' [code]="formGroup.controls['Code'].value" [name]="formGroup.controls['Name'].value">
+                </app-edit-conveniencestore-modal>
+                <app-edit-specializedstore-modal *ngSwitchCase="'Cửa hàng chuyên doanh'" [id]='id' [typeId]='typeid' [code]="formGroup.controls['Code'].value" [name]="formGroup.controls['Name'].value">
+                </app-edit-specializedstore-modal>
+                <app-edit-grocery-modal *ngSwitchCase="'Cửa hàng tạp hoá, thực phẩm truyền thống'" [id]='id' [typeId]='typeid' [code]="formGroup.controls['Code'].value" [name]="formGroup.controls['Name'].value">
+                </app-edit-grocery-modal>
+                <app-edit-logistics-modal *ngSwitchCase="'Trung tâm Logistics'" [id]='id' [typeId]='typeid' [code]="formGroup.controls['Code'].value" [name]="formGroup.controls['Name'].value">
+                </app-edit-logistics-modal>
+            </div>
+        </ng-container>
+
+    </div>
+</div>

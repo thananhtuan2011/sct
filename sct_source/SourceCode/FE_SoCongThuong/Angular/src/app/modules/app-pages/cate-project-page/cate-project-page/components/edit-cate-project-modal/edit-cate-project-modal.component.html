@@ -1,0 +1,1486 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="CateProjectData">
+                <ng-container *ngIf="CateProjectData.id !== ''">
+                    <h2 class="text-primary">CHỈNH SỬA DỰ ÁN</h2>
+                </ng-container>
+                <ng-container *ngIf="CateProjectData.id === ''">
+                    <h2 class="text-primary">THÊM MỚI DỰ ÁN</h2>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="CateProjectData">
+            <mat-horizontal-stepper #stepper [linear]="!isLinear">
+                <mat-step [stepControl]="firstFormGroup">
+                    <form [formGroup]="firstFormGroup">
+                        <!-- Step 1: Chọn loại dự án -->
+                        <ng-template matStepLabel="matStepLabel">Loại dự án</ng-template>
+                        <!-- DDI -->
+                        <div class="form-group row mb-1">
+                            <div class="col-lg-12">
+                                <label
+                                    id="active1"
+                                    (click)="active(1)"
+                                    [ngClass]="type!==1 ? 'btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6'
+                                                        : 'btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6 active'"
+                                    style= "margin-left: 25%;
+                                            margin-right: 25%;"
+                                    class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6">
+                                    <input
+                                        matInput="matInput"
+                                        class="btn-check"
+                                        formControlName="type"
+                                        name="project_type"
+                                        value="1"/>
+                                    <span class="d-flex">
+                                        <span class="svg-icon svg-icon-3hx">
+                                            <svg
+                                                version="1.1"
+                                                id="Capa_1"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                x="0px"
+                                                y="0px"
+                                                viewBox="0 0 220 220"
+                                                style="enable-background:new 0 0 220 220;"
+                                                xml:space="preserve">
+                                                <path
+                                                    d="M211.5,15.022C211.5,6.726,204.774,0,196.478,0H23.522C15.226,0,8.5,6.726,8.5,15.022v189.955
+                                                    C8.5,213.274,15.226,220,23.522,220h172.955c8.297,0,15.022-6.726,15.022-15.022V15.022z M88.5,199h-49v-45h49V199z M88.5,132h-49
+                                                    V88h49V132z M88.5,66h-49V21h49V66z M144.803,199.63l-26.306-26.306l11.205-11.205l15.101,15.102l23.65-23.65l11.205,11.205
+                                                    L144.803,199.63z M144.803,133.03l-26.306-26.306l11.205-11.205l15.101,15.101l23.65-23.65l11.205,11.205L144.803,133.03z
+                                                    M144.803,66.429l-26.306-26.306l11.205-11.205l15.101,15.101l23.65-23.65l11.205,11.205L144.803,66.429z"/>
+                                            </svg>
+                                        </span>
+                                        <span class="ms-4">
+                                            <span class="fs-3 fw-bold text-gray-900 mb-2 d-block">
+                                                Lũy kế DDI ngoài Khu công nghiệp
+                                            </span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- FDI -->
+                        <div class="form-group row mb-1">
+                            <div class="col-lg-12">
+                                <label
+                                    id="active2"
+                                    (click)="active(2)"
+                                    [ngClass]="type!==2 ? 'btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6'
+                                                        : 'btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6 active'"
+                                    style= "margin-left: 25%;
+                                            margin-right: 25%;"
+                                    class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6">
+                                    <input
+                                        matInput="matInput"
+                                        class="btn-check"
+                                        formControlName="type"
+                                        name="project_type"
+                                        value="1"/>
+                                    <span class="d-flex">
+                                        <span class="svg-icon svg-icon-3hx">
+                                            <svg
+                                                version="1.1"
+                                                id="Capa_1"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                x="0px"
+                                                y="0px"
+                                                viewBox="0 0 220 220"
+                                                style="enable-background:new 0 0 220 220;"
+                                                xml:space="preserve">
+                                                <path
+                                                    d= "M211.5,15.022C211.5,6.726,204.774,0,196.478,0H23.522C15.226,0,8.5,6.726,8.5,15.022v189.955
+                                                        C8.5,213.274,15.226,220,23.522,220h172.955c8.297,0,15.022-6.726,15.022-15.022V15.022z M88.5,199h-49v-45h49V199z M88.5,132h-49
+                                                        V88h49V132z M88.5,66h-49V21h49V66z M144.803,199.63l-26.306-26.306l11.205-11.205l15.101,15.102l23.65-23.65l11.205,11.205
+                                                        L144.803,199.63z M144.803,133.03l-26.306-26.306l11.205-11.205l15.101,15.101l23.65-23.65l11.205,11.205L144.803,133.03z
+                                                        M144.803,66.429l-26.306-26.306l11.205-11.205l15.101,15.101l23.65-23.65l11.205,11.205L144.803,66.429z"/>
+                                            </svg>
+                                        </span>
+                                        <span class="ms-4">
+                                            <span class="fs-3 fw-bold text-gray-900 mb-2 d-block">
+                                                Lũy kế FDI ngoài Khu công nghiệp
+                                            </span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Thu hồi luỹ kế -->
+                        <div class="form-group row mb-1">
+                            <div class="col-lg-12">
+                                <label
+                                    id="active3"
+                                    (click)="active(3)"
+                                    [ngClass]="type!==3?'btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6'
+                                                        :'btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6 active'"
+                                    style= "margin-left: 25%;
+                                            margin-right: 25%;"
+                                    class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6">
+                                    <!--begin::Input-->
+                                    <input
+                                        matInput="matInput"
+                                        class="btn-check"
+                                        formControlName="type"
+                                        name="project_type"
+                                        value="1"/>
+                                    <span class="d-flex">
+                                        <span class="svg-icon svg-icon-3hx">
+                                            <svg
+                                                version="1.1"
+                                                id="Capa_1"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                x="0px"
+                                                y="0px"
+                                                viewBox="0 0 220 220"
+                                                style="enable-background:new 0 0 220 220;"
+                                                xml:space="preserve">
+                                                <path
+                                                    d= "M211.5,15.022C211.5,6.726,204.774,0,196.478,0H23.522C15.226,0,8.5,6.726,8.5,15.022v189.955
+                                                        C8.5,213.274,15.226,220,23.522,220h172.955c8.297,0,15.022-6.726,15.022-15.022V15.022z M88.5,199h-49v-45h49V199z M88.5,132h-49
+                                                        V88h49V132z M88.5,66h-49V21h49V66z M144.803,199.63l-26.306-26.306l11.205-11.205l15.101,15.102l23.65-23.65l11.205,11.205
+                                                        L144.803,199.63z M144.803,133.03l-26.306-26.306l11.205-11.205l15.101,15.101l23.65-23.65l11.205,11.205L144.803,133.03z
+                                                        M144.803,66.429l-26.306-26.306l11.205-11.205l15.101,15.101l23.65-23.65l11.205,11.205L144.803,66.429z"/>
+                                            </svg>
+                                        </span>
+                                        <span class="ms-4">
+                                            <span class="fs-3 fw-bold text-gray-900 mb-2 d-block">
+                                                Thu hồi lũy kế
+                                            </span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Mua bán góp vốn -->
+                        <div class="form-group row mb-1">
+                            <div class="col-lg-12">
+                                <label
+                                    id="active4"
+                                    (click)="active(4)"
+                                    [ngClass]="type!==4 ? 'btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6'
+                                                        : 'btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6 active'"
+                                    style= "margin-left: 25%;
+                                            margin-right: 25%;"
+                                    class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 mb-6">
+                                    <input
+                                        matInput="matInput"
+                                        class="btn-check"
+                                        formControlName="type"
+                                        name="project_type"
+                                        value="1"/>
+                                    <span class="d-flex">
+                                        <span class="svg-icon svg-icon-3hx">
+                                            <svg
+                                                version="1.1"
+                                                id="Capa_1"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                x="0px"
+                                                y="0px"
+                                                viewBox="0 0 220 220"
+                                                style="enable-background:new 0 0 220 220;"
+                                                xml:space="preserve">
+                                                <path
+                                                    d="M211.5,15.022C211.5,6.726,204.774,0,196.478,0H23.522C15.226,0,8.5,6.726,8.5,15.022v189.955
+                                                    C8.5,213.274,15.226,220,23.522,220h172.955c8.297,0,15.022-6.726,15.022-15.022V15.022z M88.5,199h-49v-45h49V199z M88.5,132h-49
+                                                    V88h49V132z M88.5,66h-49V21h49V66z M144.803,199.63l-26.306-26.306l11.205-11.205l15.101,15.102l23.65-23.65l11.205,11.205
+                                                    L144.803,199.63z M144.803,133.03l-26.306-26.306l11.205-11.205l15.101,15.101l23.65-23.65l11.205,11.205L144.803,133.03z
+                                                    M144.803,66.429l-26.306-26.306l11.205-11.205l15.101,15.101l23.65-23.65l11.205,11.205L144.803,66.429z"/>
+                                            </svg>
+                                        </span>
+                                        <span class="ms-4">
+                                            <span class="fs-3 fw-bold text-gray-900 mb-2 d-block">
+                                                Mua bán góp vốn
+                                            </span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Step 1: Footer -->
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-primary btn-elevate"
+                                mat-button="mat-button"
+                                matStepperNext="matStepperNext">
+                                Xác nhận
+                            </button>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 2.1: Thông tin chung cho FDI, DDI, thu hồi luỹ kế -->
+                <mat-step [stepControl]="secondFormGroup" *ngIf="type !==4 ">
+                    <form [formGroup]="secondFormGroup">
+                        <ng-template 
+                            matStepLabel="matStepLabel">
+                            Thông tin chung
+                        </ng-template>
+                        <!-- Dự án FDI / DDI -->
+                        <div *ngIf="type ===1 || type === 2">
+                            <div [className]="isDefaultValue('Area', 2) ? 'form-group row' : 'form-group row mb-6'">
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Loại dự án</label>
+                                    <app-select-custom
+                                        [disabled]="true"
+                                        [width]="'100%'"
+                                        [placeholder]="'Chọn loại dự án'"
+                                        [data]="dataProjectType"
+                                        [options]="options"
+                                        formControlName="ProjectType">
+                                    </app-select-custom>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Khu vực</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Chọn khu vực'"
+                                        [data]="dataCountryType"
+                                        [options]="options"
+                                        formControlName="Area"></app-select-custom>
+                                    <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('Area' , 2)">Bắt buộc</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label required fw-semibold fs-6">Tên nhà đầu tư</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="Investors"
+                                        placeholder="Tên nhà đầu tư"
+                                        autocomplete="off"
+                                        formControlName="Investors"/>
+                                    <div class="invalid-feedback d-block" *ngIf="secondFormHasError('required', 'Investors')">Bắt buộc</div>    
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Địa chỉ công ty</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="Address"
+                                        placeholder="Địa chỉ công ty"
+                                        autocomplete="off"
+                                        formControlName="Address"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Số chứng nhận đầu tư</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="InvestmentCertificateCode"
+                                        placeholder="Số chứng nhận đầu tư"
+                                        autocomplete="off"
+                                        formControlName="InvestmentCertificateCode"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label">Ngày cấp chứng nhận đầu tư</label>
+                                    <!-- <div class="input-group input-group-solid">
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            autocomplete="off"
+                                            placeholder="DD/MM/YYYY"
+                                            ngbDatepicker="ngbDatepicker"
+                                            #d="ngbDatepicker"
+                                            formControlName="InvestmentCertificateDate"/>
+                                        <div class="input-group-append" (click)="d.toggle()">
+                                            <span class="input-group-text">
+                                                <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                            </span>
+                                        </div>
+                                    </div> -->
+                                    <app-date-picker-custom formControlName="InvestmentCertificateDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Quyết định chủ trương</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="PolicyDecisions"
+                                        placeholder="Quyết định chủ trương"
+                                        autocomplete="off"
+                                        formControlName="PolicyDecisions"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label">Ngày quyết định</label>
+                                    <!-- <div class="input-group input-group-solid">
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            autocomplete="off"
+                                            placeholder="DD/MM/YYYY"
+                                            ngbDatepicker="ngbDatepicker"
+                                            #d1="ngbDatepicker"
+                                            formControlName="PolicyDecisionsDate"/>
+                                        <div class="input-group-append" (click)="d1.toggle()">
+                                            <span class="input-group-text">
+                                                <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                            </span>
+                                        </div>
+                                    </div> -->
+                                    <app-date-picker-custom formControlName="PolicyDecisionsDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                </div>
+                            </div>
+                            <!-- Step: 2.1.1 Footer DDI / FDI -->
+                            <div class="modal-footer">
+                                <!-- <button type="button" mat-button type="button" (click)="testFunc()"
+                                class="btn btn-lg btn-light">Loại </button> -->
+                                <button
+                                    style="position: absolute; left: 66.25px;"
+                                    type="button"
+                                    mat-button="mat-button"
+                                    matStepperPrevious="matStepperPrevious"
+                                    class="btn btn-light btn-elevate">Loại dự án</button>
+                                <button
+                                    class="btn btn-primary btn-elevate"
+                                    mat-button="mat-button"
+                                    (click)="check_second_form(1)">Xác nhận</button>
+                            </div>
+                        </div>
+
+                        <!-- Thu hồi luỹ kế -->
+                        <div *ngIf="type === 3">
+                            <div [className]="isDefaultValue('Area', 2) ? 'form-group row' : 'form-group row mb-6'">
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Loại dự án</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Chọn loại dự án'"
+                                        [data]="dataProjectType"
+                                        [options]="options"
+                                        formControlName="ProjectType">
+                                    </app-select-custom>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Khu vực</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Chọn khu vực'"
+                                        [data]="dataCountryType"
+                                        [options]="options"
+                                        formControlName="Area">
+                                    </app-select-custom>
+                                    <div 
+                                        style="padding-top: 20px;" 
+                                        class="invalid-feedback d-block" 
+                                        *ngIf="isDefaultValue('Area' , 2)">
+                                        Bắt buộc
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label required fw-semibold fs-6">Tên nhà đầu tư</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="Investors"
+                                        placeholder="Tên nhà đầu tư"
+                                        autocomplete="off"
+                                        formControlName="Investors"/>
+                                    <div 
+                                        class="invalid-feedback d-block" 
+                                        *ngIf="secondFormHasError('required', 'Investors')">
+                                        Bắt buộc
+                                    </div>
+                                </div>
+                            </div>
+                            <div [className]="isDefaultValue('ProjectId', 2) ? 'form-group row' : 'form-group row mb-6'">
+                                <div class="col-lg-12">
+                                    <label class="form-label required fw-semibold fs-6">Tên dự án</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Tên dự án'"
+                                        [data]="projectData"
+                                        [options]="options"
+                                        formControlName="ProjectId"
+                                        (valueChanged)="loadProjectById($event)">
+                                    </app-select-custom>
+                                    <div 
+                                        style="padding-top: 20px;" 
+                                        class="invalid-feedback d-block" 
+                                        *ngIf="isDefaultValue('ProjectId' , 2) || 
+                                        secondFormHasError('required', 'ProjectId')">
+                                        Bắt buộc
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Địa chỉ công ty</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="Address"
+                                        placeholder="Địa chỉ công ty"
+                                        autocomplete="off"
+                                        formControlName="Address"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Số chứng nhận đầu tư</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="InvestmentCertificateCode"
+                                        placeholder="Số chứng nhận đầu tư"
+                                        autocomplete="off"
+                                        formControlName="InvestmentCertificateCode"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label">Ngày cấp chứng nhận đầu tư</label>
+                                    <!-- <div class="input-group input-group-solid">
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            autocomplete="off"
+                                            placeholder="DD/MM/YYYY"
+                                            ngbDatepicker="ngbDatepicker"
+                                            #d="ngbDatepicker"
+                                            formControlName="InvestmentCertificateDate"/>
+                                        <div class="input-group-append" (click)="d.toggle()">
+                                            <span class="input-group-text">
+                                                <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                            </span>
+                                        </div>
+                                    </div> -->
+                                    <app-date-picker-custom formControlName="InvestmentCertificateDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Quyết định chủ trương</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="PolicyDecisions"
+                                        placeholder="Quyết định chủ trương"
+                                        autocomplete="off"
+                                        formControlName="PolicyDecisions"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label">Ngày quyết định</label>
+                                    <!-- <div class="input-group input-group-solid">
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            autocomplete="off"
+                                            placeholder="DD/MM/YYYY"
+                                            ngbDatepicker="ngbDatepicker"
+                                            #d1="ngbDatepicker"
+                                            formControlName="PolicyDecisionsDate"/>
+                                        <div class="input-group-append" (click)="d1.toggle()">
+                                            <span class="input-group-text">
+                                                <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                            </span>
+                                        </div>
+                                    </div> -->
+                                    <app-date-picker-custom formControlName="PolicyDecisionsDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                </div>
+                            </div>
+                            <!-- Step 2.1.2: Footer Thu hồi luỹ kế -->
+                            <div class="modal-footer">
+                                <!-- <button type="button" mat-button type="button" (click)="testFunc()"
+                                class="btn btn-lg btn-light">Loại </button> -->
+                                <button
+                                    style="position: absolute; left: 66.25px;"
+                                    mat-button="mat-button"
+                                    matStepperPrevious="matStepperPrevious"
+                                    type="button"
+                                    class="btn btn-light btn-elevate">Loại dự án
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary btn-elevate"
+                                    mat-button="mat-button"
+                                    (click)="check_second_form(3)">Xác nhận
+                                </button>
+                                <!-- matStepperNext="matStepperNext" -->
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <!-- Step 2.2: Thông tin chung cho mua bán góp vốn -->
+                <mat-step [stepControl]="secondFormGroup" *ngIf="type===4">
+                    <form [formGroup]="secondFormGroup">
+                        <ng-template matStepLabel="matStepLabel">Thông tin chung</ng-template>
+                        <div *ngIf="type===4">
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label required fw-semibold fs-6">Công ty mua</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="CompanyBuy"
+                                        placeholder="Công ty mua"
+                                        autocomplete="off"
+                                        formControlName="CompanyBuy"/>
+                                        <div 
+                                            class="invalid-feedback d-block" 
+                                            *ngIf="secondFormHasError('required', 'CompanyBuy')">
+                                            Bắt buộc
+                                        </div>
+                                </div>
+                            </div>
+                            <div [className]="isDefaultValue('Country', 2) ? 'form-group row' : 'form-group row mb-6'">
+                                <div class="col-lg-12">
+                                    <label class="form-label required fw-semibold fs-6">Quốc gia</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Chọn quốc gia'"
+                                        [data]="countryData"
+                                        [options]="options"
+                                        formControlName="Country"></app-select-custom>
+                                    <div 
+                                        style="padding-top: 20px;" 
+                                        class="invalid-feedback d-block" 
+                                        *ngIf="isDefaultValue('Country' , 2)">
+                                        Bắt buộc
+                                    </div>
+                                </div>
+                            </div>
+                            <div [className]="isDefaultValue('CompanySell', 2) ? 'form-group row' : 'form-group row mb-6'">
+                                <div class="col-lg-12">
+                                    <label class="form-label required fw-semibold fs-6">Công ty nhận</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Công ty nhận'"
+                                        [data]="businesData"
+                                        [options]="options"
+                                        formControlName="CompanySell">
+                                    </app-select-custom>
+                                    <div 
+                                        style="padding-top: 20px;" 
+                                        class="invalid-feedback d-block" 
+                                        *ngIf="isDefaultValue('CompanySell' , 2)">
+                                        Bắt buộc
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label">Đơn vị tiền tệ</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Chọn loại tiền tệ'"
+                                        [data]="typeofdonviData"
+                                        [options]="options"
+                                        formControlName="Units">
+                                    </app-select-custom>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Vốn điều lệ ban hành</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="InitialCharterCapital"
+                                        placeholder="Vốn điều lệ ban hành"
+                                        autocomplete="off"
+                                        formControlName="InitialCharterCapital"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Vốn mua</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="CapitalPurchase"
+                                        placeholder="Vốn mua"
+                                        autocomplete="off"
+                                        formControlName="CapitalPurchase"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Mua thực tế</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ActualPurchase"
+                                        placeholder="Mua thực tế"
+                                        autocomplete="off"
+                                        formControlName="ActualPurchase"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Vốn điều lệ sau khi mua</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="CharterCapitalAfterPurchase"
+                                        placeholder="Vốn điều lệ sau khi mua"
+                                        autocomplete="off"
+                                        formControlName="CharterCapitalAfterPurchase"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label">Thời gian mua bán góp vốn</label>
+                                    <!-- <div class="input-group input-group-solid">
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            autocomplete="off"
+                                            placeholder="DD/MM/YYYY"
+                                            ngbDatepicker="ngbDatepicker"
+                                            #d="ngbDatepicker"
+                                            formControlName="CapitalContributionTradingTime"/>
+                                        <div class="input-group-append" (click)="d.toggle()">
+                                            <span class="input-group-text">
+                                                <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                            </span>
+                                        </div>
+                                    </div> -->
+                                    <app-date-picker-custom formControlName="CapitalContributionTradingTime" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="Note"
+                                        placeholder="Note"
+                                        autocomplete="off"
+                                        formControlName="Note"/>
+                                </div>
+                            </div>
+                            <!-- Step 2.2: Footer mua bán góp vốn -->
+                            <div class="modal-footer">
+                                <button
+                                    style="position: absolute; left: 66.25px;"
+                                    mat-button="mat-button"
+                                    matStepperPrevious="matStepperPrevious"
+                                    type="button"
+                                    class="btn btn-light btn-elevate">
+                                    Loại dự án
+                                </button>
+                                <button                                    
+                                    type="button"
+                                    class="btn btn-light btn-elevate me-6"
+                                    mat-button="mat-button"
+                                    (click)="modal.dismiss()">
+                                    Thoát
+                                </button>
+                                <button
+                                    type="submit"
+                                    mat-button="mat-button"
+                                    class="btn btn-primary btn-elevate"
+                                    (click)="check_second_form(4)">
+                                    Xác nhận
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+                <!-- Step 3: Thông tin dự án -->
+                <mat-step [stepControl]="thirdFormGroup" *ngIf="type!==4">
+                    <form [formGroup]="thirdFormGroup">
+                        <!-- Step 3.1: Thông tin dự án DDI -->
+                        <div *ngIf="type===1">
+                            <ng-template matStepLabel="matStepLabel">Thông tin dự án</ng-template>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label required fw-semibold fs-6">Tên dự án</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectName"
+                                        placeholder="Tên dự án"
+                                        autocomplete="off"
+                                        formControlName="ProjectName"/>
+                                    <div 
+                                        class="invalid-feedback d-block" 
+                                        *ngIf="thirdFormHasError('required', 'ProjectName')">
+                                        Bắt buộc
+                                    </div>    
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Vốn đầu tư</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectInvestment"
+                                        placeholder="Vốn đầu tư"
+                                        autocomplete="off"
+                                        formControlName="ProjectInvestment"/>
+                                        <div 
+                                            class="invalid-feedback d-block" 
+                                            *ngIf="isDefaultValue('ProjectInvestment' , 3)">
+                                            Bắt buộc
+                                        </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Đơn vị tiền tệ</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Chọn loại tiền tệ'"
+                                        [data]="typeofdonviData"
+                                        [options]="options"
+                                        formControlName="ProjectInvestmentUnits"></app-select-custom>
+                                    <div 
+                                        style="padding-top: 20px;" 
+                                        class="invalid-feedback d-block" 
+                                        *ngIf="thirdFormHasError('default', 'ProjectInvestmentUnits')">
+                                        Bắt buộc
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label">Địa điểm thực hiện dự án</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectAddress"
+                                        placeholder="Địa điểm thực hiện dự án"
+                                        autocomplete="off"
+                                        formControlName="ProjectAddress"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Mục tiêu, quy mô thực hiện dự án</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectImplementationScale"
+                                        placeholder="Mục tiêu, quy mô thực hiện dự án"
+                                        autocomplete="off"
+                                        formControlName="ProjectImplementationScale"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Người đại diện pháp lý</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectLegalRepresent"
+                                        placeholder="Người đại diện pháp lý"
+                                        autocomplete="off"
+                                        formControlName="ProjectLegalRepresent"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Số điện thoại liên lạc</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectPhoneNumber"
+                                        placeholder="Số điện thoại"
+                                        autocomplete="off"
+                                        formControlName="ProjectPhoneNumber"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Tiến độ đã đăng ký</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectProgress"
+                                        placeholder="Tiến độ đã đăng ký"
+                                        autocomplete="off"
+                                        formControlName="ProjectProgress"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Thời gian hoạt động (năm)</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectOperatingTime"
+                                        placeholder="Thời gian hoạt động (năm)"
+                                        autocomplete="off"
+                                        formControlName="ProjectOperatingTime"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Tiến độ thực tế</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectProgressActual"
+                                        placeholder="Thời gian thực tế"
+                                        autocomplete="off"
+                                        formControlName="ProjectProgressActual"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Địa bàn</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectLocalArea"
+                                        placeholder="Địa bàn"
+                                        autocomplete="off"
+                                        formControlName="ProjectLocalArea"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Năm cấp phép</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectLicenseYear"
+                                        placeholder="Năm cấp phép"
+                                        autocomplete="off"
+                                        formControlName="ProjectLicenseYear"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="Note"
+                                        placeholder="Note"
+                                        autocomplete="off"
+                                        formControlName="Note"/>
+                                </div>
+                            </div>
+                            <!-- Step 3.1: Footer -->
+                            <div class="modal-footer">
+                                <button
+                                    style="position: absolute; left: 66.25px;"
+                                    mat-button="mat-button"
+                                    matStepperPrevious="matStepperPrevious"
+                                    type="button"
+                                    class="btn btn-light btn-elevate">Thông tin chung</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary btn-elevate"
+                                    mat-button="mat-button"
+                                    (click)="check_third_form()"
+                                    >Xác nhận</button>
+                            </div>
+                        </div>
+                        <!-- Step 3.2: Thông tin dự án FDI -->
+                        <div *ngIf="type===2">
+                            <ng-template matStepLabel="matStepLabel">Thông tin dự án</ng-template>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label required fw-semibold fs-6">Tên dự án</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectName"
+                                        placeholder="Tên dự án"
+                                        autocomplete="off"
+                                        formControlName="ProjectName"/>
+                                    <div 
+                                        class="invalid-feedback d-block" 
+                                        *ngIf="thirdFormHasError('required', 'ProjectName')">Bắt buộc</div>    
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Vốn đầu tư</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectInvestment"
+                                        placeholder="Vốn đầu tư"
+                                        autocomplete="off"
+                                        formControlName="ProjectInvestment"/>
+                                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('ProjectInvestment' , 3)">Bắt buộc</div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Đơn vị tiền tệ</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Chọn loại tiền tệ'"
+                                        [data]="typeofdonviData"
+                                        [options]="options"
+                                        formControlName="ProjectInvestmentUnits"></app-select-custom>
+                                    <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('ProjectInvestmentUnits' , 3) || thirdFormHasError('default', 'ProjectInvestmentUnits')">Bắt buộc</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label">Địa điểm thực hiện dự án</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectAddress"
+                                        placeholder="Địa điểm thực hiện dự án"
+                                        autocomplete="off"
+                                        formControlName="ProjectAddress"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Ngành nghề</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="Profession"
+                                        placeholder="Ngành nghề"
+                                        autocomplete="off"
+                                        formControlName="Profession"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Người đại diện pháp lý</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectLegalRepresent"
+                                        placeholder="Người đại diện pháp lý"
+                                        autocomplete="off"
+                                        formControlName="ProjectLegalRepresent"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Số điện thoại liên lạc</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectPhoneNumber"
+                                        placeholder="Số điện thoại"
+                                        autocomplete="off"
+                                        formControlName="ProjectPhoneNumber"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Tiến độ thực hiện dự án</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectProgress"
+                                        placeholder="Tiến độ thực hiện dự án"
+                                        autocomplete="off"
+                                        formControlName="ProjectProgress"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Thời gian hoạt động (năm)</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectOperatingTime"
+                                        placeholder="Thời gian hoạt động (năm)"
+                                        autocomplete="off"
+                                        formControlName="ProjectOperatingTime"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Thời gian thực tế</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectProgressActual"
+                                        placeholder="Thời gian thực tế"
+                                        autocomplete="off"
+                                        formControlName="ProjectProgressActual"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Địa bàn</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectLocalArea"
+                                        placeholder="Địa bàn"
+                                        autocomplete="off"
+                                        formControlName="ProjectLocalArea"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Quốc tịch/Đối tác</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectPartnerNationality"
+                                        placeholder="Quốc tịch/Đối tác"
+                                        autocomplete="off"
+                                        formControlName="ProjectPartnerNationality"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Hình thức đầu tư</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectInvestmentForm"
+                                        placeholder="Hình thức đầu tư"
+                                        autocomplete="off"
+                                        formControlName="ProjectInvestmentForm"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Năm cấp phép</label>
+                                    <div class="input-group input-group-solid">
+                                        <input
+                                            (keypress)="prenventInputNonNumber($event)"
+                                            type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            name="ProjectLicenseYear"
+                                            placeholder="Năm cấp phép"
+                                            autocomplete="off"
+                                            formControlName="ProjectLicenseYear"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Năm triển khai</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectImplementationYear"
+                                        placeholder="Năm triển khai"
+                                        autocomplete="off"
+                                        formControlName="ProjectImplementationYear"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="Note"
+                                        placeholder="Note"
+                                        autocomplete="off"
+                                        formControlName="Note"/>
+                                </div>
+                            </div>
+                            <!-- Step 3.2: Footer -->
+                            <div class="modal-footer">
+                                <button
+                                    style="position: absolute; left: 66.25px;"
+                                    mat-button="mat-button"
+                                    matStepperPrevious="matStepperPrevious"
+                                    type="button"
+                                    class="btn btn-light btn-elevate">Thông tin chung</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary btn-elevate"
+                                    mat-button="mat-button"
+                                    (click)="check_third_form()"
+                                    >Xác nhận</button>
+                            </div>
+                        </div>
+                        <!-- Step 3.3: Thông tin dự án thu hồi luỹ kế -->
+                        <div *ngIf="type===3">
+                            <ng-template matStepLabel="matStepLabel">Thông tin dự án</ng-template>
+                            <div [className]="thirdFormHasError('default', 'ProjectInvestmentUnits') ? 'form-group row' : 'form-group row mb-6'">
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Vốn đầu tư</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectInvestment"
+                                        placeholder="Vốn đầu tư"
+                                        autocomplete="off"
+                                        formControlName="ProjectInvestment"/>
+                                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('ProjectInvestment' , 3)">Bắt buộc</div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Đơn vị tiền tệ</label>
+                                    <app-select-custom
+                                        [width]="'100%'"
+                                        [placeholder]="'Chọn loại tiền tệ'"
+                                        [data]="typeofdonviData"
+                                        [options]="options"
+                                        formControlName="ProjectInvestmentUnits"></app-select-custom>
+                                        <div 
+                                            style="padding-top: 20px;" 
+                                            class="invalid-feedback d-block" 
+                                            *ngIf="thirdFormHasError('default', 'ProjectInvestmentUnits')">Bắt buộc</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label">Địa điểm thực hiện dự án</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectAddress"
+                                        placeholder="Địa điểm thực hiện dự án"
+                                        autocomplete="off"
+                                        formControlName="ProjectAddress"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Mục tiêu, quy mô thực hiện dự án</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectImplementationScale"
+                                        placeholder="Mục tiêu, quy mô thực hiện dự án"
+                                        autocomplete="off"
+                                        formControlName="ProjectImplementationScale"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Người đại diện pháp lý</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectLegalRepresent"
+                                        placeholder="Người đại diện pháp lý"
+                                        autocomplete="off"
+                                        formControlName="ProjectLegalRepresent"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label fw-semibold fs-6">Số điện thoại liên lạc</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectPhoneNumber"
+                                        placeholder="Số điện thoại"
+                                        autocomplete="off"
+                                        formControlName="ProjectPhoneNumber"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label">Tiến độ thực hiện dự án</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectProgress"
+                                        placeholder="Tiến độ thực hiện dự án"
+                                        autocomplete="off"
+                                        formControlName="ProjectProgress"/>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-6">
+                                <div class="col-lg-12">
+                                    <label class="form-label">Thời gian hoạt động (năm)</label>
+                                    <input
+                                        (keypress)="prenventInputNonNumber($event)"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectOperatingTime"
+                                        placeholder="Thời gian hoạt động (năm)"
+                                        autocomplete="off"
+                                        formControlName="ProjectOperatingTime"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label">Địa bàn</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectLocalArea"
+                                        placeholder="Địa bàn"
+                                        autocomplete="off"
+                                        formControlName="ProjectLocalArea"/>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-6">
+                                <div class="col-lg-12">
+                                    <label class="form-label">Năm cấp phép</label>
+                                    <div class="input-group input-group-solid">
+                                        <input
+                                            (keypress)="prenventInputNonNumber($event)"
+                                            type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            name="ProjectLicenseYear"
+                                            placeholder="Năm cấp phép"
+                                            autocomplete="off"
+                                            formControlName="ProjectLicenseYear"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Quyết định thu hồi</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectDecisionToWithdraw"
+                                        placeholder="Quyết định thu hồi"
+                                        autocomplete="off"
+                                        formControlName="ProjectDecisionToWithdraw"/>
+                                    <div class="invalid-feedback d-block" *ngIf="thirdFormHasError('required', 'ProjectDecisionToWithdraw')">Bắt buộc</div> 
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label required fw-semibold fs-6">Ngày thu hồi</label>
+                                    <!-- <div class="input-group input-group-solid">
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            autocomplete="off"
+                                            placeholder="DD/MM/YYYY"
+                                            ngbDatepicker="ngbDatepicker"
+                                            #ddd="ngbDatepicker"
+                                            formControlName="ProjectDecisionToWithdrawDate"/>
+                                        <div class="input-group-append" (click)="ddd.toggle()">
+                                            <span class="input-group-text">
+                                                <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                            </span>
+                                        </div>
+                                    </div> -->
+                                    <app-date-picker-custom formControlName="ProjectDecisionToWithdrawDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                    <div class="invalid-feedback d-block" *ngIf="thirdFormHasError('required', 'ProjectDecisionToWithdrawDate')">Bắt buộc</div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">FDI</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="ProjectFdi"
+                                        placeholder="FDI"
+                                        autocomplete="off"
+                                        formControlName="ProjectFdi"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        name="Note"
+                                        placeholder="Note"
+                                        autocomplete="off"
+                                        formControlName="Note"/>
+                                </div>
+                            </div>
+                            <!-- Step 3.3: Footer -->
+                            <div class="modal-footer">
+                                <button
+                                    style="position: absolute; left: 66.25px;"
+                                    mat-button="mat-button"
+                                    matStepperPrevious="matStepperPrevious"
+                                    type="button"
+                                    class="btn btn-light btn-elevate">
+                                    Thông tin chung
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary btn-elevate"
+                                    mat-button="mat-button"
+                                    (click)="check_third_form()">
+                                    Xác nhận
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-step>
+                <!-- Step 4: Giải ngân -->
+                <mat-step *ngIf="type!==4">
+                    <form [formGroup]="fourthFormGroup">
+                        <ng-template matStepLabel="matStepLabel">Giải ngân</ng-template>
+                        <!-- Show dữ liệu giải ngân -->
+                        <div class="form-group row" *ngFor="let element of dataSource;let i=index">
+                            <div class="col-lg-4 mb-6">
+                                <label class="form-label">Ngày giải ngân</label>
+                                <div class="input-group input-group-solid">
+                                    <!-- readonly="readonly" -->
+                                    <input
+                                        readonly="readonly"
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        autocomplete="off"
+                                        value="{{element.disbursementDate}}"/>
+                                    <!-- <div class="input-group-append" (click)="ddd.toggle()"> <span
+                                    class="input-group-text"> <i class="text-dark-50 bi bi-calendar-check
+                                    fs-2x"></i> </span> </div> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-6">
+                                <label class="form-label">Số tiền
+                                </label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-lg form-control-solid"
+                                    autocomplete="off"
+                                    value="{{f_currency(element.disbursementMoney)}}"
+                                    readonly="readonly"/>
+                            </div>
+                            <div class="col-lg-3 mb-6">
+                                <label class="form-label">Đơn vị tiền tệ</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-lg form-control-solid"
+                                    autocomplete="off"
+                                    value="{{element.disbursementUnits==='ae0f8d52-5843-4446-887d-174025469add'?'VND':'USD'}}"
+                                    readonly="readonly"/>
+                            </div>
+                            <!-- Button xoá giải ngân -->
+                            <div class="col-lg-2 mb-6">
+                                <button
+                                    type="button"
+                                    mat-icon-button="mat-icon-button"
+                                    (click)="delStore(element)"
+                                    style="transform:translate(10%, 70%)">
+                                    <mat-icon color="warn">
+                                        delete
+                                    </mat-icon>
+                                </button>
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    [checked]="!element.isCheck"
+                                    (change)="ChangInfo(element)"
+                                    style="transform:translate(20%, 170%)"/>
+                            </div>
+                        </div>
+                        <!-- Thêm dữ liệu giải ngân -->
+                        <div class="form-group row mb-6">
+                            <!-- <label class="form-label required fw-semibold fs-6">Hệ thống các cửa
+                            hàng</label> -->
+                            <div class="col-lg-4 mb-6">
+                                <label class="form-label fw-semibold fs-6">Ngày giải ngân</label>
+                                <!-- <div class="input-group input-group-solid">
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg form-control-solid"
+                                        autocomplete="off"
+                                        placeholder="DD/MM/YYYY"
+                                        ngbDatepicker="ngbDatepicker"
+                                        #ddd="ngbDatepicker"
+                                        formControlName="DisbursementDate"/>
+                                    <div class="input-group-append" (click)="ddd.toggle()">
+                                        <span class="input-group-text">
+                                            <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                        </span>
+                                    </div>
+                                </div> -->
+                                <app-date-picker-custom formControlName="DisbursementDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                            </div>
+                            <div class="col-lg-3 mb-6">
+                                <label class="form-label">Số tiền
+                                </label>
+                                <input
+                                    (keypress)="prenventInputNonNumber($event)"
+                                    type="text"
+                                    class="form-control form-control-lg form-control-solid"
+                                    name="DisbursementMoney"
+                                    placeholder="Hãy nhập số tiền"
+                                    autocomplete="off"
+                                    formControlName="DisbursementMoney"/>
+                            </div>
+                            <div class="col-lg-3 mb-6">
+                                <label class="form-label">Đơn vị tiền tệ</label>
+                                <app-select-custom
+                                    [width]="'100%'"
+                                    [placeholder]="'Chọn loại tiền tệ'"
+                                    [data]="typeofdonviData"
+                                    [options]="options"
+                                    formControlName="DisbursementUnits"></app-select-custom>
+                            </div>
+                            <div class="col-lg-2 mb-6">
+                                <button
+                                    type="button"
+                                    mat-icon-button="mat-icon-button"
+                                    (click)="addGiaiNgan()"
+                                    style="transform:translate(10%, 70%)">
+                                    <mat-icon color="primary">
+                                        add_circle
+                                    </mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Tổng cộng -->
+                        <div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 mb-6" style="float:right ;"></div>
+                                <div class="col-lg-4 mb-6" style="float:right ;">
+                                    <span>
+                                        <a style="font-weight: bold;">Tổng cộng</a>
+                                        <input
+                                            readonly
+                                            type="text"
+                                            class="form-control form-control-lg form-control-solid"
+                                            autocomplete="off"
+                                            value="{{f_currency(total)}}"
+                                            style="float:right ;"/>
+                                        (VNĐ)
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Step 4: Footer-->
+                            <ng-container *ngIf="CateProjectData">
+                                <div class="modal-footer">
+                                    <button
+                                        style="position: absolute; left: 66.25px;"
+                                        type="button"
+                                        mat-button="mat-button"
+                                        matStepperPrevious="matStepperPrevious"
+                                        class="btn btn-lg btn-light">
+                                        Thông tin dự án
+                                    </button>
+                                    <button                                    
+                                        type="button"
+                                        class="btn btn-light btn-elevate me-6"
+                                        mat-button="mat-button"
+                                        (click)="modal.dismiss()">
+                                        Thoát
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary btn-elevate"
+                                        mat-button="mat-button"
+                                        ngbAutofocus
+                                        (click)="save()">
+                                        Xác nhận
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </form>
+                </mat-step>
+            </mat-horizontal-stepper>
+        </ng-container>
+    </div>
+</div>

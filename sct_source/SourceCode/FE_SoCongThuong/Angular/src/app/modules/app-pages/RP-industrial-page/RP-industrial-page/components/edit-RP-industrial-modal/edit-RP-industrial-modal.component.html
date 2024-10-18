@@ -1,0 +1,119 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="rPIndustrialData">
+                <ng-container *ngIf="rPIndustrialData.units!== ''">
+                    <h2 class="text-primary">CHỈNH SỬA BẢO CÁO TÌNH HÌNH CỤM CÔNG NGHIỆP TRÊN ĐỊA BÀN CẤP HUYỆN</h2>
+                </ng-container>
+                <ng-container *ngIf="rPIndustrialData.units === ''">
+                    <h2 class="text-primary">THÊM MỚI BẢO CÁO TÌNH HÌNH CỤM CÔNG NGHIỆP TRÊN ĐỊA BÀN CẤP HUYỆN</h2>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="rPIndustrialData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div [className]="isDefaultValue('district') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Huyện</label>
+                        <app-select-custom [width]="'100%'" [placeholder]="'Huyện'" [data]="districtData" [options]="options" formControlName="district">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('district')">
+                            Bắt buộc</div>
+                    </div>
+                </div>
+                <div [className]="isDefaultValue('reportingPeriod') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Kỳ báo cáo</label>
+                        <app-select-custom [width]="'100%'" [placeholder]="'Kỳ báo cáo'" [data]="datKyBaoCao" [options]="options" formControlName="reportingPeriod">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('reportingPeriod')">
+                            Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Năm báo cáo</label>
+                        <!-- <app-select-custom [width]="'100%'" [placeholder]="'Năm báo cáo'" [data]="yearData" [options]="options" formControlName="year">
+                        </app-select-custom> -->
+                        <app-month-year-picker-custom ComponentId="Year" formControlName="year" Placeholder="YYYY" ViewMode="years"></app-month-year-picker-custom>
+                    </div>
+                </div>
+                <div [className]="isDefaultValue('groupId') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Loại</label>
+                        <app-select-custom [width]="'100%'" [placeholder]="'Loại'" [data]="groupType" [options]="options" formControlName="groupId">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('groupId')">
+                            Bắt buộc</div>
+                    </div>
+                </div>
+                <div [className]="isDefaultValue('criteria') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Chỉ tiêu</label>
+                        <app-select-custom [width]="'100%'" [placeholder]="'Chỉ tiêu'" [data]="listTarget" [options]="options" formControlName="criteria">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('criteria')">
+                            Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Đơn vị tính</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="units" placeholder="Hãy nhập đơn vị cung cấp" autocomplete="off" [class.is-invalid]="isControlInvalid('units')" [class.is-valid]="isControlValid('units')" formControlName="units"
+                        />
+                        <!-- <div class="valid-feedback" *ngIf="isControlValid('Name')"> name was entered correct</div> -->
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'units')">Bắt buộc</div>
+
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Số lượng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="quantity" (keypress)="prenventInputNonNumber($event)" placeholder="Số lượng" autocomplete="off" [class.is-invalid]="isControlInvalid('quantity')" [class.is-valid]="isControlValid('quantity')"
+                            formControlName="quantity" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'quantity')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="note" placeholder="Hãy nhập địa chỉ nhà cung cấp" autocomplete="off" formControlName="note" />
+                    </div>
+                </div>
+
+                <!-- <div class="form-group row mb-6">
+          <div class="col-lg-12">
+            <label class="form-label">Số điện thoại </label>
+            <input type="text" class="form-control form-control-lg form-control-solid" name="PhoneNumber"
+              placeholder="Hãy nhập số điện thoại" autocomplete="off"
+              formControlName="PhoneNumber" />
+             <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'PhoneNumber')">Số điện thoại ít nhất 10 ký tự</div>
+             <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'PhoneNumber')">Số điện thoại tối đa 11 ký tự</div>
+          </div>
+        </div>
+        <div class="form-group row mb-6">
+          <div class="col-lg-12">
+            <label class="form-label ">Người đại diện</label>
+            <input type="text" class="form-control form-control-lg form-control-solid" name="Representative"
+              placeholder="Hãy nhập tên người đại diện" autocomplete="off"
+              formControlName="Representative" />
+          </div>
+        </div> -->
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="rPIndustrialData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

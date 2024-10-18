@@ -1,0 +1,65 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="show">
+                <ng-container *ngIf="id && !type">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id && !type">THÊM MỚI</ng-container>
+                NHÓM CẤU HÌNH
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Mã nhóm cấu hình</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            placeholder="Hãy nhập mã nhóm cấu hình"
+                            [class.is-invalid]="isControlInvalid('CategoryTypeCode')"
+                            [class.is-valid]="isControlValid('CategoryTypeCode')"
+                            formControlName="CategoryTypeCode" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'CategoryTypeCode')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Tên nhóm cấu hình</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            placeholder="Hãy nhập tên nhóm cấu hình"
+                            [class.is-invalid]="isControlInvalid('CategoryTypeName')"
+                            [class.is-valid]="isControlValid('CategoryTypeName')"
+                            formControlName="CategoryTypeName" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'CategoryTypeName')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Mô tả</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            placeholder="Hãy nhập mô tả"
+                            [class.is-invalid]="isControlInvalid('Description')"
+                            [class.is-valid]="isControlValid('Description')"
+                            formControlName="Description" />
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light bg-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="show && !type">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">
+                Xác nhận
+            </button>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,234 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="approvedPowerProjectsData">
+                <ng-container *ngIf="id && !type">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id && !type">THÊM MỚI</ng-container>
+                DỰ ÁN ĐƯỢC PHÊ DUYỆT
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="approvedPowerProjectsData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">
+                            Loại hình
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom
+                                [width]="'100%'"
+                                [data]="EnergyIndustryData"
+                                [options]="options"
+                                formControlName="EnergyIndustryId">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2" *ngIf="isDefaultValue('EnergyIndustryId')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div ngbAutofocus class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Tên dự án</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập tên dự án"
+                            [class.is-invalid]="isControlInvalid('ProjectName')"
+                            [class.is-valid]="isControlValid('ProjectName')" 
+                            formControlName="ProjectName"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'ProjectName')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Nhà đầu tư</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập tên nhà đầu tư"
+                            [class.is-invalid]="isControlInvalid('InvestorName')"
+                            [class.is-valid]="isControlValid('InvestorName')" 
+                            formControlName="InvestorName"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'InvestorName')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-3">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">
+                            Huyện
+                        </label>
+                        <div class="mb-6">
+                            <app-select-custom
+                                [width]="'100%'"
+                                [data]="districtData"
+                                [options]="options"
+                                formControlName="DistrictId">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2" *ngIf="isDefaultValue('DistrictId')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">
+                            Địa chỉ
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập địa chỉ"
+                            [class.is-invalid]="isControlInvalid('Address')"
+                            [class.is-valid]="isControlValid('Address')" 
+                            formControlName="Address"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Address')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">QĐ chủ trương</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập quyết định chủ trương"
+                            [class.is-invalid]="isControlInvalid('PolicyDecision')"
+                            [class.is-valid]="isControlValid('PolicyDecision')" 
+                            formControlName="PolicyDecision"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'PolicyDecision')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Công suất (MW)</label>
+                        <input
+                            (keypress)="prenventInputNonNumber($event)" 
+                            type="number" 
+                            min="0"
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập công suất"
+                            [class.is-invalid]="isControlInvalid('Wattage')"
+                            [class.is-valid]="isControlValid('Wattage')" 
+                            formControlName="Wattage"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Wattage')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6">Sản lượng điện phát (MWh)</label>
+                        <input
+                            (keypress)="prenventInputNonNumber($event)" 
+                            type="number" 
+                            min="0"
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập sản lượng điện phát (MWh)"
+                            [class.is-invalid]="isControlInvalid('PowerOutput')"
+                            [class.is-valid]="isControlValid('PowerOutput')" 
+                            formControlName="PowerOutput"/>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Số lượng tuabin</label>
+                        <input
+                            (keypress)="prenventInputNonNumber($event)" 
+                            type="number" 
+                            min="0"
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập số lượng tuabin"
+                            [class.is-invalid]="isControlInvalid('Turbines')"
+                            [class.is-valid]="isControlValid('Turbines')" 
+                            formControlName="Turbines"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Turbines')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Trạm biến áp</label>
+                        <input
+                            (keypress)="prenventInputNonNumber($event)" 
+                            type="number" 
+                            min="0"
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập trạm biến áp"
+                            [class.is-invalid]="isControlInvalid('Substation')"
+                            [class.is-valid]="isControlValid('Substation')" 
+                            formControlName="Substation"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Substation')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Diện tích (ha)</label>
+                        <input 
+                            min="0"
+                            pattern="[0-9]+([\.,][0-9]+)?"
+                            step="0.01"
+                            type="number" 
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập diện tích"
+                            [class.is-invalid]="isControlInvalid('Area')"
+                            [class.is-valid]="isControlValid('Area')" 
+                            formControlName="Area"/>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Area')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Năm</label>
+                        <app-month-year-picker-custom 
+                            formControlName="Year" 
+                            ComponentId="Year" 
+                            ViewMode="years" 
+                            Placeholder="YYYY">
+                        </app-month-year-picker-custom>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Year')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6" [class.required]="!type">Trạng thái</label>
+                        <div class="mb-6">
+                            <app-select-custom
+                                [width]="'100%'"
+                                [data]="status"
+                                [options]="options"
+                                formControlName="Status">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2" *ngIf="isDefaultValue('Status')">Bắt buộc</div>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                        <textarea                             
+                            class="form-control form-control-lg form-control-solid" 
+                            autocomplete="off" 
+                            placeholder="Hãy nhập ghi chú"
+                            formControlName="Note">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="approvedPowerProjectsData">
+            <button *ngIf="!type" type="submit" class="btn btn-primary btn-elevate" (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

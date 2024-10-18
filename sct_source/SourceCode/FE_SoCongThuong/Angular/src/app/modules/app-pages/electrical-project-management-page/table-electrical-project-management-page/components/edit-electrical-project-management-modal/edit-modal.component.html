@@ -1,0 +1,215 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="editData">
+                <ng-container *ngIf="id && !type">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id && !type">THÊM MỚI</ng-container>
+                THÔNG TIN CÔNG TRÌNH ĐIỆN
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right"
+                [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Mã công trình</label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập mã công trình"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('BuildingCode')"
+                            [class.is-valid]="isControlValid('BuildingCode')"
+                            formControlName="BuildingCode" />
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'BuildingCode')">Bắt
+                            buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Tên công trình</label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập tên công trình"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('BuildingName')"
+                            [class.is-valid]="isControlValid('BuildingName')"
+                            formControlName="BuildingName" />
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'BuildingName')">Bắt
+                            buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Huyện</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'"
+                                [data]="districtData" [options]="options"
+                                formControlName="District">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('District')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-8">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Địa điểm</label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập địa điểm" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('Address')"
+                            [class.is-valid]="isControlValid('Address')"
+                            formControlName="Address" />
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'Address')">Bắt
+                            buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Loại công trình</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'"
+                                [data]="listListTypeOfConstruction"
+                                [options]="options"
+                                formControlName="TypeOfConstruction"
+                                (valueChanged)="gettype($event)">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('TypeOfConstruction')">Bắt
+                            buộc</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Cấp điện áp</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'"
+                                [data]="listVoltageLevel" [options]="options"
+                                formControlName="VoltageLevel">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('VoltageLevel')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="typeOfConstruction === 'SUBSTATION'">
+                    <div class="form-group row mb-6">
+                        <div class="col-lg-12">
+                            <label class="form-label fw-semibold fs-6"
+                                [class.required]="!type">Công suất (MVA)</label>
+                            <input type="text"
+                                class="form-control form-control-lg form-control-solid"
+                                placeholder="Hãy nhập công suất"
+                                autocomplete="off" formControlName="Wattage"
+                                [class.is-invalid]="isControlInvalid('Wattage')"
+                                [class.is-valid]="isControlValid('Wattage')" />
+                            <div class="invalid-feedback"
+                                *ngIf="controlHasError('required', 'Wattage')">Bắt
+                                buộc</div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="typeOfConstruction === 'LINE'">
+                    <div class="form-group row mb-6">
+                        <div class="col-lg-6">
+                            <label class="form-label fw-semibold fs-6"
+                                [class.required]="!type">Chiều dài (Km)</label>
+                            <input type="text"
+                                class="form-control form-control-lg form-control-solid"
+                                placeholder="Hãy nhập chiều dài"
+                                autocomplete="off" formControlName="Length"
+                                [class.is-invalid]="isControlInvalid('Length')"
+                                [class.is-valid]="isControlValid('Length')" />
+                            <div class="invalid-feedback"
+                                *ngIf="controlHasError('required', 'Length')">Bắt
+                                buộc</div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label fw-semibold fs-6"
+                                [class.required]="!type">Loại dây</label>
+                            <input type="text"
+                                class="form-control form-control-lg form-control-solid"
+                                placeholder="Hãy nhập loại dây"
+                                autocomplete="off" formControlName="WireType"
+                                [class.is-invalid]="isControlInvalid('WireType')"
+                                [class.is-valid]="isControlValid('WireType')" />
+                            <div class="invalid-feedback"
+                                *ngIf="controlHasError('required', 'WireType')">Bắt
+                                buộc</div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6"
+                            [class.required]="!type">Người đại diện</label>
+                        <input type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập người đại diện"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('Represent')"
+                            [class.is-valid]="isControlValid('Represent')"
+                            formControlName="Represent" />
+                        <div class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'Represent')">Bắt
+                            buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6"
+                            [class.required]="!type">Trạng thái</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'"
+                                [data]="statusData" [options]="options"
+                                formControlName="Status">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2"
+                            *ngIf="isDefaultValue('Status')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                        <textarea type="text"
+                            class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập ghi chú" autocomplete="off"
+                            formControlName="Note">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2"
+            (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="!type">
+            <button type="submit" class="btn btn-primary btn-elevate"
+                (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

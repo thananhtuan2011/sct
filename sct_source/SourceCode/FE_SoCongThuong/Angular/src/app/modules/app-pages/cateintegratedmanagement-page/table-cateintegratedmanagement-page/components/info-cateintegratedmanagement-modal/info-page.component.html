@@ -1,0 +1,328 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="infoData">
+                <div class="text-primary" style="text-transform: uppercase;">CHI TIẾT DỰ ÁN: {{" " + infoData.projectName}}</div>
+            </ng-container>
+        </div>
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+            X
+        </button>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="infoData">
+            <mat-tab-group *ngIf="infoData.projectTypeName !== 'Mua bán góp vốn'" mat-stretch-tabs="false" mat-align-tabs="center" [backgroundColor]="'primary'"> 
+                <mat-tab label="Thông tin chung">
+                    <div class="row mb-6 mt-6">
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Loại dự án</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectTypeName />
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Khu vực</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.areaName />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Tên nhà đầu tư</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.investors />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Địa chỉ công ty</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.address />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Số chứng nhận đầu tư</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.investmentCertificateCode />
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Ngày cấp chứng nhận đầu tư</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=convert_date_string(infoData.investmentCertificateDate) />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Quyết định chủ trương</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.policyDecisions />
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Ngày quyết định</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=convert_date_string(infoData.policyDecisionsDate) />
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="Thông tin dự án">
+
+                    <div class="row mb-6 mt-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Tên dự án</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectName />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Vốn đầu tư</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=f_currency(infoData.projectInvestment) />
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Đơn vị tiền tệ</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.units />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Địa điểm thực hiện dự án</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectAddress />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Mục tiêu, quy mô thực hiện dự án</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectImplementationScale />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Người đại diện pháp luật</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectLegalRepresent />
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Số điện thoại liên lạc</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectPhoneNumber />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Tiến độ đã đăng ký</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectProgress />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Thời gian hoạt động (năm)</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectOperatingTime />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Tiến độ thực tế</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectProgressActual />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Địa bàn</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectLocalArea />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Năm cấp phép</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.projectLicenseYear />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Ghi chú</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.note />
+                        </div>
+                    </div>
+
+                </mat-tab>
+                <mat-tab label="Giải ngân">
+
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable" id="kt_table">
+                        <thead>
+                            <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                                <th class="min-w-75px text-center">STT</th>
+                                <th class="min-w-175px text-center">Số tiền</th>
+                                <th class="min-w-175px text-center">Đơn vị</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-900 fw-bolder fs-6">
+                            <tr *ngFor="let item of infoData.details; let i = index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{f_currency(item.disbursementMoney)}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.unitName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+
+                <mat-tab label="Lịch sử điều chỉnh">
+
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable" id="kt_table">
+                        <thead>
+                            <tr class="text-gray-900 fw-semibold fs-6 me-2">
+                                <th class="min-w-75px text-center">STT</th>
+                                <th class="min-w-175px text-center">Tài khoản</th>
+                                <th class="min-w-175px text-center">Nội dung điều chỉnh</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-900 fw-bolder fs-6">
+                            <tr *ngFor="let item of infoData.historys; let i = index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.updateName}}
+                                </td>
+                                <td class="text-start">
+                                    <span [innerHtml]="item.contentAdjust"></span>
+                                    <!-- {{item.contentAdjust}} -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+            </mat-tab-group>
+
+            <mat-tab-group *ngIf="infoData.projectTypeName === 'Mua bán góp vốn'" mat-stretch-tabs="false" mat-align-tabs="center" [backgroundColor]="'primary'"> 
+                <mat-tab label="Thông tin chung">
+                    <div class="row mb-6 mt-6">
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Công ty mua</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.companyBuy />
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Quốc gia</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.countryName />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Công ty nhận</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.companySellName />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Đơn vị tiền tệ</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.units />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Vốn điều lệ ban đầu</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.initialCharterCapital />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Vốn mua</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.capitalPurchase />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Mua thực tế</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.actualPurchase />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Vốn điều lệ sau khi mua</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.charterCapitalAfterPurchase />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Thời gian mua bán góp vốn</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=convert_date_string(infoData.capitalContributionTradingTime) />
+                        </div>
+                    </div>
+
+                    <div class="row mb-6">
+                        <div class="col-lg-12">
+                            <label class="fw-bold fs-7 text-uppercase gs-0">Ghi chú</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" readonly
+                                [value]=infoData.note />
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <!-- <ng-container *ngIf="infoData">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="formGroup.invalid">Xác nhận</button>
+        </ng-container> -->
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="id === undefined">
+                THÊM MỚI BÁO CÁO CHỈ SỐ SẢN XUÁT CÔNG NGHIỆP
+            </ng-container>
+            <ng-container *ngIf="id !== undefined">
+                CHỈNH SỬA BÁO CÁO CHỈ SỐ SẢN XUÁT CÔNG NGHIỆP
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container>
+            <form action="#" class="form form-label-right"
+                [formGroup]="formGroup">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div className="form-group row mb-6">
+                            <div
+                                class="d-flex align-items-center flex-column mb-6">
+                                <div class="col-lg-6 mb-6">
+                                    <label name="Target"
+                                        class="form-label required fw-semibold fs-6">Chỉ
+                                        tiêu</label>
+                                    <app-select-custom [width]="'100%'"
+                                        [data]="targetData" [options]="options"
+                                        formControlName="Target"></app-select-custom>
+                                </div>
+                                <div class="col-lg-6 mb-6 mt-6">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <label
+                                                [className]="'form-label required'">Tháng</label>
+                                            <!-- <input type="month" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="Month" [class.is-invalid]="isControlInvalid('Month')" [class.is-valid]="isControlValid('Month')" /> -->
+                                            <app-month-year-picker-custom
+                                                ComponentId="Month"
+                                                formControlName="Month"
+                                                Placeholder="MM/YYYY"
+                                                [class.is-invalid]="isControlInvalid('Month')"
+                                                [class.is-valid]="isControlValid('Month')"></app-month-year-picker-custom>
+                                            <div class="invalid-feedback"
+                                                *ngIf="controlHasError('required', 'Month')">
+                                                Bắt buộc
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-6">
+                                    <label [className]="'form-label required'">
+                                        Ước tính tháng báo cáo (%)
+                                    </label>
+                                    <input type="number" min="0"
+                                        class="form-control form-control-lg form-control-solid"
+                                        autocomplete="off"
+                                        placeholder="Hãy nhập ước tính tháng báo cáo"
+                                        formControlName="ReportIndex"
+                                        [class.is-invalid]="isControlInvalid('ReportIndex')"
+                                        [class.is-valid]="isControlValid('ReportIndex')" />
+                                    <div class="invalid-feedback"
+                                        *ngIf="controlHasError('required', 'ReportIndex')">
+                                        Bắt buộc
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class=" form-group row mb-6">
+                        </div> -->
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2"
+            (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" class="btn btn-primary btn-elevate"
+                (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="exportgoodsData">
+                <ng-container *ngIf="exportgoodsData.exportGoodsName !== ''">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="exportgoodsData.exportGoodsName === ''">THÊM MỚI</ng-container>
+                BÁO CÁO XUẤT KHẨU
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <!-- Tên mặt hàng -->
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên mặt hàng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                            placeholder="Hãy nhập tên mặt hàng"
+                            autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('ExportGoodsName')"
+                            [class.is-valid]="isControlValid('ExportGoodsName')"
+                            formControlName="ExportGoodsName"/>
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'ExportGoodsName')">Bắt buộc</div>
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'ExportGoodsName')">Tên mặt hàng ít nhất 3 ký tự</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'ExportGoodsName')">Tên mặt hàng tối đa 100 ký tự</div> -->
+                    </div>
+                </div>
+
+                <!-- Nhóm mặt hàng -->
+                <div [className]="isDefaultValue('ItemGroupId') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Nhóm mặt hàng</label>
+                        <app-select-custom [width]="'100%'" 
+                            [data]="ItemGroupData" [options]="options"
+                            formControlName="ItemGroupId">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('ItemGroupId')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <!-- Loại hình kinh tế -->
+                <div [className]="isDefaultValue('TypeOfEconomicId') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Loại hình kinh tế</label>
+                        <app-select-custom [width]="'100%'" 
+                            [data]="TypeOfEconomicData" [options]="options"
+                            formControlName="TypeOfEconomicId">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('TypeOfEconomicId')">Bắt buộc</div>
+                    </div>
+                </div>
+                
+                <!-- Doanh nghiệp -->
+                <div [className]="isDefaultValue('BusinessId') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Doanh nghiệp</label>
+                        <app-select-custom [width]="'100%'" 
+                        [data]="BusinessData" [options]="options"
+                        formControlName="BusinessId">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('BusinessId')">Bắt buộc</div>
+                    </div>
+                </div>
+                
+                <!-- Thị trường -->
+                <div [className]="isDefaultValue('CountryId') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12 mb-6">
+                        <label class="form-label required fw-semibold fs-6">Thị trường</label>
+                        <app-select-custom [width]="'100%'" 
+                        [data]="CountryData" [options]="options"
+                        formControlName="CountryId">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('CountryId')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <!-- Số lượng -->
+                <div class="form-group row mb-6">
+                    <div class="col-lg-8">
+                        <label class="form-label required fw-semibold fs-6">Số lượng</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                            (keypress)="prenventInputNonNumber($event)"
+                            placeholder="Hãy nhập số lượng" 
+                            autocomplete="off" 
+                            [class.is-invalid]="isControlInvalid('Amount')" 
+                            [class.is-valid]="isControlValid('Amount')" 
+                            formControlName="Amount" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Amount')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label required fw-semibold fs-6">Đơn vị</label>
+                        <app-select-custom [width]="'100%'" 
+                            [data]="UnitData" [options]="options"
+                            formControlName="AmountUnitId">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('AmountUnitId')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <!-- Trị giá -->
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Trị giá</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid"
+                            (keypress)="prenventInputNonNumber($event)"
+                            placeholder="Hãy nhập trị giá" 
+                            autocomplete="off" 
+                            [class.is-invalid]="isControlInvalid('Price')" 
+                            [class.is-valid]="isControlValid('Price')" 
+                            formControlName="Price" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Price')">Bắt buộc</div>
+                        <div class="invalid-feedback d-block" *ngIf="isDefaultValue('Price')">Trị giá không âm</div>
+                        <!-- thêm parten là số ở đây -->
+                    </div>
+                </div>
+                
+                <!-- Thời gian nhập khẩu -->
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Thời gian xuất khẩu</label>
+                        <!-- <div class="input-group input-group-solid">
+                            <input type="text" class="form-control form-control-lg form-control-solid" 
+                                autocomplete="off"
+                                placeholder="DD/MM/YYYY"
+                                ngbDatepicker #d="ngbDatepicker"
+                                formControlName="ExportTime"/>
+                            <div class="input-group-append" (click)="d.toggle()">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50  bi bi-calendar-check fs-2x"></i>
+                                </span>
+                            </div>
+                            <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'ExportTime')">Bắt buộc</div>
+                        </div> -->
+                        <app-date-picker-custom formControlName="ExportTime" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'ExportTime')">Bắt buộc</div>
+                    </div>
+                </div>  
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="exportgoodsData">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

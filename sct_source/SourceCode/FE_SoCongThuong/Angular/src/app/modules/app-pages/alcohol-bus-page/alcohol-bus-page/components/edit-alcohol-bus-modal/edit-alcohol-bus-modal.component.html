@@ -1,0 +1,206 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="alcoholBusinessData">
+                <ng-container *ngIf="id !== 0">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="id === 0">THÊM MỚI</ng-container>
+                ĐƠN VỊ BÁN BUÔN RƯỢU
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="alcoholBusinessData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div [className]="isDefaultValue('alcoholBusinessName') ? 'form-group row' : 'form-group row mb-6'">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Tên doanh nghiệp</label>
+                        <app-select-custom [width]="'100%'" [placeholder]="'Chọn doanh nghiệp'" [data]="typeofbusinessData" [options]="options" formControlName="alcoholBusinessName">
+                        </app-select-custom>
+                        <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="isDefaultValue('alcoholBusinessName')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mt-6">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6">Giấy đăng ký kinh doanh</label>
+                        <input type="text" readonly class="form-control form-control-lg form-control-solid" name="GiayDangKyKinhDoanh" placeholder="Hãy nhập giấy đăng ký kinh doanh" autocomplete="off" formControlName="GiayDangKyKinhDoanh" />
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-semibold fs-6">Ngày cấp phép</label>
+                        <app-date-picker-custom formControlName="NgayCapPhep">
+                        </app-date-picker-custom>
+                    </div>
+                </div>
+                <div class="form-group row mt-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Giấy phép bán buôn rượu</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="GiayPhepBanBuon" placeholder="Hãy nhập giấy phép bán buôn rượu" autocomplete="off" formControlName="GiayPhepBanBuon" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Ngày cấp giấy phép bán buôn rượu</label>
+                        <app-date-picker-custom formControlName="NgayCapGiayPhepBanBuon">
+                        </app-date-picker-custom>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Ngày hết hạn giấy phép bán buôn rượu</label>
+                        <app-date-picker-custom formControlName="NgayHetHanGiayPhepBanBuon">
+                        </app-date-picker-custom>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-3 mt-3">
+                        <label class="form-label required fw-semibold fs-6">Thương nhân buôn bán</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <button type="button" mat-icon-button (click)="add_detail()">
+              <mat-icon color="primary">
+                add_circle
+              </mat-icon>
+            </button>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label required fw-semibold fs-6">Tên cửa hàng</label>
+                        <input placeholder="Hãy nhập tên cửa hàng" type="text" class="form-control form-control-lg form-control-solid" name="TenDoanhNghiep" formControlName="TenDoanhNghiep" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'TenDoanhNghiep')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label required fw-semibold fs-6">Người đại diện</label>
+                        <input placeholder="Hãy nhập người đại diện" type="text" class="form-control form-control-lg form-control-solid" name="NguoiDaiDien" formControlName="NguoiDaiDien" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'NguoiDaiDien')">Bắt buộc</div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label required fw-semibold fs-6">Số điện thoại</label>
+                        <input placeholder="Hãy nhập số điện thoại" type="text" class="form-control form-control-lg form-control-solid" name="SoDienThoai" formControlName="SoDienThoai" (keypress)="prenventInputNonNumber($event)" />
+                        <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'SoDienThoai')">Bắt buộc</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'SoDienThoai')">
+                            Vui lòng nhập số</div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('minLength', 'SoDienThoai')">
+                            Số ít nhất 10 ký tự</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label required fw-semibold fs-6">Huyện</label>
+                        <app-select-custom [width]="'100%'" [options]="options" [data]="districtData" formControlName="Huyen" (valueChanged)="loadCommuneByDistrict($event)">
+                            <!-- <div style="padding-top: 20px;" class="invalid-feedback d-block" *ngIf="dataSource.length === 0 && isDefaultValue('Huyen')">Bắt buộc</div> -->
+                        </app-select-custom>
+                        <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isDefaultValue('Huyen')">Hãy chọn huyện
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label required fw-semibold fs-6">Xã</label>
+                        <app-select-custom [width]="'100%'" [options]="options" [data]="communeDataByDistrictId" formControlName="Xa">
+                        </app-select-custom>
+                        <div class="invalid-feedback d-block" style="padding-top: 20px;" *ngIf="isDefaultValue('Xa')">Hãy chọn xã
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Địa chỉ</label>
+                        <input placeholder="Hãy nhập địa chỉ" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="DiaChi" />
+                        <!-- <div class="invalid-feedback" *ngIf="controlHasError('required', 'DiaChi')">Bắt buộc</div> -->
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label">Giấy phép bán lẻ rượu</label>
+                        <input placeholder="Hãy nhập giấy phép bán lẻ rượu" type="text" class="form-control form-control-lg form-control-solid" formControlName="GiayPhepKinhDoanh" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Ngày cấp</label>
+                        <app-date-picker-custom formControlName="NgayCapGiayPhepBanLe">
+                        </app-date-picker-custom>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Ngày hết hạn</label>
+                        <app-date-picker-custom formControlName="NgayHetHan">
+                        </app-date-picker-custom>
+                    </div>
+
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6 required">Đơn vị cung cấp</label>
+                        <input placeholder="Hãy nhập đơn vị cung cấp" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="DonViCungCap" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'DonViCungCap')">Bắt buộc</div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Địa chỉ đơn vị cung cấp</label>
+                        <input placeholder="Hãy nhập địa chỉ đơn vị cung cấp" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="DiaChiDonViCungCap" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">SĐT đơn vị cung cấp</label>
+                        <input placeholder="Hãy nhập sđt đơn vị cung cấp" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" formControlName="SoDienThoaiDonViCungCap" />
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                        <textarea type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Ghi chú" formControlName="GhiChu" rows="2">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable " id="kt_petroleum_business_table">
+                        <thead>
+                            <tr class="text-start fw-bold fs-7 text-uppercase gs-0">
+                                <th class="min-w-30px text-center" style="vertical-align: middle;">STT</th>
+                                <th class="min-w-155px" style="vertical-align: middle;">Tên cửa hàng</th>
+                                <th class="min-w-155px" style="vertical-align: middle;">Người đại diện</th>
+                                <th class="min-w-155px" style="vertical-align: middle;">Người quản lý</th>
+                                <th class="min-w-155px" style="vertical-align: middle;">SĐT</th>
+                                <th *ngIf="!type" class="text-end min-w-70px" style="vertical-align: middle;">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fw-semibold text-gray-600">
+                            <tr *ngFor="let item of dataSource let i = index;">
+                                <td class="text-center">
+                                    {{i+1}}
+                                </td>
+                                <td>
+                                    {{item.tenDoanhNghiep}}
+                                </td>
+
+                                <td>
+                                    {{item.nguoiDaiDien}}
+                                </td>
+                                <td>
+                                    {{item.nguoiQuanLy}}
+                                </td>
+                                <td>
+                                    {{item.soDienThoai}}
+                                </td>
+
+                                <td *ngIf="!type" class="text-end">
+                                    <button type="button" mat-icon-button color="warn" (click)="delete_detail(item)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modalService.dismiss()">Thoát</button>
+        <ng-container *ngIf="alcoholBusinessData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác
+        nhận</button>
+        </ng-container>
+    </div>
+</div>

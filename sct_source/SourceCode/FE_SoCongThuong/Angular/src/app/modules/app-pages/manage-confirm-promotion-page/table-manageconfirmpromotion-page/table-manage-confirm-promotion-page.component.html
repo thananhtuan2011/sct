@@ -1,0 +1,259 @@
+<!--begin::Main-->
+<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        <!--begin::Toolbar-->
+        <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+            <!--begin::Toolbar container-->
+            <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                <!--begin::Page title-->
+                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+
+                    <ng-container>
+                        <!--begin::Title-->
+                        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                            Quản lý xác nhận chương trình khuyến mại</h1>
+                        <!--end::Title-->
+                        <!--begin::Breadcrumb-->
+                        <app-breadcrumb></app-breadcrumb>
+                        <!--end::Breadcrumb-->
+                    </ng-container>
+
+                </div>
+                <!--end::Page title-->
+            </div>
+            <!--end::Toolbar container-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-xxl">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card header-->
+                    <div class="card-header border-0 ">
+                        <!--begin::Card title-->
+                        <div class="card-title">
+                            <!--begin::Search-->
+                            <div [formGroup]="searchGroup" class="d-flex align-items-center position-relative my-1">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                                <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
+                                            transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
+                                        <path
+                                            d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->
+                                <input type="text" formControlName="searchTerm" data-kt-manageconfirmpromotion-table-filter="search" class="form-control form-control-solid w-300px ps-15" (keyup.enter)="onEnter()" placeholder="Tìm kiếm..." />
+                            </div>
+                            <!--end::Search-->
+                        </div>
+                        <!--begin::Card title-->
+                        <!--begin::Card toolbar-->
+                        <div class="card-toolbar">
+                            <!-- begin::Filter -->
+                            <div class="d-flex justify-content-end" data-kt-business-table-toolbar="base" ngbDropdown placement="bottom-right">
+                                <button type="button" class="btn btn-light-primary me-3" id="kt-filter-button" ngbDropdownToggle>
+                                    <!-- begin::Svg Icon | path: icons/duotune/general/gen031.svg -->
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                    </span>Lọc
+                                    <!--end::Svg Icon-->
+                                </button>
+                                <!--begin::Menu-->
+                                <div class="w-300px w-md-325px" id="kt-toolbar-filter" ngbDropdownMenu>
+                                    <ng-container [formGroup]="filterGroup">
+                                        <!-- Tiêu đề -->
+                                        <ng-container id="head">
+                                            <div class="px-7 py-3">
+                                                <div class="fs-4 text-dark fw-bold text-center">
+                                                    Điều kiện lọc:
+                                                </div>
+                                            </div>
+                                            <div class="separator border-gray-200"></div>
+                                        </ng-container>
+                                        <!-- Option 1 -->
+                                        <ng-container id="Option1">
+                                            <div class="px-7 py-3">
+                                                <div class="fs-4 text-dark fw-bold">
+                                                    Huyện:
+                                                </div>
+                                            </div>
+                                            <div class="row px-7 mb-6">
+                                                <app-select-custom [width]="'100%'" [data]="inputDataPersonData" [options]="options" formControlName="InputDataPersonId">
+                                                </app-select-custom>
+                                            </div>
+                                            <div class="separator border-gray-200 mt-6"></div>
+                                        </ng-container>
+                                        <!-- Option 2 -->
+                                        <ng-container id="Option2">
+                                            <div class="px-7 py-3">
+                                                <div class="fs-4 text-dark fw-bold">
+                                                    Từ ngày:
+                                                </div>
+                                            </div>
+                                            <div class="row px-7 mb-6">
+                                                <app-date-picker-custom formControlName="MinDate" [Placeholder]="'Từ ngày'">
+                                                </app-date-picker-custom>
+                                            </div>
+                                            <div class="separator border-gray-200 mt-6"></div>
+                                        </ng-container>
+                                        <!-- Option 3 -->
+                                        <ng-container id="Option3">
+                                            <div class="px-7 py-3">
+                                                <div class="fs-4 text-dark fw-bold">
+                                                    Đến ngày:
+                                                </div>
+                                            </div>
+                                            <div class="row px-7 mb-6">
+                                                <app-date-picker-custom formControlName="MaxDate" [Placeholder]="'Đến ngày'">
+                                                </app-date-picker-custom>
+                                            </div>
+                                            <!-- <div class="separator border-gray-200 mt-6"></div> -->
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                                <!--end::Menu-->
+                            </div>
+                            <!--end::Filter-->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_manageconfirmpromotion" (click)="create()">
+                                Thêm mới
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--end::Card header-->
+                    <!--begin::Card body-->
+                    <div class="card-body pt-0">
+                        <!--begin::Table-->
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable " id="kt_manageconfirmpromotion_table">
+                            <!--begin::Table head-->
+                            <thead>
+                                <!--begin::Table row-->
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <!-- <th class="w-10px pe-2">
+                                      <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                          <input class="form-check-input" type="checkbox" data-kt-check="true"
+                                              data-kt-check-target="#kt_manageconfirmpromotions_table .form-check-input"
+                                              (click)="grouping.selectAllRows()"
+                                              [checked]="grouping.checkAreAllRowsSelected()"/>
+                                      </div>
+                                  </th> -->
+                                    <th class="min-w-75px text-center">STT
+                                        <!-- <app-sort-icon column="Id"></app-sort-icon> -->
+                                    </th>
+                                    <th class="min-w-175px text-center">Tên chương trình khuyến mại
+                                        <app-sort-icon column="ManageConfirmPromotionName" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)"></app-sort-icon>
+                                    </th>
+                                    <th class="min-w-175px text-center">Hàng hóa, dịch vụ được để khuyến mại
+                                        <!-- <app-sort-icon column="TradePromotionProjectManagementName" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)"></app-sort-icon> -->
+                                    </th>
+                                    <th class="min-w-75px text-center">Hàng hóa, dịch vụ dùng để khuyến mại
+                                        <!-- <app-sort-icon column="Id"></app-sort-icon> -->
+                                    </th>
+                                    <th class="min-w-75px text-center">Thời gian bắt đầu khuyến mại
+                                        <!-- <app-sort-icon column="Id"></app-sort-icon> -->
+                                    </th>
+                                    <th class="min-w-75px text-center">Người nhập liệu
+                                        <!-- <app-sort-icon column="Id"></app-sort-icon> -->
+                                    </th>
+                                    <th class="text-end min-w-70px">Hành động</th>
+                                </tr>
+                                <!--end::Table row-->
+                            </thead>
+                            <!--end::Table head-->
+                            <!--begin::Table body-->
+                            <tbody class="fw-semibold text-gray-600">
+                                <tr *ngFor="let item of manageConfirmPromotionPageService.items$ | async ; let i = index;">
+                                    <!--begin::Checkbox-->
+                                    <!-- <td>
+                                      <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                          <input class="form-check-input" type="checkbox"
+                                              (click)="grouping.selectRow(item.manageconfirmpromotionId)"
+                                              [checked]="grouping.isRowSelected(item.manageconfirmpromotionId)" />
+                                      </div>
+                                  </td> -->
+                                    <!--end::Checkbox-->
+                                    <!--begin::Name=-->
+                                    <td class="text-center">
+                                        <!-- {{i+1}} -->
+                                        {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                                    </td>
+                                    <!--end::Name=-->
+                                    <!--begin::Email=-->
+                                    <td (click)="view(item.manageConfirmPromotionId, 'view')" style="cursor: pointer;">
+                                        <a style="text-decoration: underline;">{{item.manageConfirmPromotionName}}</a>
+                                    </td>
+
+                                    <td>
+                                        {{item.goodsServices}}
+                                    </td>
+                                    <td>
+                                        {{item.goodsServicesPay}}
+                                    </td>
+                                    <td>
+                                        {{item.timeStart | date:'dd/MM/YYYY'}}
+                                    </td>
+
+                                    <td>
+                                        {{item.inputDataPerson}}
+                                    </td>
+                                    <!--begin::Action=-->
+                                    <td class="text-end">
+                                        <div class="btn-group" ngbDropdown>
+                                            <a ngbDropdownToggle class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Hành
+                                                động
+                                            </a>
+                                            <!--begin::Menu-->
+                                            <div ngbDropdownMenu class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <a (click)="edit(item.manageConfirmPromotionId)" class="menu-link px-3">Chỉnh
+                                                        sửa</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <a class="menu-link px-3" (click)="delete(item.manageConfirmPromotionId)" data-kt-manageconfirmpromotion-table-filter="delete_row">Xóa</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                            </div>
+                                            <!--end::Menu-->
+                                        </div>
+
+                                    </td>
+                                    <!--end::Action=-->
+                                </tr>
+                            </tbody>
+                            <!--end::Table body-->
+                        </table>
+                        <!--end::Table-->
+
+                        <!--Begin::paginator-->
+                        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator" [isLoading]="isLoading" (paginate)="paginate($event)">
+                        </app-paginator>
+                        <!--end::paginator-->
+
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Content container-->
+        </div>
+        <!--end::Content-->
+    </div>
+    <!--end::Content wrapper-->
+
+</div>
+<!--end:::Main-->

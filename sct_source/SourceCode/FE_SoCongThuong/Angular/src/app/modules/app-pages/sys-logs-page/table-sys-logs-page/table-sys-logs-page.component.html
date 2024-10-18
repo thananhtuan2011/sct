@@ -1,0 +1,229 @@
+<style>
+     :host>>>.form-select.form-select-solid {
+        color: #b5b5c3;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+    }
+</style>
+<!--begin::Main-->
+<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+        <!--begin::Toolbar-->
+        <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+            <!--begin::Toolbar container-->
+            <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+                <!--begin::Page title-->
+                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+
+                    <ng-container>
+                        <!--begin::Title-->
+                        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                            Nhật ký hoạt động</h1>
+                        <!--end::Title-->
+                        <!--begin::Breadcrumb-->
+                        <app-breadcrumb [BreadcrumbType]="1"></app-breadcrumb>
+                        <!--end::Breadcrumb-->
+                    </ng-container>
+
+                </div>
+                <!--end::Page title-->
+            </div>
+            <!--end::Toolbar container-->
+        </div>
+        <!--end::Toolbar-->
+        <!--begin::Content-->
+        <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-xxl">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card header-->
+                    <div class="card-header">
+                        <!--begin::Card title-->
+                        <div class="card-title">
+                            Bộ lọc
+                        </div>
+                        <!--begin::Card title-->
+                        <!--begin::Card toolbar-->
+                        <div class="card-toolbar">
+
+                        </div>
+                        <!--end::Card toolbar-->
+                    </div>
+                    <!--end::Card header-->
+                    <div class="card-body">
+                        <div [formGroup]="filterGroup" class="row">
+                            <div class="row mb-4">
+
+                                <div class="col-lg-6 mb-4">
+                                    <label class="form-label">Từ ngày</label>
+                                    <app-date-picker-custom formControlName="minDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                </div>
+
+                                <div class="col-lg-6 mb-4">
+                                    <label class="form-label">Đến ngày</label>
+                                    <app-date-picker-custom formControlName="maxDate" [Placeholder]="'DD/MM/YYYY'"></app-date-picker-custom>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6 mb-6">
+                                    <label class="form-label">Loại đối tượng</label>
+                                    <app-select-custom [width]="'100%'" [data]="methodData" [options]="options" formControlName="methodId" (valueChanged)="change_value($event, 'methodId')">
+                                    </app-select-custom>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label class="form-label">Tên đăng nhập</label>
+                                    <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Tìm kiếm" autocomplete="off" formControlName="username" />
+                                </div>
+                            </div>
+                            <div class="row mt-30px" style="justify-content: center; align-items: center;">
+                                <button type="button" class="btn btn-secondary me-6" style="width: 12%;" (click)="reset_filter()">Thiết lập lại</button>
+                                <button type="button" class="btn btn-primary" style="width: 12%;" (click)="filter()">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Card-->
+
+
+
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card body-->
+                    <div class="card-body">
+                        <!--begin::Table-->
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable " id="kt_commercialmanagement_table">
+                            <!--begin::Table head-->
+                            <thead>
+                                <!--begin::Table row-->
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0" style="border: none;">
+                                    <th class="text-start min-w-40px" style="vertical-align: middle;">STT</th>
+
+                                    <th class="min-w-100px" style="vertical-align: middle;">Tên đăng nhập
+                                        <app-sort-icon column="Ip" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)">
+                                        </app-sort-icon>
+                                    </th>
+                                    <th class="min-w-100px" style="vertical-align: middle;">IP
+                                        <app-sort-icon column="Ip" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)">
+                                        </app-sort-icon>
+                                    </th>
+                                    <th class="min-w-100px" style="vertical-align: middle;">Hành động
+                                        <app-sort-icon column="ActionName" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)">
+                                        </app-sort-icon>
+                                    </th>
+                                    <th class="min-w-100px" style="vertical-align: middle;">Loại đối tượng
+                                        <app-sort-icon column="ActionType" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)">
+                                        </app-sort-icon>
+                                    </th>
+                                    <th class="min-w-100px" style="vertical-align: middle;">Nội dung
+                                        <app-sort-icon column="Content" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)">
+                                        </app-sort-icon>
+                                    </th>
+                                    <th class="min-w-100px" style="vertical-align: middle;">Thời gian
+                                        <app-sort-icon column="Time" [activeColumn]="sorting.column" [activeDirection]="sorting.direction" (sort)="sort($event)">
+                                        </app-sort-icon>
+                                    </th>
+                                    <th class="min-w-100px" style="vertical-align: middle;">Hành động
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <!--end::Table head-->
+                            <!--begin::Table body-->
+                            <tbody class="fw-semibold text-gray-600">
+                                <tr *ngFor="let item of sysLogsPageService.items$ | async ; let i = index;">
+                                    <td>
+                                        {{ (this.paginator.pageSize * (this.paginator.page - 1)) + i + 1 }}
+                                    </td>
+                                    <td>
+                                        {{item.tenDangNhap}}
+                                    </td>
+                                    <td>
+                                        {{item.ip}}
+                                    </td>
+                                    <td>
+                                        {{item.actionName}}
+                                    </td>
+                                    <td>
+                                        {{item.actionType}}
+                                    </td>
+                                    <td>
+                                        {{item.content}}
+                                    </td>
+                                    <td>
+                                        {{item.time}}
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group" ngbDropdown>
+                                            <a ngbDropdownToggle class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Hành động
+                      </a>
+                                            <!--begin::Menu-->
+                                            <div ngbDropdownMenu class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                                <!--begin::Menu item-->
+                                                <!--end::Menu item-->
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <a class="menu-link px-3" (click)="delete(item.logId)" data-kt-typeofenergy-table-filter="delete_row">Xóa</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                            </div>
+                                            <!--end::Menu-->
+                                        </div>
+
+                                    </td>
+                                    <!--begin::Action=-->
+                                    <!-- <td class="text-end">
+                                        <div class="btn-group" ngbDropdown>
+                                            <a ngbDropdownToggle class="btn btn-sm btn-light btn-active-light-primary"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Hành
+                                                động
+                                            </a> -->
+                                    <!--begin::Menu-->
+                                    <!-- <div ngbDropdownMenu
+                                                class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                data-kt-menu="true"> -->
+                                    <!--begin::Menu item-->
+                                    <!-- <div class="menu-item px-3">
+                                                    <a (click)="edit(item.marketManagementId)"
+                                                        class="menu-link px-3">Chỉnh
+                                                        sửa</a>
+                                                </div> -->
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <!-- <div class="menu-item px-3">
+                                                    <a class="menu-link px-3" (click)="delete(item.marketManagementId)"
+                                                        data-kt-commercialmanagement-table-filter="delete_row">Xóa</a>
+                                                </div> -->
+                                    <!--end::Menu item-->
+                                    <!-- </div> -->
+                                    <!--end::Menu-->
+                                    <!-- </div> -->
+                                    <!-- </td> -->
+                                    <!--end::Action=-->
+                                </tr>
+                            </tbody>
+                            <!--end::Table body-->
+                        </table>
+                        <!--end::Table-->
+
+                        <!--Begin::paginator-->
+                        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator" [isLoading]="isLoading" (paginate)="paginate($event)">
+                        </app-paginator>
+                        <!--end::paginator-->
+
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Content container-->
+        </div>
+        <!--end::Content-->
+    </div>
+    <!--end::Content wrapper-->
+
+</div>
+<!--end:::Main-->

@@ -1,0 +1,167 @@
+<div class="modal-content bg-light">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="managementSeminarData">
+                <ng-container *ngIf="managementSeminarData.id !== '' && !type">CHỈNH SỬA
+                </ng-container>
+                <ng-container *ngIf="managementSeminarData.id === '' && !type">THÊM MỚI
+                </ng-container>
+                <ng-container *ngIf="type">
+                    THÔNG TIN
+                </ng-container>
+                HỒ SƠ
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="managementSeminarData">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                                    Mã hồ sơ
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Hãy nhập mã hồ sơ" [class.is-invalid]="isControlInvalid('ProfileCode')" [class.is-valid]="isControlValid('ProfileCode')" formControlName="ProfileCode"
+                                />
+                                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'ProfileCode')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">Tên doanh nghiệp</label>
+                                <app-select-custom [width]="'100%'" [data]="businessData" [options]="options" formControlName="BusinessId">
+                                </app-select-custom>
+                                <div class="invalid-feedback d-block pt-6" *ngIf="isDefaultValue('BusinessId')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                                    Nội dung
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Hãy nhập nội dung" [class.is-invalid]="isControlInvalid('Title')" [class.is-valid]="isControlValid('Title')" formControlName="Title" />
+                                <div class="invalid-feedback d-block" *ngIf="controlHasError('required', 'Title')">
+                                    Bắt buộc
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-6">
+                                <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">Huyện</label>
+                                <app-select-custom [width]="'100%'" [data]="dataDistrict" [options]="options" formControlName="DistrictId">
+                                </app-select-custom>
+                                <div class="invalid-feedback d-block pt-6" *ngIf="isDefaultValue('DistrictId')">Bắt buộc
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Hãy nhập địa chỉ" autocomplete="off" formControlName="Address" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-10">
+                                <div [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'">
+                                    <label class="form-label">
+                                        Thời gian
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 mb-6" *ngIf="!type">
+                                <button type="button" mat-icon-button (click)="addTime()" style="vertical-align: -webkit-baseline-middle;
+                                            float: right;" data-bs-toggle="tooltip" data-bs-placement="left" title="Thêm mới chỉ tiêu">
+                                    <mat-icon color="primary">
+                                        add_circle
+                                    </mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div formArrayName="listTime">
+                            <div *ngFor="let item of timeLine().controls; let i = index" [formGroupName]="i">
+
+                                <div class="form-group row mb-6">
+                                    <div [className]="!type ? 'col-lg-5' : 'col-lg-6'">
+                                        <label [className]="!type ? 'form-label required fw-semibold fs-6' : 'form-label'" *ngIf="i<1">Thời
+                                            gian (dự kiến tổ chức)</label>
+                                        <app-date-time-picker formControlName="StartTime">
+                                        </app-date-time-picker>
+                                        <div class="invalid-feedback d-block" *ngIf="arrayControlHasError('required', 'StartTime', i)">Bắt buộc</div>
+                                    </div>
+                                    <div [className]="!type ? 'col-lg-5' : 'col-lg-6'">
+                                        <label class="form-label" *ngIf="i<1">
+                                            Thời gian (dự kiến kết thúc)
+                                        </label>
+                                        <app-date-time-picker formControlName="EndTime" [disabled]="type ? true : false">
+                                        </app-date-time-picker>
+                                    </div>
+                                    <div class="col-lg-2" *ngIf="!type">
+                                        <button type="button" mat-icon-button (click)="delTime(i)" style="vertical-align: -webkit-baseline-middle;
+                                                        float: right; margin-bottom: 4px">
+                                            <mat-icon color="warn">
+                                                delete
+                                            </mat-icon>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label">
+                                    Người liên hệ
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Hãy nhập người liên hệ" formControlName="Contact" />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label">
+                                    Số điện thoại
+                                </label>
+                                <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Hãy nhập số điệnt thoại" formControlName="PhoneNumber" />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label">
+                                    Số người tham gia
+                                </label>
+                                <input type="number" min="0" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Hãy nhập số người tham gia" formControlName="NumberParticipant" />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-6">
+                            <div class="col-lg-12">
+                                <label class="form-label">
+                                    Ghi chú
+                                </label>
+                                <textarea row="2" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Ghi chú" formControlName="Note"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="!type" type="button" class="btn btn-light bg-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <button *ngIf="type" type="button" class="btn btn-light bg-white btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="managementSeminarData && !type">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">Xác nhận</button>
+        </ng-container>
+    </div>
+</div>

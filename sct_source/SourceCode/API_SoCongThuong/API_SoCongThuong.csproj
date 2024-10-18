@@ -1,0 +1,107 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>70fd03a1-ef82-4e65-85b8-509125ea84dd</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ClosedXML" Version="0.100.3" />
+		<PackageReference Include="EPPlus" Version="6.1.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+		<PackageReference Include="Minio" Version="3.1.13" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="PuppeteerSharp" Version="10.0.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+		<PackageReference Include="Serilog.Enrichers.Memory" Version="1.0.4" />
+		<PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+		<PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+		<PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+		<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+		<PackageReference Include="StackExchange.Redis.StrongName" Version="1.2.6" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\EF_Core\EF_Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="DpsLibs">
+			<HintPath>DpsLibs\DpsLibs.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Upload\Import\" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Upload\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="logs\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Upload\GCN_DDK_ATTTP.docx" />
+	  <None Remove="Upload\Templates\.gitkeep" />
+	  <None Remove="Upload\Templates\Baocaoduankhuyencong.xlsx" />
+	  <None Remove="Upload\Templates\BaoCaoHoatDongXucTienThuongMai.xlsx" />
+	  <None Remove="Upload\Templates\Baocaokinhdoanhruoucongnghiep.xlsx" />
+	  <None Remove="Upload\Templates\Baocaoruouthucongbanchocosocogiayphepsanxuatruou.xlsx" />
+	  <None Remove="Upload\Templates\Baocaosanxuatruoucongnghiep.xlsx" />
+	  <None Remove="Upload\Templates\Baocaosanxuatruouthucongmucdichkinhdoanh.xlsx" />
+	  <None Remove="Upload\Templates\Baocaothuchientieuchidiennongthon.xlsx" />
+	  <None Remove="Upload\Templates\Baocaotinhhinhbanleruou.xlsx" />
+	  <None Remove="Upload\Templates\Cacdonvihoatdongdienluc.xlsx" />
+	  <None Remove="Upload\Templates\Chitieusanxuatkinhdoanhxuatkhauchuyeu.xlsx" />
+	  <None Remove="Upload\Templates\Danhmucdoanhnghiep.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachcacduannguondiendangdexuat.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachcapthekiemtraviendienluc.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachcosohoatdongbanhangdacap.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachcososudungnangluongtrongdiem.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachdoanhnghiepathc.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachdoanhnghiepattp.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachdoanhnghiepsanxuatcongnghiep.xlsx" />
+	  <None Remove="Upload\Templates\DanhsachdoanhnghiepthamgiachuongtrinhXTTM.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachduandienduocpheduyet.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachduandienmattroiapmai.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachnguoithamgiahoatdongbanhangdacap.xlsx" />
+	  <None Remove="Upload\Templates\DanhsachsanphamdatOCOP.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachthamgiahotrohoicho.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachthongtincho.xlsx" />
+	  <None Remove="Upload\Templates\Danhsachthongtinhopdongmau.xlsx" />
+	  <None Remove="Upload\Templates\GCN_DDK_ATHC.docx" />
+	  <None Remove="Upload\Templates\GCN_DDK_ATHC.html" />
+	  <None Remove="Upload\Templates\GCN_DDK_ATTTP.docx" />
+	  <None Remove="Upload\Templates\HoatDongXucTienThuongMaiKhac.xlsx" />
+	  <None Remove="Upload\Templates\Kehoachphattriennongthon.xlsx" />
+	  <None Remove="Upload\Templates\QuanlyBaoCaoDuAnKhuyenCong.xlsx" />
+	  <None Remove="Upload\Templates\Quanlycongtrinhdien.xlsx" />
+	  <None Remove="Upload\Templates\QuanLyCuaHangXangDau.xlsx" />
+	  <None Remove="Upload\Templates\QuanLyDauTuNuocNgoai.xlsx" />
+	  <None Remove="Upload\Templates\QuanLyDonViBuonBanRuou.xlsx" />
+	  <None Remove="Upload\Templates\QuanLyDonViKinhDoanhThuocLa.xlsx" />
+	  <None Remove="Upload\Templates\QuanLyHoSoLuuTru.xlsx" />
+	  <None Remove="Upload\Templates\QuanLyNhapKhau.xlsx" />
+	  <None Remove="Upload\Templates\Quanlythongtinchosttttmxaydungnangcap.xlsx" />
+	  <None Remove="Upload\Templates\Quanlytongmucbanlehanghoa.xlsx" />
+	  <None Remove="Upload\Templates\QuanLyXuatKhau.xlsx" />
+	  <None Remove="Upload\Templates\QuyTrinhNoiBoGiaiQuyetTTHC.xlsx" />
+	  <None Remove="Upload\Templates\Thongkesoluongchosieuthitrungtamthuongmaihuyen.xlsx" />
+	  <None Remove="Upload\Templates\Thongkesoluongchosieuthitrungtamthuongmaitinh.xlsx" />
+	  <None Remove="Upload\Templates\Thongtinquanlyhoatdongdienluc.xlsx" />
+	  <None Remove="Upload\Templates\TieuChi1708.xlsx" />
+	  <None Remove="Upload\Templates\Tieuchiso7.xlsx" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,121 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="caterpproduceindustlancolData">
+                <ng-container *ngIf="id">CHỈNH SỬA</ng-container>
+                <ng-container *ngIf="!id">THÊM MỚI</ng-container>
+                BÁO CÁO TÌNH HÌNH SẢN XUẤT RƯỢU CÔNG NGHIỆP
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="show">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Doanh nghiệp / Thương nhân</label>
+                        <div class="mb-6">
+                            <app-select-custom [width]="'100%'" [data]="businessData" [options]="options"
+                                formControlName="BusinessId">
+                            </app-select-custom>
+                        </div>
+                        <div class="invalid-feedback d-block pt-2" *ngIf="isDefaultValue('BusinessId')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Năm báo cáo</label>
+                        <!-- <div class="mb-6">
+                            <app-select-custom [width]="'100%'" [data]="yearRange" [options]="options"
+                                formControlName="YearReport">
+                            </app-select-custom>
+                        </div> -->
+                        <app-month-year-picker-custom ComponentId="YearReport" formControlName="YearReport" Placeholder="YYYY" ViewMode="years"></app-month-year-picker-custom>
+                        <div class="invalid-feedback d-block pt-2" *ngIf="isDefaultValue('YearReport')">Bắt buộc</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Chủng loại rượu</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('TypeofWine')"
+                            [class.is-valid]="isControlValid('TypeofWine')" formControlName="TypeofWine" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'TypeofWine')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Công suất thiết kế</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('DesignCapacity')"
+                            [class.is-valid]="isControlValid('DesignCapacity')" formControlName="DesignCapacity" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'DesignCapacity')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Sản lượng sản xuất (lít)</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            (keypress)="prenventInputNonNumber($event)"
+                            [class.is-invalid]="isControlInvalid('QuantityProduction')"
+                            [class.is-valid]="isControlValid('QuantityProduction')"
+                            formControlName="QuantityProduction" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'QuantityProduction')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Sản lượng tiêu thụ (lít)</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            (keypress)="prenventInputNonNumber($event)"
+                            [class.is-invalid]="isControlInvalid('QuantityConsume')"
+                            [class.is-valid]="isControlValid('QuantityConsume')" formControlName="QuantityConsume" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'QuantityConsume')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label required fw-semibold fs-6">Vốn đầu tư mở rộng (Tỷ Đồng)</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                            (keypress)="prenventInputNonNumber($event)"
+                            [class.is-invalid]="isControlInvalid('Investment')"
+                            [class.is-valid]="isControlValid('Investment')" formControlName="Investment" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'Investment')">
+                            Bắt buộc
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+            Thoát
+        </button>
+        <ng-container *ngIf="caterpproduceindustlancolData">
+            <button type="submit" class="btn btn-primary btn-elevate" ngbAutofocus (click)="check_formGroup()">
+                Xác nhận
+            </button>
+        </ng-container>
+    </div>
+</div>

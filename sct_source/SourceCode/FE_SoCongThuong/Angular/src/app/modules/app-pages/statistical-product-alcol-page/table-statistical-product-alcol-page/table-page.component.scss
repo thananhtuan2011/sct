@@ -1,0 +1,17 @@
+thead {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    th {
+        padding-left: 0 !important;
+        // border: dashed 1px #eff2f5;
+    }
+}
+
+tbody #Total {
+    position: sticky;
+    bottom: 0;
+    background-color: #ffffff;
+    font-weight: bold;
+}

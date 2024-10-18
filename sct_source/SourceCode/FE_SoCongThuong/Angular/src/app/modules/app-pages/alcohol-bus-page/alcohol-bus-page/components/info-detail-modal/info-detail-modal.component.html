@@ -1,0 +1,95 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container>
+                CHI TIẾT THƯƠNG NHÂN BUÔN BÁN RƯỢU
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Tên cửa hàng</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="TenDoanhNghiep" autocomplete="off" formControlName="TenDoanhNghiep" />
+
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Người đại diện</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="NguoiDaiDien" autocomplete="off" formControlName="NguoiDaiDien" />
+
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Số điện thoại</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="SoDienThoai" autocomplete="off" formControlName="SoDienThoai" />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Huyện</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="Huyen" autocomplete="off" formControlName="Huyen" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Xã</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="Xa" autocomplete="off" formControlName="Xa" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Địa chỉ</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="DiaChi" autocomplete="off" formControlName="DiaChi" />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Giấy phép kinh doanh</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="GiayPhepKinhDoanh" autocomplete="off" formControlName="GiayPhepKinhDoanh" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Ngày cấp</label>
+                        <div class="input-group input-group-solid">
+                            <input readonly type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" name="NgayCapGiayPhepBanLe" formControlName="NgayCapGiayPhepBanLe" />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Ngày hết hạn</label>
+                        <div class="input-group input-group-solid">
+                            <input readonly type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" name="NgayHetHan" formControlName="NgayHetHan" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Đơn vị cung cấp</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="DonViCungCap" autocomplete="off" formControlName="DonViCungCap" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">Địa chỉ đơn vị cung cấp</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="DiaChiDonViCungCap" autocomplete="off" formControlName="DiaChiDonViCungCap" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold fs-6">SĐT đơn vị cung cấp</label>
+                        <input readonly type="text" class="form-control form-control-lg form-control-solid" name="SoDienThoaiDonViCungCap" autocomplete="off" formControlName="SoDienThoaiDonViCungCap" />
+                    </div>
+                </div>
+                <div class="form-group row mb-6">
+                    <div class="col-lg-12">
+                        <label class="form-label fw-semibold fs-6">Ghi chú</label>
+                        <textarea readonly type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" placeholder="Ghi chú" formControlName="GhiChu" rows="2">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+    </div>
+</div>
